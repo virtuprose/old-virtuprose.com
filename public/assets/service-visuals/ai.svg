@@ -1,0 +1,24 @@
+<svg width="240" height="180" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ai-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e4f6ff" />
+      <stop offset="100%" stop-color="#f4e9ff" />
+    </linearGradient>
+    <linearGradient id="ai-core" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#11b6c8" />
+      <stop offset="100%" stop-color="#6b6dff" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="180" rx="28" fill="url(#ai-bg)" />
+  <circle cx="110" cy="90" r="55" fill="#ffffff" opacity="0.85" />
+  <circle cx="110" cy="90" r="38" fill="url(#ai-core)" opacity="0.8" />
+  <path
+    d="M170 50C185 65 190 95 175 115"
+    stroke="#7a5cff"
+    stroke-width="8"
+    stroke-linecap="round"
+    opacity="0.5"
+  />
+  <circle cx="174" cy="45" r="12" fill="#4563ff" />
+  <circle cx="50" cy="120" r="18" fill="url(#ai-core)" opacity="0.4" />
+</svg>

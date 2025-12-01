@@ -1,0 +1,18 @@
+<svg width="240" height="180" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ux-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe9fb" />
+      <stop offset="100%" stop-color="#e3f1ff" />
+    </linearGradient>
+    <linearGradient id="ux-screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9b8bff" />
+      <stop offset="100%" stop-color="#6fbaff" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="180" rx="28" fill="url(#ux-bg)" />
+  <rect x="55" y="30" width="130" height="105" rx="18" fill="#ffffff" opacity="0.85" />
+  <rect x="70" y="45" width="100" height="35" rx="12" fill="url(#ux-screen)" opacity="0.9" />
+  <rect x="70" y="90" width="50" height="20" rx="10" fill="#d0ddff" />
+  <rect x="125" y="90" width="45" height="20" rx="10" fill="#fbd5ff" />
+  <circle cx="180" cy="130" r="18" fill="url(#ux-screen)" opacity="0.4" />
+</svg>

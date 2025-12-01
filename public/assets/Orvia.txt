@@ -1,0 +1,109 @@
+Orvia AI Assistant – Business Plan (No‑Code Build)
+Prepared for: Muhammad Zaid (VirtuProse Solutions)
+Date: 10 November 2025
+1) Executive Summary
+Vision: Build a chat‑first operating system that connects to a business’s live database to book appointments, take payments, and sell products across web and WhatsApp—without code.
+Positioning: Not a 'chatbot'. A revenue and operations assistant that reduces response time, automates bookings, and converts more customers 24/7.
+Initial Target Niches: Clinics/Salons, Real Estate, E‑commerce SMBs Globally.
+Model: SaaS tiers + one‑time onboarding + white‑label for agencies.
+2) Branding & Naming
+Brand principles: short, global, trustworthy, tech‑forward, Arabic/English friendly.
+Name: Orvia
+Tagline: Orvia books, charges, and closes.
+3) Problem → Solution
+Problem: Businesses juggle forms, calls, and DMs. Slow replies kill conversions.
+Solution: A single conversational interface that reads inventory/slots in real time, books, invoices, and updates CRM automatically.
+4) Product – Core Features (V1)
+Live database connection (Airtable / Supabase / Google Sheets).
+Appointments: check availability, book, reschedule, cancel, reminders.
+Payments: Stripe / Razorpay / Tap Payments checkout links inside chat.
+Catalog search: filter by price/size/feature, send links/images.
+Lead qualification: capture name/email/budget; route to sales via WhatsApp/Email.
+Human handoff: agent can take over the chat; transcript saved.
+Multi‑channel: Website/App widget + WhatsApp (Meta Cloud API/360dialog/Twilio).
+‑language:, Auto‑detect.
+Analytics: sessions, leads, bookings, revenue, top queries, time saved.
+Admin: simple panel for content, FAQs, prices, hours, teams.
+5) Durable Differentiators
+Transactional first: bookings + payments + CRM—not just FAQs.
+Localization: All supported currencies
+White‑label for agencies with custom branding/domain.
+APIs-first architecture so it plugs into POS/ERP/CRM later.
+6) No‑Code Architecture & Stack
+Chat UI: Botpress Cloud or Flowise‑UI (embed on website).
+LLM: OpenAI GPT‑4o (Assistants API) or Claude via API.
+Workflow Orchestration: n8n (Docker) for intents → actions → DB → payments.
+Database: Airtable (fast start) → Supabase (scale).
+Payments: Stripe (global), Razorpay (India), Tap Payments (GCC).
+WhatsApp: Meta Cloud API or 360dialog; optional Twilio.
+Auth: magic link/OTP for returning customers; JWT for admins.
+Hosting: n8n on a VPS (Hetzner/Linode) or Render; DB on Supabase; files on S3.
+Analytics: PostHog or Plausible + Looker Studio dashboards.
+7) Minimal Data Model
+Users(id, name, phone, email, locale, last_seen)
+Products(id, name, price, currency, attributes, stock, image_url)
+Appointments(id, user_id, service_id, staff_id, datetime, status)
+Services(id, name, duration, price)
+Transactions(id, user_id, amount, currency, payment_provider, status, meta)
+Conversations(id, user_id, channel, transcript_url, lead_score)
+8) Key Flows
+Appointment Booking: intent → availability query → confirmation → calendar invite → reminder → optional payment link.
+Purchase: query → product filter → cart build → checkout link → order record → receipt.
+Lead Qualification: greet → capture details → route to CRM → notify sales on WhatsApp.
+Human Handoff: confidence low → escalate to agent → transcript sync.
+9) Security & Compliance
+Data minimization; encrypt secrets; rotate API keys.
+Role‑based admin panel; audit logs for actions.
+Regional data residency where possible (Supabase region).
+PCI compliance handled by Stripe/Razorpay/Tap; never store card data.
+10) Pricing
+Starter $49: 1 channel, 1k messages, basic analytics.
+Pro $149: multi‑channel, payments/appointments, 10k messages.
+Business $299: CRM integrations, advanced analytics, SLA.
+White‑label $699 + $99/bot/month for agencies.
+11) Go‑to‑Market (90 Days)
+Week 1–2: pick one niche (Clinics). Build 2 demo bots. Landing page + 2‑min demo video.
+Week 3–4: outbound to 200 prospects (Kuwait, UAE, India). Offer pilot at KD 99 setup.
+Week 5–6: onboard 5 pilots; measure leads/bookings; testimonials.
+Week 7–8: launch paid ads (Meta + Google) with case study proof.
+Week 9–10: add WhatsApp automation packs (upsell).
+Week 11–12: open white‑label to 3 agencies.
+12) Messaging & Positioning
+One‑liner: 'The AI assistant that books, charges, and closes—on web and WhatsApp.'
+Clinic headline: 'Patients don’t wait. Appointments book themselves.'
+E‑com headline: 'Customers ask. The bot sells.'
+13) Sales Scripts (Short)
+Cold DM/Email:
+Subject: Your bookings are leaking. Fix in 48 hours.
+Hi [Name], I noticed [Business] takes bookings via phone/forms. We install an AI assistant that checks availability, books, and collects payments inside WhatsApp and your site. Avg response time drops to under 10s; bookings go up 15–30%. Want a 15‑min demo? – Zaid
+WhatsApp Opener:
+“Quick idea: add an AI assistant to your WhatsApp that books appointments from DMs automatically. Can show you a working demo for clinics like yours—free setup if you’re in the first 10.”
+14) Execution Plan (Build)
+Spin up VPS + Docker; deploy n8n; connect OpenAI key.
+Create Airtable base (Products, Services, Appointments).
+Build intents in Botpress (Book, Buy, Pay, Handoff).
+Wire actions in n8n: DB read/write, Stripe link, Google Calendar invite.
+Embed chat widget on demo site; connect Meta WhatsApp sandbox.
+Add analytics events; test Arabic flows; run 10 scripted test cases.
+15) Risks & Mitigations
+LLM hallucination → retrieval + tool‑only answers for high‑risk steps.
+API limits/downtime → queue/retry logic in n8n; status page.
+WhatsApp approval delays → start with website widget; parallel WA application.
+Niche mismatch → rapid pilot feedback; pivot niche within 30 days.
+16) Lean Budget (First 3 Months)
+Hosting (VPS + Supabase): $30–$60/mo
+OpenAI usage (pilots): $30–$150/mo
+Botpress/Flowise: $0–$50/mo
+Domain + email: $10–$20/mo
+Ads test budget: $300–$700/mo
+17) Roadmap (12 Months)
+Q1: MVP + 10 pilots + analytics.
+Q2: Payments in KWD/AED/SAR + white‑label.
+Q3: Voice bot for inbound calls; POS/ERP connectors.
+Q4: Self‑serve onboarding + template marketplace.
+Appendix A – No‑Code Stack Links (Setup Notes)
+n8n: Docker container; connect to OpenAI, Stripe, Google APIs.
+Botpress Cloud: intents, flows, widget embed.
+Supabase: Postgres + auth + file storage.
+Stripe/Razorpay/Tap: hosted checkout links; webhooks to n8n.
+Looker Studio: connect to Supabase or Sheets for reporting.
