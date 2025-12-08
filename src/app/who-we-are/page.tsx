@@ -4,126 +4,254 @@ import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Award, BadgeCheck, HandHeart, Laptop, LineChart, Lock, MessageSquare, Rocket, ShieldCheck, Sparkles, Workflow, Linkedin, Instagram, MessageCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { Bot, Code2, Palette, Workflow, Lock, ShieldCheck, TrendingUp, CheckCircle2, Zap, Target } from "lucide-react";
 
-const whyUs = [
-  { icon: Sparkles, title: "Craftsmanship", body: "Premium visuals, systems, and flows built to convert." },
-  { icon: Rocket, title: "Speed & Iteration", body: "Short cycles, clear checkpoints, and visible momentum." },
-  { icon: ShieldCheck, title: "Engineering Discipline", body: "Secure, resilient builds ready for scale." },
-  { icon: LineChart, title: "Revenue-Driven", body: "Every launch anchored to measurable business KPIs." },
-  { icon: Workflow, title: "Automation-First", body: "Repeatable workflows that keep teams focused on outcomes." },
-  { icon: MessageSquare, title: "Transparent Comms", body: "Frequent updates, shared dashboards, no surprises." },
+const whatWeDo = [
+  {
+    title: "AI business agents",
+    text: "Orvia and supporting agents that answer customers, book appointments, follow up, and collect payments across WhatsApp, web, and voice.",
+  },
+  {
+    title: "Product-grade engineering",
+    text: "Web, mobile, and backend systems built with proper architecture, testing, and performance tuning so they hold up under real usage.",
+  },
+  {
+    title: "Experience and journey design",
+    text: "Interfaces and flows that are easy to understand, fast to use, and built around business outcomes, not dribbble shots.",
+  },
+  {
+    title: "Integration and automation layer",
+    text: "Twilio, WhatsApp, CRMs, calendars, payment gateways, and internal tools wired together so data moves cleanly and actions can be automated end to end.",
+  },
+];
+
+const stats = [
+  { value: "250+", label: "projects shipped", description: "Production work across banking, insurance, health, retail, and services." },
+  { value: "100+", label: "businesses served", description: "From solo founders to enterprises across GCC, India, US, Canada, and Australia." },
+  { value: "10+", label: "years in GCC markets", description: "Deep familiarity with regulations, payment methods, and customer behavior." },
+  { value: "8+", label: "years in banking and enterprise", description: "Background in performance, compliance, and risk-aware delivery." },
+  { value: "8+", label: "industries with AI agents", description: "Clinics, spas, real estate, education, retail, professional services, and more." },
+  { value: "1", label: "full-stack team", description: "Strategy, UX, engineering, AI, integrations, and automation under a single roof." },
+];
+
+const processSteps = [
+  { step: "1", title: "Discovery & alignment", body: "Clarify goals, constraints, risks, and success metrics with your stakeholders." },
+  { step: "2", title: "System & journey design", body: "Map flows, data, and responsibilities. Design the UX around real workflows." },
+  { step: "3", title: "Engineering & implementation", body: "Build the agents, APIs, web or mobile frontends, and automations on a solid foundation." },
+  { step: "4", title: "Integration & data wiring", body: "Connect CRMs, calendars, WhatsApp, Twilio, payment gateways, and internal tools." },
+  { step: "5", title: "Testing & hardening", body: "Stress-test flows, failure states, and edge cases before they touch customers." },
+  { step: "6", title: "Launch & iteration", body: "Go live, monitor real usage, and refine based on actual business outcomes." },
 ];
 
 const values = [
-  { icon: ShieldCheck, title: "Reliability", body: "We deliver what we promise—on time and with care." },
-  { icon: HandHeart, title: "Integrity", body: "Clear expectations, honest feedback, and shared wins." },
-  { icon: Lock, title: "Security-First", body: "Best practices baked into every build and integration." },
-  { icon: Award, title: "Quality", body: "Rigorous reviews across design, code, and customer journeys." },
-  { icon: BadgeCheck, title: "Ownership", body: "We act like an embedded team, not a vendor." },
-  { icon: Sparkles, title: "Client Obsession", body: "Your outcomes guide every decision we make." },
+  { icon: ShieldCheck, title: "Reliability", body: "We ship systems that work on Monday mornings, not just demo day." },
+  { icon: CheckCircle2, title: "Ownership", body: "We act like an internal squad, not a vendor taking orders." },
+  { icon: Lock, title: "Security-first thinking", body: "Data, access, and integrations are treated as production-critical from day one." },
+  { icon: Zap, title: "Clarity and honesty", body: "No vague timelines or hand-wavy promises. Direct communication, real expectations." },
+  { icon: TrendingUp, title: "Performance focus", body: "We care about latency, scalability, and stability as much as UI polish." },
+  { icon: Target, title: "Customer outcomes over features", body: "We measure success by revenue, efficiency, and reduced manual work, not feature count." },
 ];
 
-const process = [
-  { step: "01", title: "Discovery & Strategy", body: "Align goals, constraints, and KPIs with your stakeholders." },
-  { step: "02", title: "UX & System Design", body: "Map journeys, flows, and system architecture with prototypes." },
-  { step: "03", title: "Engineering & Development", body: "Ship secure, performant builds ready for production." },
-  { step: "04", title: "Automation & AI Integration", body: "Layer agents, triggers, and data syncing into your stack." },
-  { step: "05", title: "QA & Testing", body: "Stress-test reliability, accessibility, and edge cases." },
-  { step: "06", title: "Launch & Optimization", body: "Track impact, improve fast, and scale what works." },
-];
-
-const achievements = [
-  { icon: Award, title: "Awarded AI Initiatives", body: "Recognized for AI-first customer experiences across GCC." },
-  { icon: Laptop, title: "Enterprise Launches", body: "Dozens of mission-critical apps and automation rollouts." },
-  { icon: Rocket, title: "Growth Impact", body: "Campaigns and funnels rebuilt to lift revenue quickly." },
-  { icon: ShieldCheck, title: "Trusted Security", body: "Compliance-aware workflows and hardened infrastructure." },
-];
-
-const metrics = [
-  { label: "Years in GCC", value: "10+" },
-  { label: "Projects Delivered", value: "240+" },
-  { label: "Banking & Enterprise Experience", value: "8+ yrs" },
-  { label: "Multi-Country Delivery", value: "Kuwait · GCC · India" },
-];
 
 export default function WhoWeArePage() {
   return (
     <div className="relative min-h-screen bg-[var(--bg)] text-[var(--text-primary)]">
       <div className="global-noise" aria-hidden="true" />
       <div className="relative z-10 space-y-16 pb-20 pt-12">
-        <HeroSection />
+        <AboutHero />
+        <WhatWeDo />
+        <StatsSection />
+        <ProcessSection />
+        <ValuesSection />
         <FounderSection />
-        <WhyUs />
-        <Values />
-        <Process />
-        <Achievements />
+        <LongFormNarrative />
         <CTA />
       </div>
     </div>
   );
 }
 
-function HeroSection() {
+function AboutHero() {
   return (
     <section className="container">
-      <Card className="relative overflow-hidden rounded-[36px] border border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/90 via-[var(--bg-secondary)]/70 to-[var(--bg)]/80 shadow-[0_40px_140px_rgba(10,14,30,0.35)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.25),transparent_35%),radial-gradient(circle_at_80%_0%,rgba(56,189,248,0.2),transparent_25%)] blur-3xl" />
-        <CardContent className="relative p-10 space-y-6">
-          <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)] animate-fade-in">Who we are</p>
-          <h1 className="text-4xl font-semibold leading-tight md:text-5xl">About VirtuProse Solutions Private Limited</h1>
-          <p className="max-w-5xl text-sm text-[var(--text-secondary)] leading-relaxed">
-            VirtuProse Solutions Private Limited (CIN: U47912GJ2025PTC162443) is a leading digital transformation agency
-            specializing in AI-powered solutions, web development, mobile applications, and growth-driven digital marketing
-            strategies. Operating across the GCC (Kuwait), United States, Canada, Australia, and India, we deliver
-            enterprise-grade services that combine cutting-edge technology with strategic business outcomes. Our core
-            expertise spans custom web development, e-commerce solutions, UI/UX design, mobile app development for iOS and
-            Android, SEO and content marketing, paid advertising campaigns, and AI agent development. As pioneers in
-            conversational AI, we&apos;ve developed Orvia – an intelligent AI concierge platform that automates lead
-            qualification, appointment booking, payment processing, and customer support across multiple channels including
-            web chat, WhatsApp, and CRM integrations. With a proven track record of over 250 successfully delivered projects
-            for more than 100 companies worldwide, VirtuProse transforms businesses through scalable websites, performant
-            applications, conversion-focused design systems, and data-driven marketing strategies that accelerate revenue
-            growth and customer retention.
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="mx-auto max-w-5xl px-6"
+      >
+        <div className="rounded-3xl bg-white/5 dark:bg-white/5 backdrop-blur-xl border border-white/10 dark:border-white/10 px-8 py-10 bg-white dark:bg-transparent shadow-lg dark:shadow-none border-gray-200 dark:border-white/10">
+          <p className="text-xs font-medium uppercase tracking-[0.3em] text-[var(--text-secondary)] mb-4">
+            The company behind Orvia
           </p>
-          <div className="flex flex-wrap gap-3 text-sm text-[var(--text-secondary)]">
-            {["AI-native", "Embedded squads", "Design + Engineering + Growth", "Transparent delivery"].map((pill) => (
-              <span
-                key={pill}
-                className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/70 px-3 py-1 transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
-              >
-                {pill}
-              </span>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+          <h1 className="text-4xl font-semibold leading-tight text-[var(--text-primary)] md:text-5xl lg:text-6xl mb-6">
+            We build intelligent systems that run your business, not just power it.
+          </h1>
+          <p className="text-lg leading-relaxed text-[var(--text-secondary)] max-w-4xl">
+            VirtuProse is a product and engineering company focused on one thing: removing operational friction for modern businesses. We design and ship AI agents, automation, and infrastructure that handle revenue work reliably so teams can focus on decisions, not repetitive tasks.
+          </p>
+        </div>
+      </motion.div>
     </section>
   );
 }
 
-function WhyUs() {
+function WhatWeDo() {
   return (
-    <section className="container space-y-6" data-section>
-      <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Why clients work with us</p>
-        <h2 className="text-3xl font-semibold">Proof in how we operate</h2>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {whyUs.map((item) => (
-          <Card
+    <section className="container space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="space-y-2"
+      >
+        <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">
+          What VirtuProse actually does
+        </h2>
+        <p className="text-lg text-[var(--text-secondary)] max-w-3xl">
+          We combine AI agents, product engineering, and integration work into one stack so you don't juggle ten vendors.
+        </p>
+      </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        {whatWeDo.map((item, index) => (
+          <motion.div
             key={item.title}
-            className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/75 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50"
-            data-interactive
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <CardContent className="flex h-full flex-col gap-3 p-5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                <item.icon className="h-5 w-5" />
+            <Card className="rounded-2xl bg-white/5 dark:bg-white/5 backdrop-blur-lg border border-white/10 dark:border-white/10 p-6 bg-white dark:bg-transparent border-gray-200 dark:border-white/10 shadow-sm dark:shadow-none h-full">
+              <CardContent className="space-y-3 p-0">
+                <h3 className="text-xl font-semibold text-[var(--text-primary)]">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-[var(--text-secondary)]">{item.text}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+            ))}
+          </div>
+    </section>
+  );
+}
+
+function StatsSection() {
+  return (
+    <section className="container space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="space-y-2"
+      >
+        <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">
+          Why operators trust VirtuProse
+        </h2>
+        <p className="text-lg text-[var(--text-secondary)] max-w-3xl">
+          You are not buying hours. You are buying systems that must work every day.
+        </p>
+      </motion.div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        {stats.map((stat, index) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+          >
+            <Card className="rounded-2xl bg-white/5 dark:bg-white/5 border border-white/10 dark:border-white/10 p-6 bg-white dark:bg-transparent border-gray-200 dark:border-white/10 shadow-sm dark:shadow-none">
+              <CardContent className="space-y-2 p-0">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-[var(--text-primary)]">{stat.value}</span>
+                  <span className="text-sm font-medium text-[var(--text-secondary)]">{stat.label}</span>
+                </div>
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{stat.description}</p>
+        </CardContent>
+      </Card>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ProcessSection() {
+  return (
+    <section className="container space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="space-y-2"
+      >
+        <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">How we work</p>
+        <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">
+          A clear, accountable build process
+        </h2>
+      </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        {processSteps.map((step, index) => (
+          <motion.div
+            key={step.step}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+          >
+            <Card className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50">
+              <CardContent className="space-y-2 p-5">
+                <p className="text-xs uppercase tracking-[0.3em] text-[var(--text-secondary)]">{step.step}</p>
+                <p className="text-sm font-semibold text-[var(--text-primary)]">{step.title}</p>
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{step.body}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ValuesSection() {
+  return (
+    <section className="container space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="space-y-2"
+      >
+        <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Principles</p>
+        <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">
+          How we show up as a partner
+        </h2>
+      </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        {values.map((value, index) => (
+          <motion.div
+            key={value.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+          >
+            <Card className="rounded-2xl bg-white/5 dark:bg-white/5 backdrop-blur-lg border border-white/10 dark:border-white/10 p-6 bg-white dark:bg-transparent border-gray-200 dark:border-white/10 shadow-sm dark:shadow-none">
+              <CardContent className="flex gap-3 p-0">
+                <span className="mt-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
+                  <value.icon className="h-5 w-5" />
               </span>
-              <p className="text-base font-semibold text-[var(--text-primary)]">{item.title}</p>
-              <p className="text-sm text-[var(--text-secondary)]">{item.body}</p>
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">{value.title}</p>
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{value.body}</p>
+                </div>
             </CardContent>
           </Card>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -131,163 +259,141 @@ function WhyUs() {
 }
 
 function FounderSection() {
+  const stats = [
+    { value: "10+", label: "years in GCC" },
+    { value: "240+", label: "projects delivered" },
+    { value: "100+", label: "companies served" },
+  ];
+
   return (
-    <section className="container" data-section>
-      <div className="rounded-[32px] border border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/80 via-[var(--bg-secondary)]/60 to-[var(--bg)]/80 p-10 shadow-[0_40px_120px_rgba(10,12,26,0.28)]">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)]">
-          <div className="flex justify-center">
-            <Card className="w-full max-w-sm border-[var(--border)]/70 bg-[var(--bg)]/85 shadow-[0_20px_80px_rgba(10,12,26,0.25)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_100px_rgba(10,12,26,0.28)]">
-              <CardContent className="space-y-5 p-6 text-center">
-                <div className="mx-auto h-44 w-44 overflow-hidden rounded-full border border-[var(--border)]/60 shadow-[0_10px_40px_rgba(10,12,26,0.25)]">
+    <section className="py-16 md:py-28" data-section>
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid gap-12 md:gap-16 lg:grid-cols-2 lg:items-start">
+          {/* Left Column: Portrait + Name + Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6 md:space-y-8"
+          >
+            {/* Leadership Label */}
+            <p className="text-xs font-medium uppercase tracking-[0.3em] text-[var(--text-secondary)]">
+              Leadership
+            </p>
+
+            {/* Portrait */}
+            <div className="flex justify-center lg:justify-start">
+              <div className="relative h-40 w-40 md:h-48 md:w-48 overflow-hidden rounded-full shadow-[0_0_40px_rgba(0,0,0,0.4)] ring-1 ring-white/10">
                   <Image
                     src="/assets/zaid.webp"
-                    alt="Mohammad Zaid portrait"
-                    width={320}
-                    height={320}
-                    className="h-full w-full object-cover transition duration-500 hover:scale-105"
+                  alt="Mohammad Zaid Anarwala"
+                  width={200}
+                  height={200}
+                  className="h-full w-full object-cover"
+                  priority
                   />
                 </div>
-                <div className="space-y-1">
-                  <span className="inline-flex items-center rounded-full border border-[var(--border)]/60 bg-[var(--bg-secondary)]/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--text-secondary)]">
+            </div>
+
+            {/* Name and Role */}
+            <div className="space-y-2 text-center lg:text-left">
+              <h3 className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]">
+                Muhammad Zaid Anarwala
+              </h3>
+              <p className="text-base text-[var(--text-secondary)]">
                     Founder & CEO
+              </p>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="flex flex-col gap-4 pt-6 border-t border-[var(--border)]/30">
+              {stats.map((stat) => (
+                <div key={stat.label} className="flex items-center gap-8">
+                  <span className="text-xl font-medium text-[var(--text-primary)]">
+                    {stat.value}
                   </span>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Mohammad Zaid</h3>
-                </div>
-                <div className="grid grid-cols-2 gap-3 text-sm text-[var(--text-secondary)]">
-                  {metrics.map((metric) => (
-                    <div key={metric.label} className="rounded-2xl border border-[var(--border)]/60 bg-[var(--bg-secondary)]/60 p-3">
-                      <p className="text-xl font-semibold text-[var(--text-primary)]">{metric.value}</p>
-                      <p className="text-xs">{metric.label}</p>
+                  <span className="text-sm tracking-wide text-[var(--text-secondary)]">
+                    {stat.label}
+                  </span>
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center justify-center gap-3 pt-2">
-                  <SocialIcon href="https://www.linkedin.com/in/mohammadzaid" label="LinkedIn" icon={<Linkedin className="h-4 w-4" />} />
-                  <SocialIcon href="https://www.instagram.com/" label="Instagram" icon={<Instagram className="h-4 w-4" />} />
-                  <SocialIcon href="https://wa.me/96569984942" label="WhatsApp" icon={<MessageCircle className="h-4 w-4" />} />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="space-y-4 text-[var(--text-secondary)]">
-            <h2 className="text-4xl font-semibold leading-tight md:text-5xl text-[var(--text-primary)]">
-              Founder’s Story: Muhammad Zaid Anarwala
+          </motion.div>
+
+          {/* Right Column: Story */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6"
+          >
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-[var(--text-primary)]">
+                Founder's Story
             </h2>
-            <div className="space-y-3 leading-relaxed">
-              <p>
-                Muhammad Zaid Anarwala, Founder and CEO of VirtuProse Solutions, began as a freelance digital strategist and full-stack developer, building his expertise one client at a time across the GCC, especially Kuwait. What started as a solo mission has grown into a registered multinational agency serving five continents.
-              </p>
-              <p>
-                With 250+ projects delivered for 100+ companies, Zaid saw a gap: businesses needed intelligent systems that drove revenue 24/7—not just pretty sites or basic apps. That insight sparked Orvia, our AI revenue assistant that qualifies leads, books appointments, processes payments, and supports customers through NLP and seamless CRM integrations.
-              </p>
-              <p>
-                Under his leadership, VirtuProse leads in AI-powered business automation—combining React Native mobile builds, API integrations, backend systems, performance tuning, and CRO with strategic growth marketing.
-              </p>
-              <p>
-                Today, VirtuProse Solutions Private Limited operates as a fully registered entity with specialists in digital marketing, web and mobile development, UI/UX, and AI—helping businesses across the United States, Canada, Australia, GCC nations, and India achieve sustainable transformation and revenue acceleration.
+              <p className="text-lg md:text-xl font-medium text-[var(--text-primary)]">
+                Muhammad Zaid Anarwala, Founder & CEO
               </p>
             </div>
-          </div>
+
+            <div className="space-y-4 text-lg leading-relaxed text-[var(--text-secondary)]">
+              <p>
+                Muhammad Zaid Anarwala began his career building digital systems across banking, insurance, health, and retail in the GCC. Over nearly a decade, he delivered products that supported customer acquisition, automated workflows, and transformed manual processes into scalable operations.
+              </p>
+              <p>
+                Working with more than 100 businesses revealed a pattern: companies were overwhelmed by tools but still dependent on people to chase leads, schedule appointments, and keep revenue moving. That gap led to Orvia — an AI business agent designed to run conversations, bookings, payments, and follow-ups automatically.
+              </p>
+              <p>
+                Today, Zaid leads VirtuProse as a product-driven AI engineering company built on a simple belief: technology should remove friction, not create more of it.
+              </p>
+            </div>
+
+            <p className="text-base italic text-[var(--text-secondary)] pt-4 opacity-70">
+              Technology should remove friction, not create management.
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
 
-function SocialIcon({ href, label, icon }: { href: string; label: string; icon: React.ReactNode }) {
+function LongFormNarrative() {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={label}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 text-[var(--text-secondary)] transition hover:-translate-y-0.5 hover:text-[var(--accent)]"
-    >
-      {icon}
-    </a>
-  );
-}
-
-function Values() {
-  return (
-    <section className="container space-y-6" data-section>
-      <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Values</p>
-        <h2 className="text-3xl font-semibold">How we show up</h2>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {values.map((item) => (
-          <Card
-            key={item.title}
-            className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50"
-            data-interactive
-          >
-            <CardContent className="flex gap-3 p-5">
-              <span className="mt-1 flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                <item.icon className="h-5 w-5" />
-              </span>
-              <div className="space-y-1">
-                <p className="text-sm font-semibold text-[var(--text-primary)]">{item.title}</p>
-                <p className="text-xs text-[var(--text-secondary)]">{item.body}</p>
+    <section className="container">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="mx-auto max-w-4xl px-6"
+      >
+        <h2 className="text-3xl font-semibold text-[var(--text-primary)] mb-6 text-center md:text-left">
+          VirtuProse in detail
+        </h2>
+        <div className="prose prose-lg max-w-none text-[var(--text-secondary)] dark:text-gray-300 text-center md:text-left">
+          <p className="leading-relaxed mb-4">
+            VirtuProse Solutions Private Limited (CIN: U47912GJ2025PTC162443) is a leading digital transformation agency
+            specializing in AI-powered solutions, web development, mobile applications, and growth-driven digital marketing
+            strategies. Operating across the GCC (Kuwait), United States, Canada, Australia, and India, we deliver
+            enterprise-grade services that combine cutting-edge technology with strategic business outcomes.
+          </p>
+          <p className="leading-relaxed mb-4">
+            Our core expertise spans custom web development, e-commerce solutions, UI/UX design, mobile app development for iOS and
+            Android, SEO and content marketing, paid advertising campaigns, and AI agent development. As pioneers in
+            conversational AI, we've developed Orvia – an intelligent AI concierge platform that automates lead
+            qualification, appointment booking, payment processing, and customer support across multiple channels including
+            web chat, WhatsApp, and CRM integrations.
+          </p>
+          <p className="leading-relaxed">
+            With a proven track record of over 250 successfully delivered projects for more than 100 companies worldwide, VirtuProse transforms businesses through scalable websites, performant
+            applications, conversion-focused design systems, and data-driven marketing strategies that accelerate revenue
+            growth and customer retention.
+          </p>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Process() {
-  return (
-    <section className="container space-y-6" data-section>
-      <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">How we work</p>
-        <h2 className="text-3xl font-semibold">A clear, accountable process</h2>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {process.map((step) => (
-          <Card
-            key={step.step}
-            className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50"
-            data-interactive
-          >
-            <CardContent className="space-y-2 p-5">
-              <p className="text-xs uppercase tracking-[0.3em] text-[var(--text-secondary)]">{step.step}</p>
-              <p className="text-sm font-semibold text-[var(--text-primary)]">{step.title}</p>
-              <p className="text-sm text-[var(--text-secondary)]">{step.body}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Achievements() {
-  return (
-    <section className="container space-y-6" data-section>
-      <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Impact</p>
-        <h2 className="text-3xl font-semibold">Signals of trust</h2>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {achievements.map((item) => (
-          <Card
-            key={item.title}
-            className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50"
-            data-interactive
-          >
-            <CardContent className="space-y-2 p-5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                <item.icon className="h-5 w-5" />
-              </span>
-              <p className="text-sm font-semibold text-[var(--text-primary)]">{item.title}</p>
-              <p className="text-sm text-[var(--text-secondary)]">{item.body}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      </motion.div>
     </section>
   );
 }
@@ -299,8 +405,8 @@ function CTA() {
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/10 to-transparent" />
         <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Let’s talk</p>
-            <h3 className="text-3xl font-semibold text-[var(--text-primary)]">Let’s build something intelligent together</h3>
+            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Let's talk</p>
+            <h3 className="text-3xl font-semibold text-[var(--text-primary)]">Let's build something intelligent together</h3>
             <p className="text-sm text-[var(--text-secondary)]">We reply within 12 hours.</p>
           </div>
           <div className="flex flex-wrap gap-3">

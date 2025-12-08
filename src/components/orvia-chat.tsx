@@ -4,7 +4,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Lottie from "lottie-react";
-import orviaAnimation from "@/AI Robot.json";
+import orviaAnimation from "@/orvia-lottie.json";
+import { ArrowLeft, MoreHorizontal, Paperclip, Smile, Mic, Send, Maximize2, Download } from "lucide-react";
+import { validateInputClient } from "@/lib/orvia-client-security";
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -12,7 +14,7 @@ type ChatMessage = {
 };
 
 const welcomeMessage =
-  "Hey there! I'm Orvia, VirtuProse's AI sales consultant. What are you working on and how can I help today?";
+  "Hi, you're speaking with Orvia AI Agent. I'll help you with whatever you need! What brings you here today?";
 
 export function OrviaChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,15 +23,35 @@ export function OrviaChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const panelRef = useRef<HTMLDivElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const emojiPickerRef = useRef<HTMLDivElement | null>(null);
+  const lottieRef = useRef<any>(null);
 
   const sendText = useCallback(
     async (text: string) => {
       const trimmed = text.trim();
       if (!trimmed || isLoading) return;
+      
+      // Client-side validation
+      const validation = validateInputClient(trimmed);
+      if (!validation.valid) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: validation.error || "Please check your message and try again.",
+          },
+        ]);
+        return;
+      }
+      
       setIsOpen(true);
       const userMessage: ChatMessage = { role: "user", content: trimmed };
       setMessages((prev) => [...prev, userMessage]);
@@ -42,9 +64,22 @@ export function OrviaChat() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ messages: [...messages, userMessage] }),
         });
+        
         if (!response.ok) {
-          throw new Error("Failed to reach Orvia");
+          const errorData = (await response.json().catch(() => ({}))) as { error?: string; retryAfter?: number };
+          
+          if (response.status === 429) {
+            const retrySeconds = errorData.retryAfter || 60;
+            throw new Error(`Too many requests. Please wait ${retrySeconds} seconds before trying again.`);
+          }
+          
+          if (response.status === 400) {
+            throw new Error(errorData.error || "Invalid message format. Please try rephrasing.");
+          }
+          
+          throw new Error(errorData.error || "Failed to reach Orvia");
         }
+        
         const data = (await response.json()) as { reply?: string };
         const reply: ChatMessage = {
           role: "assistant",
@@ -52,12 +87,13 @@ export function OrviaChat() {
         };
         setMessages((prev) => [...prev, reply]);
       } catch (error) {
-        console.error(error);
+        console.error("[orvia-chat-error]", error);
+        const errorMessage = error instanceof Error ? error.message : "I couldn't connect just now, but I'm still here. Mind trying again?";
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: "I couldn't connect just now, but I'm still here. Mind trying again?",
+            content: errorMessage,
           },
         ]);
       } finally {
@@ -77,51 +113,24 @@ export function OrviaChat() {
     };
     window.addEventListener("open-orvia-chat", handleOpen as EventListener);
     const tooltipTimer = window.setTimeout(() => setShowTooltip(false), 60000);
-    
-    // Better mobile detection - check for touch devices and small screens
-    const handleResize = () => {
-      const isMobileScreen = window.innerWidth <= 768;
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      setIsFullScreen(isMobileScreen || isTouchDevice);
-    };
+    const handleResize = () => setIsFullScreen(window.innerWidth <= 640);
     handleResize();
     window.addEventListener("resize", handleResize);
-    window.addEventListener("orientationchange", handleResize);
-    
     return () => {
       window.clearTimeout(tooltipTimer);
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("orientationchange", handleResize);
       window.removeEventListener("open-orvia-chat", handleOpen as EventListener);
     };
   }, [sendText]);
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      // Use setTimeout to ensure DOM is updated
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }, 100);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (isOpen) {
+      inputRef.current?.focus();
     }
-    if (isOpen && !isLoading) {
-      // Delay focus slightly for mobile to prevent keyboard jump
-      const focusTimer = setTimeout(() => {
-        inputRef.current?.focus();
-      }, 300);
-      return () => clearTimeout(focusTimer);
-    }
-  }, [messages, isOpen, isLoading]);
+  }, [messages, isOpen]);
 
-  // Scroll to bottom when keyboard opens or new message arrives
-  useEffect(() => {
-    if (keyboardHeight > 0 && messagesEndRef.current) {
-      // Wait for keyboard animation to complete
-      const scrollTimer = setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-      }, 350);
-      return () => clearTimeout(scrollTimer);
-    }
-  }, [keyboardHeight, messages]);
+  // Animation loops automatically with loop={true} and autoplay={true}
 
   async function sendMessage(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -129,114 +138,221 @@ export function OrviaChat() {
     void sendText(input);
   }
 
-  const panelClassName = useMemo(
-    () => 
-      `orvia-chat-panel${isOpen ? " open" : ""}${isFullScreen ? " full" : ""}${keyboardHeight > 0 ? " keyboard-open" : ""}`,
-    [isOpen, isFullScreen, keyboardHeight],
-  );
+  const downloadTranscript = useCallback(() => {
+    const transcript = messages
+      .map((msg) => {
+        const role = msg.role === "user" ? "You" : "Orvia";
+        return `${role}: ${msg.content}`;
+      })
+      .join("\n\n");
 
-  // Handle keyboard visibility on mobile
+    const blob = new Blob([transcript], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `orvia-chat-transcript-${new Date().toISOString().split("T")[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    setShowMenu(false);
+  }, [messages]);
+
   useEffect(() => {
-    if (!isFullScreen || !isOpen) {
-      setKeyboardHeight(0);
-      return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    if (showMenu || showEmojiPicker) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [showMenu, showEmojiPicker]);
+
+  // Safe file types - images, documents, and text files only
+  const ALLOWED_FILE_TYPES = [
+    // Images
+    'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
+    // Documents
+    'application/pdf',
+    'application/msword', // .doc
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+    // Text files
+    'text/plain', 'text/csv',
+    // Spreadsheets
+    'application/vnd.ms-excel', // .xls
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+  ];
+
+  const ALLOWED_EXTENSIONS = [
+    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg',
+    '.pdf',
+    '.doc', '.docx',
+    '.txt', '.csv',
+    '.xls', '.xlsx',
+  ];
+
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB limit
+
+  const sanitizeFileName = (fileName: string): string => {
+    // Remove any path components and dangerous characters
+    const sanitized = fileName
+      .replace(/^.*[\\/]/, '') // Remove path
+      .replace(/[^a-zA-Z0-9._-]/g, '_') // Replace special chars with underscore
+      .substring(0, 255); // Limit length
+    return sanitized || 'file';
+  };
+
+  const validateFile = (file: File): { valid: boolean; error?: string } => {
+    // Check file size
+    if (file.size > MAX_FILE_SIZE) {
+      return { valid: false, error: `File size exceeds 10MB limit. Your file is ${(file.size / 1024 / 1024).toFixed(2)}MB.` };
     }
 
-    const getViewportHeight = () => window.visualViewport?.height || window.innerHeight;
-    const getScreenHeight = () => window.screen.height;
-    
-    // Store initial height when chat opens
-    const initialHeight = getViewportHeight();
-    const screenHeight = getScreenHeight();
-    let timeoutId: NodeJS.Timeout;
+    // Check file extension
+    const extension = '.' + file.name.split('.').pop()?.toLowerCase();
+    if (!ALLOWED_EXTENSIONS.includes(extension)) {
+      return { valid: false, error: `File type not allowed. Please upload images, PDFs, or text documents only.` };
+    }
 
-    const checkKeyboard = () => {
-      const currentHeight = getViewportHeight();
-      const heightDiff = initialHeight - currentHeight;
+    // Check MIME type
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+      // Double-check with extension if MIME type check fails (some browsers may not set MIME correctly)
+      if (!ALLOWED_EXTENSIONS.includes(extension)) {
+        return { valid: false, error: `File type not allowed. Please upload safe file types only.` };
+      }
+    }
+
+    // Block executable files and scripts
+    const dangerousExtensions = ['.exe', '.bat', '.cmd', '.com', '.pif', '.scr', '.vbs', '.js', '.jar', '.sh', '.ps1', '.msi', '.dll', '.bin', '.app'];
+    const lowerFileName = file.name.toLowerCase();
+    if (dangerousExtensions.some(ext => lowerFileName.endsWith(ext))) {
+      return { valid: false, error: `Executable files are not allowed for security reasons.` };
+    }
+
+    return { valid: true };
+  };
+
+  const handleFileAttachment = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate file
+      const validation = validateFile(file);
       
-      // Keyboard is likely open if viewport shrunk significantly (more than 150px)
-      if (heightDiff > 150) {
-        setKeyboardHeight(heightDiff);
-        // Scroll to bottom when keyboard opens
-        setTimeout(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-        }, 100);
-      } else {
-        setKeyboardHeight(0);
+      if (!validation.valid) {
+        // Show error message
+        setMessages((prev) => [...prev, { 
+          role: "assistant", 
+          content: `❌ ${validation.error}` 
+        }]);
+        // Reset file input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        return;
       }
-    };
 
-    const handleViewportResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(checkKeyboard, 100);
-    };
-
-    const handleFocus = () => {
-      // Give keyboard time to fully open
-      setTimeout(checkKeyboard, 350);
-    };
-
-    const handleBlur = () => {
-      setKeyboardHeight(0);
-    };
-
-    // Use Visual Viewport API (best for mobile keyboard detection)
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener("resize", handleViewportResize);
-      window.visualViewport.addEventListener("scroll", handleViewportResize);
+      // Sanitize file name
+      const sanitizedFileName = sanitizeFileName(file.name);
+      const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
+      
+      setMessages((prev) => [...prev, { 
+        role: "user", 
+        content: `[File attachment: ${sanitizedFileName} (${fileSizeMB}MB)]` 
+      }]);
+      
+      // In a real implementation, you would upload the file to a secure server and send the URL
+      // For now, we'll just acknowledge receipt
+      setTimeout(() => {
+        setMessages((prev) => [...prev, { 
+          role: "assistant", 
+          content: `✅ I've received your file: ${sanitizedFileName}. This file appears safe. How can I help you with it?` 
+        }]);
+      }, 1000);
     }
-
-    // Fallback for browsers without Visual Viewport API
-    window.addEventListener("resize", handleViewportResize);
     
-    // Listen to input focus/blur
-    const inputElement = inputRef.current;
-    if (inputElement) {
-      inputElement.addEventListener("focus", handleFocus);
-      inputElement.addEventListener("blur", handleBlur);
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
+  };
 
-    return () => {
-      clearTimeout(timeoutId);
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener("resize", handleViewportResize);
-        window.visualViewport.removeEventListener("scroll", handleViewportResize);
-      }
-      window.removeEventListener("resize", handleViewportResize);
-      if (inputElement) {
-        inputElement.removeEventListener("focus", handleFocus);
-        inputElement.removeEventListener("blur", handleBlur);
-      }
-      setKeyboardHeight(0);
-    };
-  }, [isFullScreen, isOpen]);
+  const handleEmojiClick = (emoji: string) => {
+    setInput((prev) => prev + emoji);
+    setShowEmojiPicker(false);
+  };
 
-  // Prevent body scroll on mobile when chat is open
-  useEffect(() => {
-    if (isOpen && isFullScreen) {
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      // Store scroll position to restore later
-      const scrollY = window.scrollY;
-      document.body.style.top = `-${scrollY}px`;
-    } else {
-      const scrollY = document.body.style.top;
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.top = "";
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      }
+  const commonEmojis = ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😙', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '😶‍🌫️', '🥴', '😵', '😵‍💫', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '👍', '👎', '👌', '✌️', '🤞', '🤟', '🤘', '🤙', '👏', '🙌', '👐', '🤲', '🤝', '🙏', '✍️', '💪', '🦾', '🦿', '🦵', '🦶', '👂', '🦻', '👃'];
+
+  const handleGIFClick = () => {
+    // In a real implementation, this would open a GIF picker (e.g., Giphy)
+    // For now, we'll add a placeholder message
+    setMessages((prev) => [...prev, { role: "user", content: "[GIF selection coming soon]" }]);
+    setTimeout(() => {
+      setMessages((prev) => [...prev, { 
+        role: "assistant", 
+        content: "GIF picker will be integrated soon! For now, you can describe what you're looking for." 
+      }]);
+    }, 1000);
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      const chunks: Blob[] = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+        // In a real implementation, you would upload the audio and send it
+        setMessages((prev) => [...prev, { role: "user", content: "[Voice message]" }]);
+        setTimeout(() => {
+          setMessages((prev) => [...prev, { 
+            role: "assistant", 
+            content: "I've received your voice message. Voice processing will be available soon!" 
+          }]);
+        }, 1000);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      mediaRecorder.start();
+      mediaRecorderRef.current = mediaRecorder;
+      setIsRecording(true);
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+      setMessages((prev) => [...prev, { 
+        role: "assistant", 
+        content: "I couldn't access your microphone. Please check your permissions." 
+      }]);
     }
-    return () => {
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.top = "";
-    };
-  }, [isOpen, isFullScreen]);
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
+  const panelClassName = useMemo(
+    () => `orvia-chat-panel${isOpen ? " open" : ""}${isFullScreen ? " full" : ""}`,
+    [isOpen, isFullScreen],
+  );
 
   return (
     <>
@@ -249,84 +365,215 @@ export function OrviaChat() {
       >
         <span className="sr-only">{isOpen ? "Hide Orvia chat" : "Chat with Orvia"}</span>
         {!isOpen ? (
-          <div className="orvia-launcher-lottie">
-            <Lottie animationData={orviaAnimation} loop autoplay aria-hidden="true" />
-          </div>
+          <>
+            <div className="orvia-launcher-lottie">
+              {orviaAnimation && (
+                <Lottie
+                  ref={lottieRef}
+                  animationData={orviaAnimation}
+                  loop={true}
+                  autoplay={true}
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+            <Image
+              src="/assets/orvia-logo-black.svg"
+              alt="Orvia logo"
+              width={70}
+              height={20}
+              className="orvia-launcher-logo"
+              priority
+            />
+          </>
         ) : null}
-        <Image
-          src="/assets/orvia-logo-black.svg"
-          alt="Orvia logo"
-          width={70}
-          height={20}
-          className="orvia-launcher-logo"
-          priority
-        />
         {!isOpen && showTooltip ? <span className="orvia-launcher-tooltip">Hi, I&#39;m Orvia. Need help?</span> : null}
       </button>
-      <div 
-        ref={panelRef}
-        className={panelClassName} 
-        id="orvia-chat-panel" 
-        role="dialog" 
-        aria-label="Orvia live chat"
-      >
-        <div className="orvia-chat-header">
-          <div className="orvia-avatar">
-            <Lottie animationData={orviaAnimation} loop autoplay aria-hidden="true" />
-          </div>
-          <div className="orvia-header-text">
-            <p>Orvia · Sales AI</p>
-            <small>Hi, I’m Orvia. I can help you choose the right service.</small>
-          </div>
-          <div className="typing-indicator" aria-live="polite">
-            <span />
-            <span />
-            <span />
-          </div>
-          <button type="button" onClick={() => setIsOpen(false)} aria-label="Close Orvia chat">
-            ×
+      <div className={panelClassName} id="orvia-chat-panel" role="dialog" aria-label="Orvia live chat">
+        {/* Header */}
+        <div className="orvia-chat-header-new">
+          <button type="button" onClick={() => setIsOpen(false)} className="orvia-header-back" aria-label="Back">
+            <ArrowLeft className="w-5 h-5" />
           </button>
-        </div>
-        <div className="orvia-chat-messages">
-          {messages.map((message, index) => (
-            <div
-              key={`${message.role}-${index}-${message.content}`}
-              className={`chat-bubble ${message.role} bubble-in`}
+          <div className="orvia-header-logo-text">
+            <Image
+              src="/assets/orvia-logo-black.svg"
+              alt="Orvia"
+              width={24}
+              height={24}
+              className="orvia-header-logo dark:invert"
+            />
+            <span className="orvia-header-name">Orvia</span>
+          </div>
+          <p className="orvia-header-subtitle">The team can also help.</p>
+          <div className="orvia-header-actions" ref={menuRef}>
+            <button 
+              type="button" 
+              className="orvia-header-menu" 
+              aria-label="More options"
+              onClick={() => setShowMenu(!showMenu)}
             >
-              {message.content}
+              <MoreHorizontal className="w-5 h-5" />
+            </button>
+            {showMenu && (
+              <div className="orvia-menu-dropdown">
+                <button
+                  type="button"
+                  className="orvia-menu-item"
+                  onClick={() => {
+                    setIsFullScreen(!isFullScreen);
+                    setShowMenu(false);
+                  }}
+                >
+                  <Maximize2 className="w-4 h-4" />
+                  <span>Expand window</span>
+                </button>
+                <button
+                  type="button"
+                  className="orvia-menu-item"
+                  onClick={downloadTranscript}
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download transcript</span>
+                </button>
+              </div>
+            )}
+            <button type="button" onClick={() => setIsOpen(false)} className="orvia-header-close" aria-label="Close">
+              ×
+            </button>
+          </div>
+        </div>
+
+        {/* Messages Area */}
+        <div className="orvia-chat-messages-new">
+          {messages.map((message, index) => (
+            <div key={`${message.role}-${index}-${message.content}`} className="orvia-message-wrapper">
+              {message.role === "assistant" ? (
+                <div className="orvia-message-assistant">
+                  <div className="orvia-message-bubble">{message.content}</div>
+                  <div className="orvia-message-meta">Orvia • AI Agent • Just now</div>
+                </div>
+              ) : (
+                <div className="orvia-message-user">
+                  <div className="orvia-message-pill">{message.content}</div>
+                </div>
+              )}
             </div>
           ))}
           {isLoading ? (
-            <div className="chat-bubble assistant typing-bubble">
-              <div className="typing-indicator inline">
-                <span />
-                <span />
-                <span />
+            <div className="orvia-message-assistant">
+              <div className="orvia-message-bubble">
+                <div className="typing-indicator inline">
+                  <span />
+                  <span />
+                  <span />
+                </div>
               </div>
             </div>
           ) : null}
           <div ref={messagesEndRef} />
         </div>
-        <form className="orvia-chat-input" onSubmit={sendMessage}>
+
+        {/* Input Area */}
+        <form className="orvia-chat-input-new" onSubmit={sendMessage}>
           <input
-            ref={inputRef}
-            type="text"
-            placeholder="Tell me about your project…"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            aria-label="Your message"
-            autoComplete="off"
-            autoCorrect="on"
-            autoCapitalize="sentences"
-            enterKeyHint="send"
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            onChange={handleFileChange}
+            accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.pdf,.doc,.docx,.txt,.csv,.xls,.xlsx"
+            aria-label="File input"
           />
-          <button type="submit" disabled={isLoading || !input.trim()} className={isLoading ? "sending" : ""}>
-            {isLoading ? "…" : "Send"}
-          </button>
+          <div className="orvia-input-container">
+            <div className="orvia-input-content" ref={emojiPickerRef}>
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Message..."
+                value={input}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  // Limit input length on client side
+                  if (value.length <= 2000) {
+                    setInput(value);
+                  }
+                }}
+                maxLength={2000}
+                className="orvia-input-field"
+                aria-label="Your message"
+              />
+              <div className="orvia-input-icons">
+                <button 
+                  type="button" 
+                  className="orvia-input-icon" 
+                  aria-label="Attach file"
+                  onClick={handleFileAttachment}
+                >
+                  <Paperclip className="w-4 h-4" />
+                </button>
+                <button 
+                  type="button" 
+                  className="orvia-input-icon" 
+                  aria-label="Emoji"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                >
+                  <Smile className="w-4 h-4" />
+                </button>
+                {showEmojiPicker && (
+                  <div className="orvia-emoji-picker">
+                    <div className="orvia-emoji-grid">
+                      {commonEmojis.map((emoji, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          className="orvia-emoji-item"
+                          onClick={() => handleEmojiClick(emoji)}
+                          aria-label={`Emoji ${emoji}`}
+                        >
+                          {emoji}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <button 
+                  type="button" 
+                  className="orvia-input-icon" 
+                  aria-label="GIF"
+                  onClick={handleGIFClick}
+                >
+                  <span className="text-xs font-medium">GIF</span>
+                </button>
+                <button 
+                  type="button" 
+                  className={`orvia-input-icon ${isRecording ? 'recording' : ''}`}
+                  aria-label="Voice message"
+                  onMouseDown={startRecording}
+                  onMouseUp={stopRecording}
+                  onTouchStart={startRecording}
+                  onTouchEnd={stopRecording}
+                >
+                  <Mic className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <button type="submit" disabled={isLoading || isRecording} className="orvia-send-button" aria-label="Send message">
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
         </form>
-        <p className="chat-footnote">
-          Need a human? <Link href="/contact">Contact the VirtuProse team</Link>
-        </p>
+
+        {/* Footer */}
+        <div className="orvia-chat-footer">
+          <Image
+            src="/assets/orvia-logo-black.svg"
+            alt="Orvia"
+            width={16}
+            height={16}
+            className="orvia-footer-logo dark:invert"
+          />
+          <span className="orvia-footer-text">Powered by Orvia</span>
+        </div>
       </div>
     </>
   );

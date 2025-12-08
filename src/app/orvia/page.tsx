@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { OrviaOpenChatButton } from "@/components/orvia-open-chat-button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
@@ -31,6 +35,10 @@ import {
   Server,
   UsersRound,
   Workflow,
+  Monitor,
+  Phone,
+  MessageCircle,
+  Info,
 } from "lucide-react";
 
 const problemPoints = [
@@ -106,7 +114,7 @@ const workflowSteps = [
   "User sends a question via WhatsApp, web, or app widget.",
   "Orvia identifies intent instantly.",
   "It pulls real-time data for availability, inventory, or pricing.",
-  "It books, charges, or replies in under 10 seconds.",
+  "It books, charges, or replies in 4-6 seconds.",
   "If the scenario needs a human, it hands off with full context.",
 ];
 
@@ -140,7 +148,7 @@ const differentiators = [
   { text: "API-first architecture for POS/ERP/CRM", icon: Workflow },
   { text: "Real-time bookings + payments", icon: CalendarClock },
   { text: "Works across every platform you use", icon: LaptopMinimal },
-  { text: "10-second average response time", icon: Timer },
+  { text: "4-6 second average response time", icon: Timer },
   { text: "Enterprise-grade stack and hosting", icon: ShieldCheck },
 ];
 
@@ -186,7 +194,7 @@ const pricingPlans: {
     cta: { label: "Contact Team", href: "/contact" },
     features: [
       { label: "Unlimited conversations", icon: MessagesSquare },
-      { label: "WhatsApp integration", icon: Globe2 },
+      { label: "WhatsApp & Voice integration", icon: Globe2 },
       { label: "Custom-built website", icon: LaptopMinimal },
       { label: "Enterprise features", icon: ShieldCheck },
     ],
@@ -212,15 +220,16 @@ export default function OrviaPage() {
     <div className="relative min-h-screen bg-[var(--bg)] text-[var(--text-primary)]">
       <div className="global-noise" />
       <div className="relative z-10 space-y-16 pb-20 pt-10 text-[var(--text-primary)]">
-        <section className="container grid gap-10 rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 p-10 shadow-[0_40px_120px_rgba(15,23,42,0.08)] text-[var(--text-primary)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <div className="space-y-6">
+        {/* AI REVENUE ASSISTANT HERO - FIRST SECTION */}
+        <section className="container rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 p-10 shadow-[0_40px_120px_rgba(15,23,42,0.08)] text-[var(--text-primary)]">
+          <div className="mx-auto max-w-4xl space-y-6">
             <div className="orvia-hero-logo">
               <Image src="/assets/orvia-logo-black.svg" alt="Orvia logo" width={160} height={40} priority />
               <span>AI Revenue Assistant</span>
             </div>
             <h1 className="text-4xl font-semibold leading-tight text-[var(--text-primary)] md:text-5xl">The AI assistant that books, charges, and closes for you</h1>
             <p className="text-lg text-[var(--text-secondary)]">
-              Orvia connects to your live databases, calendars, inventory, and CRM so it can book appointments, take payments, and run workflows across WhatsApp, websites, and apps.
+              Orvia isn't a chatbot. It is a multi-layered AI engine engineered to understand intent, act on workflows, trigger automations, validate responses, and keep conversations grounded in real business logic. Every message is refined, checked, and executed through an intelligence stack purpose-built for reliability.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" className="rounded-full px-6">
@@ -234,11 +243,70 @@ export default function OrviaPage() {
                 presetMessage="Show me a live Orvia demo"
               />
             </div>
-            <p className="uppercase tracking-[0.4em] text-[var(--text-secondary)]">10-second responses · 24/7 accuracy · 15–30% more bookings & sales</p>
+            <p className="uppercase tracking-[0.4em] text-[var(--text-secondary)]">4-6 second responses · 24/7 accuracy · 15–30% more bookings & sales</p>
           </div>
         </section>
 
-        <section id="pricing" className="container space-y-6">
+        {/* WHERE ORVIA CAN BE EMBEDDED */}
+        <section className="container space-y-6 rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 p-10 shadow-[0_40px_120px_rgba(15,23,42,0.08)]">
+          <div className="space-y-2 text-center">
+            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Deploy anywhere</p>
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Put Orvia Wherever Your Business Talks</h2>
+            <p className="mx-auto max-w-2xl text-sm text-[var(--text-secondary)]">One AI agent, multiple channels. Deploy Orvia across your digital touchpoints.</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5 }}
+              className="rounded-2xl border border-[var(--border)]/70 bg-[var(--bg)]/50 p-6 text-center transition-all hover:border-[var(--accent)]/50 hover:bg-[var(--bg-secondary)]/80"
+            >
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
+                <Monitor className="h-8 w-8" />
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-[var(--text-primary)]">ORVIA Web</h3>
+              <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                Embed Orvia directly on your website as a chat widget. Visitors get instant responses without leaving your site.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="rounded-2xl border border-[var(--border)]/70 bg-[var(--bg)]/50 p-6 text-center transition-all hover:border-[var(--accent)]/50 hover:bg-[var(--bg-secondary)]/80"
+            >
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
+                <MessageCircle className="h-8 w-8" />
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-[var(--text-primary)]">ORVIA WhatsApp</h3>
+              <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                Connect Orvia to your WhatsApp Business number. Customers reach you on their favorite messaging platform.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="rounded-2xl border border-[var(--border)]/70 bg-[var(--bg)]/50 p-6 text-center transition-all hover:border-[var(--accent)]/50 hover:bg-[var(--bg-secondary)]/80"
+            >
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
+                <Phone className="h-8 w-8" />
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-[var(--text-primary)]">ORVIA Voice</h3>
+              <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                Voice-enabled conversations with natural language processing. Orvia handles calls just like chat.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Other sections below */}
+        <div className="space-y-16 pt-20">
+
+        <section className="container space-y-6">
           <div className="space-y-2">
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Where teams struggle</p>
             <h2 className="text-3xl font-semibold">The real problems Orvia wipes out</h2>
@@ -270,7 +338,7 @@ export default function OrviaPage() {
                 data-interactive
               >
                 <CardContent className="relative z-10 space-y-4 p-6">
-                  <div className="flex items-center gap-3 text-[var(--accent)]">
+                  <div className="flex items-center gap-3">
                     <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg)]/80 text-[var(--accent)] shadow-[0_12px_40px_rgba(15,23,42,0.12)]">
                       <block.icon className="h-5 w-5" />
                     </span>
@@ -308,7 +376,7 @@ export default function OrviaPage() {
                 data-interactive
               >
                 <CardContent className="relative z-10 space-y-3 p-5">
-                  <div className="flex items-center gap-3 text-[var(--accent)]">
+                  <div className="flex items-center gap-3">
                     <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg)]/70 text-[var(--accent)] shadow-[0_12px_30px_rgba(15,23,42,0.12)]">
                       <feature.icon className="h-5 w-5" />
                     </span>
@@ -347,8 +415,8 @@ export default function OrviaPage() {
             {industries.map((industry) => (
             <Card key={industry.label} className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/80" data-interactive>
               <CardContent className="space-y-3 p-5">
-                  <div className="flex items-center gap-2 text-[var(--accent)]">
-                    <industry.icon className="h-5 w-5" />
+                  <div className="flex items-center gap-2">
+                    <industry.icon className="h-5 w-5 text-[var(--accent)]" />
                     <h3 className="text-lg font-semibold text-[var(--text-primary)]">{industry.label}</h3>
                   </div>
                   <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
@@ -384,59 +452,79 @@ export default function OrviaPage() {
           </ScrollArea>
         </section>
 
-        <section className="container space-y-6">
+        <section id="pricing" className="container space-y-6 scroll-mt-24">
           <div className="space-y-2">
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Pricing</p>
             <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Transparent tiers built to scale</h2>
             <p className="text-sm text-[var(--text-secondary)]">
-              Every package includes a free website, Orvia’s AI agent, and white-glove setup. Choose the plan that fits your growth pace.
+              Every package includes a free website, Orvia's AI agent, and white-glove setup. Choose the plan that fits your growth pace.
             </p>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {pricingPlans.map((plan) => (
-              <Card
-                key={plan.name}
-                className={`relative border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 ${plan.highlight ? "ring-2 ring-[var(--accent)]" : ""}`}
-                data-interactive
-              >
-                <CardContent className="space-y-5 p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                        <plan.icon className="h-5 w-5" />
-                      </span>
-                      <div>
-                        <p className="text-lg font-semibold text-[var(--text-primary)]">{plan.name}</p>
-                        <p className="text-sm text-[var(--text-secondary)]">{plan.price}</p>
-                      </div>
-                    </div>
-                    {plan.badge ? (
-                      <span className="rounded-full border border-[var(--accent)]/60 bg-[var(--accent)]/10 px-3 py-1 text-xs font-semibold text-[var(--accent)]">
-                        {plan.badge}
-                      </span>
-                    ) : null}
-                  </div>
-                  <ul className="space-y-3 text-sm text-[var(--text-secondary)]">
-                    {plan.features.map((feature) => (
-                      <li key={`${plan.name}-${feature.label}`} className="flex items-start gap-3">
-                        <span className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)]/12 text-[var(--accent)]">
-                          <feature.icon className="h-4 w-4" />
+          <TooltipProvider>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {pricingPlans.map((plan) => (
+                <Card
+                  key={plan.name}
+                  className={`relative border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 ${plan.highlight ? "ring-2 ring-[var(--accent)]" : ""}`}
+                  data-interactive
+                >
+                  <CardContent className="space-y-5 p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
+                          <plan.icon className="h-5 w-5" />
                         </span>
-                        <span>{feature.label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button
-                    asChild
-                    className="w-full rounded-full"
-                    variant={plan.highlight ? "default" : "outline"}
-                  >
-                    <Link href={plan.cta.href}>{plan.cta.label}</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                        <div>
+                          <p className="text-lg font-semibold text-[var(--text-primary)]">{plan.name}</p>
+                          <p className="text-sm text-[var(--text-secondary)]">{plan.price}</p>
+                        </div>
+                      </div>
+                      {plan.badge ? (
+                        <span className="rounded-full border border-[var(--accent)]/60 bg-[var(--accent)]/10 px-3 py-1 text-xs font-semibold text-[var(--accent)]">
+                          {plan.badge}
+                        </span>
+                      ) : null}
+                    </div>
+                    <ul className="space-y-3 text-sm text-[var(--text-secondary)]">
+                      {plan.features.map((feature) => (
+                        <li key={`${plan.name}-${feature.label}`} className="flex items-start gap-3">
+                          <span className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)]/12 text-[var(--accent)]">
+                            <feature.icon className="h-4 w-4" />
+                          </span>
+                          <span className="flex items-center gap-2">
+                            {feature.label}
+                            {feature.label === "Free website included" && (
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center justify-center rounded-full text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors"
+                                    aria-label="More information"
+                                  >
+                                    <Info className="h-4 w-4" />
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent className="max-w-xs bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)]">
+                                  <p>Booking or Informative website</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Button
+                      asChild
+                      className="w-full rounded-full"
+                      variant={plan.highlight ? "default" : "outline"}
+                    >
+                      <Link href={plan.cta.href}>{plan.cta.label}</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TooltipProvider>
         </section>
 
         <section className="container space-y-6">
@@ -491,6 +579,7 @@ export default function OrviaPage() {
             </div>
           </div>
         </section>
+        </div>
       </div>
     </div>
   );

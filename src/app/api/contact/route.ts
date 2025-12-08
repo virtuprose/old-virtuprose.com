@@ -3,13 +3,68 @@ import nodemailer from "nodemailer";
 
 const requiredEnv = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"] as const;
 
-function missingEnvVars(): string[] {
+function missingEnvVars() {
   return requiredEnv.filter((key) => !process.env[key]);
+}
+
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  
+  if (!secretKey) {
+    console.warn("RECAPTCHA_SECRET_KEY not set, skipping verification");
+    return true; // Allow in development if not configured
+  }
+
+  if (!token) {
+    return false;
+  }
+
+  try {
+    const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}`,
+    });
+
+    const data = (await response.json()) as {
+      success: boolean;
+      score?: number;
+      action?: string;
+      challenge_ts?: string;
+      hostname?: string;
+      "error-codes"?: string[];
+    };
+
+    // For reCAPTCHA v3, check success and score (typically 0.5 is the threshold)
+    if (data.success) {
+      const score = data.score ?? 0;
+      // Score should be above 0.5 for legitimate users
+      return score >= 0.5;
+    }
+
+    return false;
+  } catch (error) {
+    console.error("[recaptcha-verification-error]", error);
+    return false;
+  }
 }
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
+    const recaptchaToken = String(formData.get("recaptchaToken") ?? "").trim();
+    
+    // Verify reCAPTCHA token
+    const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
+    if (!isRecaptchaValid) {
+      return NextResponse.json(
+        { error: "Security verification failed. Please try again." },
+        { status: 400 }
+      );
+    }
+
     const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const project = String(formData.get("project") ?? "").trim();
@@ -21,7 +76,10 @@ export async function POST(request: Request) {
     const country = String(formData.get("country") ?? "").trim();
 
     if (!name || !email) {
-      throw new Error("Missing required fields");
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     const missing = missingEnvVars();
@@ -93,7 +151,17 @@ ${message}`,
     return NextResponse.redirect(redirectUrl);
   } catch (error) {
     console.error("[contact:POST]", error);
-    const redirectUrl = new URL("/contact?status=error", request.url);
-    return NextResponse.redirect(redirectUrl);
+    
+    // Return JSON error for client-side form submission
+    if (request.headers.get("content-type")?.includes("application/x-www-form-urlencoded") || 
+        request.headers.get("content-type")?.includes("multipart/form-data")) {
+      const redirectUrl = new URL("/contact?status=error", request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+    
+    return NextResponse.json(
+      { error: "Failed to send message. Please try again." },
+      { status: 500 }
+    );
   }
 }

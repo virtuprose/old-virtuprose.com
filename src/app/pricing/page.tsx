@@ -4,6 +4,7 @@ import { useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   ArrowLeft,
   ArrowRight,
@@ -11,6 +12,7 @@ import {
   Globe2,
   LineChart,
   Sparkles,
+  Info,
 } from "lucide-react";
 
 type Plan = {
@@ -188,7 +190,8 @@ const validateStep = (current: number) => {
       <div className="relative z-10 space-y-12 pb-20 pt-12">
         <PricingHero />
         <PricingGrid />
-        <section className="container space-y-6">
+        {/* PROJECT REQUEST SECTION - HIDDEN FOR NOW */}
+        {/* <section className="container space-y-6">
           <div className="space-y-2 text-center">
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Project request</p>
             <h2 className="text-3xl font-semibold md:text-4xl">Tell us what to build</h2>
@@ -235,7 +238,7 @@ const validateStep = (current: number) => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );
@@ -263,11 +266,13 @@ function PricingGrid() {
         <h2 className="text-3xl font-semibold md:text-4xl">Flexible options with white-glove setup</h2>
         <p className="text-sm text-[var(--text-secondary)]">Glassmorphism cards with simple, transparent details.</p>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {plans.map((plan) => (
-          <PricingCard key={plan.title} plan={plan} />
-        ))}
-      </div>
+      <TooltipProvider>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {plans.map((plan) => (
+            <PricingCard key={plan.title} plan={plan} />
+          ))}
+        </div>
+      </TooltipProvider>
       <p className="text-center text-xs text-[var(--text-secondary)]">No credit card required for consultation · Cancel anytime</p>
     </section>
   );
@@ -304,7 +309,25 @@ function PricingCard({ plan }: { plan: Plan }) {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)]/12 text-[var(--accent)]">
                 <Check className="h-3.5 w-3.5" />
               </span>
-              <span>{feature}</span>
+              <span className="flex items-center gap-2">
+                {feature}
+                {feature === "Free website included" && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-full text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors"
+                        aria-label="More information"
+                      >
+                        <Info className="h-4 w-4" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)]">
+                      <p>Booking or Informative website</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </span>
             </li>
           ))}
         </ul>

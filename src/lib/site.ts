@@ -9,7 +9,7 @@ export const navLinks = [
 ];
 
 export const contactNumbers = [
-  { label: "US", value: "+1 415 230 2611", flag: "/assets/united-states.png" },
+  { label: "US", value: "+1 650 705 9118", flag: "/assets/united-states.png" },
   { label: "India", value: "+91 76218 84841", flag: "/assets/India.png" },
   { label: "Kuwait", value: "+965 6998 4942", flag: "/assets/kuwait.png" },
 ];

@@ -12,7 +12,7 @@ const footerColumns = [
   {
     label: "Solutions",
     links: [
-      { href: "/services", text: "Services" },
+      // { href: "/services", text: "Services" }, // Hidden for now
       { href: "/pricing", text: "Pricing" },
       { href: "/orvia", text: "Orvia AI + Voice" },
     ],
@@ -38,15 +38,13 @@ export function SiteFooter() {
         <div className="grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-[var(--bg)]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--bg)]">
                 <Image
                   src="/newbranding/icon-light.svg"
                   alt="VirtuProse icon"
                   width={44}
                   height={44}
                   className="dark:hidden"
-                  priority
-                  unoptimized
                 />
                 <Image
                   src="/newbranding/icon-dark.svg"
@@ -54,8 +52,6 @@ export function SiteFooter() {
                   width={44}
                   height={44}
                   className="hidden dark:block"
-                  priority
-                  unoptimized
                 />
               </div>
               <div>
@@ -68,6 +64,21 @@ export function SiteFooter() {
             </p>
             <div className="flex flex-wrap gap-2 text-xs text-white/80">
               <span className="rounded-full border border-white/20 px-3 py-1">Global delivery</span>
+              <Link
+                href="https://wa.me/16507059118"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-white/20 px-3 py-1 flex items-center gap-1.5 transition-colors hover:border-white/40"
+              >
+                <Image
+                  src="/assets/whatsapp-icon.png"
+                  alt="WhatsApp"
+                  width={14}
+                  height={14}
+                  className="object-contain"
+                />
+                WhatsApp
+              </Link>
             </div>
           </div>
           <div className="grid gap-6 sm:grid-cols-3">

@@ -7,10 +7,12 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { servicesData } from "@/data/services";
-import { Calendar, CreditCard, Globe2, MessageSquare, ShieldCheck, Store } from "lucide-react";
+import { Bot, BotMessageSquare, Briefcase, Calendar, Clock, CreditCard, Globe2, Inbox, LineChart, MessageCircle, MessageSquare, RefreshCcw, ShieldCheck, Store, TrendingUp, Workflow, Zap } from "lucide-react";
 import { SentientGlobe } from "@/components/sentient-globe";
+import { OutcomeWall } from "@/components/outcome-wall";
+import { motion } from "framer-motion";
 
 const heroMetrics = [
   { target: 10, label: "Years crafting digital experiences" },
@@ -18,7 +20,7 @@ const heroMetrics = [
   { target: 96, label: "Partner satisfaction built on real business outcomes" },
 ];
 
-const partnerLogos = [
+const partnerLogosRow1 = [
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-01-3.webp", alt: "Client 01 logo" },
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-02-3.webp", alt: "Client 02 logo" },
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-03-3.webp", alt: "Client 03 logo" },
@@ -27,6 +29,9 @@ const partnerLogos = [
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-06-3.webp", alt: "Client 06 logo" },
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-07-3.webp", alt: "Client 07 logo" },
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-08.webp", alt: "Client 08 logo" },
+];
+
+const partnerLogosRow2 = [
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-09-3.webp", alt: "Client 09 logo" },
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-10-3.webp", alt: "Client 10 logo" },
   { src: "/assets/client-logos/CLIENT-LOGO-MAIN-FILE-11-3.webp", alt: "Client 11 logo" },
@@ -36,26 +41,6 @@ const partnerLogos = [
   { src: "/assets/client-logos/Type-12-2048x499-1.webp", alt: "Client 15 logo" },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "VPS rebuilt our SaaS funnel and layered AI chat to demo the product live. Pipeline doubled in three months.",
-    author: "Adrian Cole",
-    role: "CEO, Helix Labs",
-  },
-  {
-    quote:
-      "The visual system and orchestrated GTM stack made our launch feel like a cinematic operating system.",
-    author: "Maya Jensen",
-    role: "VP Product, PulseTech",
-  },
-  {
-    quote:
-      "Their AI agents now qualify leads, route support, and capture intelligence our team never had time to gather.",
-    author: "Jordan Ruiz",
-    role: "Growth Lead, NovaStack",
-  },
-];
 
 const showcaseProjects = [
   {
@@ -80,39 +65,49 @@ const showcaseProjects = [
 
 const heroExamples = [
   "Design a website for my business",
-  "Create an AI agent for support",
-  "Run digital marketing to increase sales",
+  "Implement Orvia AI Agent to my business",
+  "Automate bookings and sales 24/7 with Orvia",
 ];
 
 const orviaHomeHighlights = [
   {
-    title: "Instant replies on every channel",
-    description: "Website chat, WhatsApp, and SMS conversations feel personal without adding headcount.",
+    title: "Instant replies for every customer",
+    description: "People get answers in seconds instead of being left waiting.",
     icon: MessageSquare,
   },
   {
-    title: "Book more meetings automatically",
-    description: "Orvia shares availability, confirms appointments, and reminds prospects for you.",
+    title: "Your calendar fills itself",
+    description: "Availability shared, appointments confirmed, no-shows reduced.",
     icon: Calendar,
   },
   {
-    title: "Collect payments inside the chat",
-    description: "Send secure links and record deposits or full payments without switching tools.",
+    title: "Payments collected faster",
+    description: "Secure payment links sent automatically so deals close quicker.",
     icon: CreditCard,
   },
   {
-    title: "Workflows that talk to your stack",
-    description: "Every conversation updates your CRM, sheets, or inbox so nothing slips through the cracks.",
-    icon: Globe2,
-  },
-  {
-    title: "Always-on support",
-    description: "Answer FAQs, triage requests, and escalate urgent chats to humans with context.",
+    title: "Support that never switches off",
+    description: "Routine questions, triage, and routing handled without draining your team.",
     icon: ShieldCheck,
   },
   {
-    title: "Fits any industry",
-    description: "Clinics, real estate teams, online stores, and service brands use Orvia as a ready-made teammate.",
+    title: "Every conversation captured and organized",
+    description: "All customer details and actions synced into your system with zero manual work.",
+    icon: Workflow,
+  },
+  {
+    title: "Convert more leads without touching a single chat",
+    description: "Orvia runs the conversations that normally eat up your team's time.",
+    icon: Zap,
+  },
+  {
+    title: "Your revenue grows even while you sleep",
+    description: "Sales, bookings, and customer handling continue around the clock.",
+    icon: Clock,
+  },
+  {
+    title: "Works for any industry",
+    description: "Clinics, agencies, beauty, real estate, services, retail — Orvia adapts instantly.",
     icon: Store,
   },
 ];
@@ -121,15 +116,15 @@ export default function HomePage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const cursorDotRef = useRef<HTMLDivElement | null>(null);
   const cursorRingRef = useRef<HTMLDivElement | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const prevButtonRef = useRef<HTMLButtonElement | null>(null);
-  const nextButtonRef = useRef<HTMLButtonElement | null>(null);
+  const lenisRef = useRef<Lenis | null>(null);
   const [heroInput, setHeroInput] = useState("");
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
       smoothWheel: true,
     });
+
+    lenisRef.current = lenis;
 
     let animationFrame: number;
     const raf = (time: number) => {
@@ -142,6 +137,7 @@ export default function HomePage() {
     return () => {
       cancelAnimationFrame(animationFrame);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 
@@ -194,6 +190,20 @@ export default function HomePage() {
   const handleExample = (example: string) => {
     setHeroInput(example);
     openOrviaChat(example);
+  };
+
+  const scrollToLaunchLab = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const element = document.getElementById("launch-lab");
+    if (element && lenisRef.current) {
+      const rect = element.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const targetPosition = rect.top + scrollTop - 96; // 96px offset (6rem)
+      lenisRef.current.scrollTo(targetPosition, {
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+    }
   };
 
   useEffect(() => {
@@ -331,34 +341,6 @@ export default function HomePage() {
     };
   }, []);
 
-  useEffect(() => {
-    const track = trackRef.current;
-    const prev = prevButtonRef.current;
-    const next = nextButtonRef.current;
-    if (!track || !prev || !next) return;
-
-    let currentSlide = 0;
-    const total = testimonials.length;
-
-    const goToSlide = (index: number) => {
-      currentSlide = (index + total) % total;
-      track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    };
-
-    const handlePrev = () => goToSlide(currentSlide - 1);
-    const handleNext = () => goToSlide(currentSlide + 1);
-
-    prev.addEventListener("click", handlePrev);
-    next.addEventListener("click", handleNext);
-
-    const interval = window.setInterval(handleNext, 6000);
-
-    return () => {
-      prev.removeEventListener("click", handlePrev);
-      next.removeEventListener("click", handleNext);
-      window.clearInterval(interval);
-    };
-  }, []);
 
   return (
     <div className="relative min-h-screen bg-[var(--bg)] text-[var(--text-primary)]">
@@ -369,9 +351,87 @@ export default function HomePage() {
 
       <div className="relative z-10 flex flex-col gap-24 pb-24 pt-10">
         <section
+          id="home"
+          data-section
+          className="container relative overflow-hidden rounded-[32px] border border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/95 via-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/85 pt-0 px-10 pb-10 sm:p-10 shadow-[0_40px_120px_rgba(15,23,42,0.15)] backdrop-blur-xl mt-[10px] sm:mt-0 w-[97%] mx-auto"
+        >
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(39,231,236,0.15),transparent_40%),radial-gradient(circle_at_80%_10%,rgba(90,165,204,0.12),transparent_35%)] blur-3xl pointer-events-none" />
+          
+          <div className="relative space-y-10">
+            {/* Mobile-only reordered structure */}
+            <div className="flex flex-col gap-4 sm:hidden">
+              {/* Orvia logo - First on mobile */}
+              <div className="order-1 pt-6">
+                <Image
+                  src="/assets/orvia-logo-black.svg"
+                  alt="Orvia logo"
+                  width={140}
+                  height={36}
+                  className="dark:invert"
+                  priority
+                />
+              </div>
+              {/* Your first AI closer - Second on mobile */}
+              <span className="order-2 rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-[0.6rem] uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap w-fit">
+                Your first AI closer
+              </span>
+            </div>
+
+            {/* Desktop structure - Original order */}
+            <div className="hidden sm:flex sm:flex-col sm:items-start sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/assets/orvia-logo-black.svg"
+                    alt="Orvia logo"
+                    width={140}
+                    height={36}
+                    className="dark:invert"
+                    priority
+                  />
+                  <span className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-xs uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap">
+                    Your first AI closer
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Hero Content */}
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h2
+                  data-hero-animate
+                  className="text-4xl font-semibold leading-tight tracking-tight text-[var(--text-primary)] md:text-5xl lg:text-6xl mt-[3px] sm:mt-0"
+                >
+                  More bookings. More sales. Zero extra staff.
+                </h2>
+              </div>
+              
+              <p data-hero-animate className="text-[0.7875rem] leading-relaxed text-[var(--text-secondary)] sm:text-lg md:text-xl">
+                Orvia replies instantly, books appointments, collects payments, and closes sales. From the first message to the final payment, everything is handled automatically. It plugs into your existing tools so revenue keeps moving without added effort. Never lose a lead again, not even at 3 AM.
+              </p>
+
+              <div data-hero-animate className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="rounded-full px-6">
+                  <Link href="#launch-lab" onClick={scrollToLaunchLab}>View Demo</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="rounded-full px-6 border-[var(--border)]/60 hover:bg-[var(--bg-secondary)]">
+                  <Link href="/orvia">Learn More</Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Outcome Wall */}
+            <OutcomeWall />
+          </div>
+        </section>
+
+        <section
           id="launch-lab"
           data-section
-          className="container space-y-6 p-1 vp-hero"
+          className="container space-y-6 p-1 vp-hero scroll-mt-24"
+          style={{ scrollMarginTop: '6rem' }}
         >
           <div className="rounded-[30px] border border-white/15 bg-white/5 p-8 shadow-[0_30px_100px_rgba(3,22,26,0.25)] backdrop-blur">
             <div className="space-y-3 text-center text-[var(--gunmetal)]">
@@ -387,13 +447,13 @@ export default function HomePage() {
                     key={example}
                     type="button"
                     onClick={() => handleExample(example)}
-                    className="rounded-full border border-[var(--gunmetal)]/35 bg-white/30 px-4 py-2 text-sm font-semibold text-[var(--gunmetal)] backdrop-blur-sm transition hover:bg-white/50"
+                    className="rounded-full border border-[var(--gunmetal)]/35 bg-white/30 px-[0.7rem] py-[0.35rem] sm:px-4 sm:py-2 text-[0.7rem] sm:text-sm font-semibold text-[var(--gunmetal)] backdrop-blur-sm transition hover:bg-white/50"
                   >
                     {example}
                   </button>
                 ))}
               </div>
-              <div className="vp-hero-card mx-auto flex w-full max-w-5xl items-center gap-3 border border-white/15 px-4 py-4 md:px-6">
+              <div className="vp-hero-card mx-auto flex w-full max-w-full sm:max-w-5xl items-center gap-3 border border-white/15 px-3 py-3 sm:px-4 sm:py-4 md:px-6">
                 <textarea
                   className="flex-1 resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white placeholder:text-white/65 outline-none backdrop-blur-sm"
                   placeholder="Describe what you want us to build or grow…"
@@ -435,177 +495,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section
-          id="home"
-          data-section
-          className="container grid gap-12 rounded-[32px] border border-[var(--border)]/60 bg-[var(--bg-secondary)]/70 p-10 shadow-[0_40px_120px_rgba(15,23,42,0.1)] backdrop-blur-xl lg:grid-cols-[1.05fr_minmax(0,0.9fr)]"
-        >
-          <div className="space-y-8">
-            <p data-hero-animate className="text-xs uppercase tracking-[0.45em] text-[var(--text-secondary)]">
-              Design + AI growth collective
-            </p>
-            <h1
-              data-hero-animate
-              className="text-4xl font-semibold leading-tight tracking-tight text-[var(--text-primary)] md:text-5xl"
-            >
-              We build intelligent growth engines for ambitious brands.
-            </h1>
-            <p data-hero-animate className="max-w-2xl text-lg text-[var(--text-secondary)]">
-              Your brand deserves more than a digital presence; it deserves a system that learns, sells, and scales
-              around the clock. VirtuProse blends AI, design, and advanced digital growth marketing to turn every
-              interaction into real momentum.
-            </p>
-            <div data-hero-animate className="flex flex-wrap gap-3">
-              <Button
-                size="lg"
-                className="rounded-full px-6"
-                onClick={() => openOrviaChat()}
-              >
-                Launch the Journey
-              </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-full px-6" data-interactive>
-                <Link href="/orvia">Meet Orvia</Link>
-              </Button>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {heroMetrics.map((metric) => (
-                <Card key={metric.label} className="border-[var(--border)] bg-[var(--bg)]/80" data-interactive>
-                  <CardContent className="space-y-1.5 p-4">
-                    <span
-                      data-target={metric.target}
-                      data-suffix="+"
-                      className="text-3xl font-semibold text-[var(--text-primary)]"
-                    >
-                      0
-                    </span>
-                    <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">{metric.label}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-          <SentientGlobe />
-        </section>
-
-        <section
-          id="orvia-home"
-          data-section
-          className="container space-y-6 rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/75 p-8 shadow-[0_40px_120px_rgba(15,23,42,0.1)]"
-        >
-          <div className="space-y-5">
-            <div className="flex items-center gap-3">
-              <Image
-                src="/assets/orvia-logo-black.svg"
-                alt="Orvia logo"
-                width={120}
-                height={32}
-                className="dark:invert"
-              />
-              <span className="rounded-full border border-[var(--border)]/60 px-3 py-1 text-xs uppercase tracking-[0.4em] text-[var(--text-secondary)]">
-                Your first AI closer
-              </span>
-            </div>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">
-              Meet Orvia, your always-on revenue teammate
-            </h2>
-            <p className="text-lg text-[var(--text-secondary)]">
-              Orvia is a friendly digital rep that chats with visitors, books calls, and follows up even when your team
-              is offline. It works on your site, WhatsApp, and SMS, answers common questions, and keeps every lead and
-              payment update flowing into your CRM automatically.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild className="rounded-full">
-                <Link href="/orvia">See Orvia in action</Link>
-              </Button>
-              <Button asChild variant="outline" className="rounded-full">
-                <Link href="https://cal.com/virtuprose/30min" target="_blank" rel="noreferrer">
-                  Book live demo
-                </Link>
-              </Button>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {orviaHomeHighlights.map((item) => (
-                <Card key={item.title} className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/85" data-interactive>
-                  <CardContent className="flex items-start gap-4 p-5">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                      <item.icon className="h-5 w-5" />
-                    </span>
-                    <div className="space-y-1">
-                      <h3 className="text-lg font-semibold text-[var(--text-primary)]">{item.title}</h3>
-                      <p className="text-sm text-[var(--text-secondary)]">{item.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-3 text-xs text-[var(--text-secondary)]">
-              {["Stripe", "Razorpay", "PayPal", "Apple Pay", "Google Pay", "Visa", "Mastercard", "Amex", "Calendars & CRMs"].map((item) => (
-                <span key={item} className="rounded-full border border-[var(--border)]/70 px-3 py-1">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="services" data-section className="container space-y-8">
-          <div className="space-y-3 text-center md:text-left">
-            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Services</p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">
-              End-to-end capabilities to launch, scale, and automate
-            </h2>
-            <p className="max-w-3xl text-sm text-[var(--text-secondary)]">
-              We operate as your embedded squad—from research and design to engineering, growth, and AI automation. Each
-              engagement blends strategy, production, and optimization so nothing gets lost between teams.
-            </p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {servicesData.map((service) => (
-              <Card
-                key={service.title}
-                className={`border-[var(--border)]/70 bg-[var(--bg-secondary)]/85 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/60 ${
-                  service.highlight ? "ring-2 ring-[var(--accent)]/50" : ""
-                }`}
-                data-interactive
-              >
-                <CardContent className="flex h-full flex-col space-y-5 p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                        <service.icon className="h-5 w-5" />
-                      </span>
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.4em] text-[var(--text-secondary)]">Service</p>
-                        <h3 className="text-xl font-semibold text-[var(--text-primary)]">{service.title}</h3>
-                      </div>
-                    </div>
-                    {service.badge ? (
-                      <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-3 py-1 text-xs font-semibold text-[var(--accent)]">
-                        {service.badge}
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="text-sm text-[var(--text-secondary)]">{service.description}</p>
-                  <ul className="flex-1 space-y-3 text-sm text-[var(--text-secondary)]">
-                    {service.features.map((feature) => (
-                      <li key={`${service.title}-${feature.label}`} className="flex items-start gap-3">
-                        <span className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)]/12 text-[var(--accent)]">
-                          <feature.icon className="h-4 w-4" />
-                        </span>
-                        <span>{feature.label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {service.cta ? (
-                    <Button asChild className="mt-auto rounded-full">
-                      <Link href={service.cta.href}>{service.cta.label}</Link>
-                    </Button>
-                  ) : null}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
 
         {false && (
         <section className="container space-y-4 rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 p-8 shadow-[0_30px_90px_rgba(15,23,42,0.08)]">
@@ -643,64 +532,50 @@ export default function HomePage() {
         )}
 
 
-        <section data-section className="container space-y-6">
-          <div className="space-y-2">
-            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">
+        <section className="py-20 bg-gradient-to-b from-transparent via-gray-50/50 to-gray-100/80 dark:from-transparent dark:to-[#041F29] overflow-hidden relative">
+          <div className="max-w-6xl mx-auto px-6 text-center mb-12">
+            <p className="text-sm uppercase tracking-[0.2em] text-gray-500 dark:text-gray-300">
               Trusted by operators worldwide
             </p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Partner stories across industries</h2>
-          </div>
-          <div className="overflow-hidden rounded-[28px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/70">
-            <div className="logo-marquee">
-              {[...partnerLogos, ...partnerLogos].map((logo, index) => (
-                <div
-                  key={`${logo.src}-${index}`}
-                  className="flex h-20 w-48 items-center justify-center rounded-2xl border border-white/15 bg-[#05060a]"
-                >
-                  <Image src={logo.src} alt={logo.alt} width={140} height={40} className="object-contain" />
-                </div>
-              ))}
-            </div>
-            <div className="logo-marquee reverse">
-              {[...partnerLogos, ...partnerLogos].map((logo, index) => (
-                <div
-                  key={`reverse-${logo.src}-${index}`}
-                  className="flex h-20 w-48 items-center justify-center rounded-2xl border border-white/15 bg-[#05060a]"
-                >
-                  <Image src={logo.src} alt={logo.alt} width={140} height={40} className="object-contain" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="testimonials" data-section className="container space-y-8">
-          <div className="space-y-2">
-            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">
-              Signals from partners
-            </p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">
-              “Every launch feels like the future shipped early.”
+            <h2 className="text-3xl font-semibold mt-3 text-gray-900 dark:text-white">
+              Partner stories across industries
             </h2>
           </div>
-          <div className="flex items-center gap-4">
-            <Button ref={prevButtonRef} variant="outline" size="icon" aria-label="Previous testimonial">
-              ←
-            </Button>
-            <div className="relative flex-1 overflow-hidden rounded-[24px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/80">
-              <div ref={trackRef} className="flex transition-transform duration-500 ease-out">
-                {testimonials.map((testimonial) => (
-                  <article key={testimonial.author} className="w-full flex-shrink-0 space-y-3 p-8">
-                    <p className="text-lg text-[var(--text-primary)]">“{testimonial.quote}”</p>
-                    <h4 className="font-semibold">{testimonial.author}</h4>
-                    <span className="text-sm text-[var(--text-secondary)]">{testimonial.role}</span>
-                  </article>
-                ))}
+
+          {/* Rail 1 */}
+          <div className="flex gap-4 animate-scroll-left whitespace-nowrap will-change-transform mb-6">
+            {[...partnerLogosRow1, ...partnerLogosRow1].map((logo, index) => (
+              <div
+                key={`rail1-${logo.src}-${index}`}
+                className="rounded-2xl h-20 w-40 md:h-24 md:w-48 bg-gray-900/95 dark:bg-white/5 backdrop-blur-md border border-gray-700 dark:border-white/10 bg-gradient-to-br from-gray-900/95 to-gray-800/95 dark:from-teal-300/5 dark:to-cyan-200/5 shadow-[0_6px_25px_rgba(0,0,0,0.35)] dark:shadow-[0_6px_25px_rgba(0,0,0,0.35)] flex items-center justify-center hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(0,0,0,0.45)] dark:hover:shadow-[0_10px_35px_rgba(0,0,0,0.45)] transition-all duration-300 flex-shrink-0"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={180}
+                  height={80}
+                  className="max-h-11 md:max-h-10 object-contain opacity-70 dark:opacity-70 hover:opacity-100 mix-blend-screen transition-opacity"
+                />
               </div>
-            </div>
-            <Button ref={nextButtonRef} variant="outline" size="icon" aria-label="Next testimonial">
-              →
-            </Button>
+            ))}
+          </div>
+
+          {/* Rail 2 */}
+          <div className="flex gap-4 animate-scroll-right whitespace-nowrap will-change-transform">
+            {[...partnerLogosRow2, ...partnerLogosRow2].map((logo, index) => (
+              <div
+                key={`rail2-${logo.src}-${index}`}
+                className="rounded-2xl h-20 w-40 md:h-24 md:w-48 bg-gray-900/95 dark:bg-white/5 backdrop-blur-md border border-gray-700 dark:border-white/10 bg-gradient-to-br from-gray-900/95 to-gray-800/95 dark:from-teal-300/5 dark:to-cyan-200/5 shadow-[0_6px_25px_rgba(0,0,0,0.35)] dark:shadow-[0_6px_25px_rgba(0,0,0,0.35)] flex items-center justify-center hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(0,0,0,0.45)] dark:hover:shadow-[0_10px_35px_rgba(0,0,0,0.45)] transition-all duration-300 flex-shrink-0"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={180}
+                  height={80}
+                  className="max-h-11 md:max-h-10 object-contain opacity-70 dark:opacity-70 hover:opacity-100 mix-blend-screen transition-opacity"
+                />
+              </div>
+            ))}
           </div>
         </section>
 

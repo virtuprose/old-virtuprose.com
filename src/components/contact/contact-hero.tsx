@@ -1,0 +1,70 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { OrviaOpenChatButton } from "@/components/orvia-open-chat-button";
+
+export function ContactHero() {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-4xl mx-auto px-6 py-20 text-center"
+    >
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-xs uppercase tracking-[0.55em] text-[var(--text-subheading)] mb-4"
+      >
+        Implement Orvia AI in your business
+      </motion.p>
+
+      <motion.h1
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-[var(--text-heading)]"
+      >
+        Talk to Orvia or book time with the team.
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="text-lg text-[var(--text-subheading)] max-w-2xl mx-auto mb-8"
+      >
+        No forms, no friction. Start with our AI agent if you want fast answers about implementing Orvia in your business. Or book a strategy call to go deep on automation, integrations, and revenue growth.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="flex flex-col sm:flex-row items-center justify-center gap-4"
+      >
+        <OrviaOpenChatButton
+          label="Chat With Orvia"
+          className="rounded-full h-11 px-6 bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] shadow-lg shadow-[var(--accent)]/30"
+        />
+        <Button
+          onClick={() => scrollToSection("book-call")}
+          variant="outline"
+          className="rounded-full h-11 px-6 border-[var(--text-heading)]/25 text-[var(--text-heading)]/80 hover:border-[var(--text-heading)]/40 hover:text-[var(--text-heading)]"
+        >
+          Book a Strategy Call
+        </Button>
+      </motion.div>
+    </motion.section>
+  );
+}
+

@@ -53,7 +53,7 @@ export default function StartPage() {
           </ul>
           <div className="rounded-2xl border border-[var(--border)]/60 bg-[var(--bg)]/70 p-4 text-sm text-[var(--text-secondary)]">
             Prefer WhatsApp? <br />
-            <Link href="https://wa.me/14152302611" className="text-[var(--accent)]">
+            <Link href="https://wa.me/16507059118" className="text-[var(--accent)]">
               Message the team →
             </Link>
           </div>

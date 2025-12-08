@@ -97,10 +97,6 @@
     min-height: 100vh;
     background-color: var(--bg);
     color: var(--text-body);
-    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
   }
 }
 
@@ -150,6 +146,11 @@ a {
   z-index: 1;
 }
 
+.dark .global-noise {
+  opacity: 0;
+  display: none;
+}
+
 #matrix-canvas {
   position: fixed;
   inset: 0;
@@ -158,6 +159,11 @@ a {
   z-index: 0;
   opacity: 0.15;
   mix-blend-mode: screen;
+}
+
+.dark #matrix-canvas {
+  opacity: 0;
+  display: none;
 }
 
 .aurora-overlay {
@@ -172,6 +178,11 @@ a {
   animation: aurora-shift 28s ease-in-out infinite alternate;
   pointer-events: none;
   z-index: 0;
+}
+
+.dark .aurora-overlay {
+  opacity: 0;
+  display: none;
 }
 
 @keyframes aurora-shift {
@@ -652,48 +663,6 @@ a {
 
 section {
   padding: 5rem clamp(1.5rem, 5vw, 5rem);
-}
-
-/* Mobile spacing optimizations */
-@media (max-width: 768px) {
-  section {
-    padding: 3rem 1rem;
-  }
-  
-  /* Better spacing between sections on mobile */
-  .space-y-12 > * + * {
-    margin-top: 2rem;
-  }
-  
-  .space-y-8 > * + * {
-    margin-top: 1.5rem;
-  }
-  
-  /* Optimize padding in cards and containers */
-  .p-10,
-  [class*="p-10"] {
-    padding: 1.5rem !important;
-  }
-  
-  .gap-12,
-  [class*="gap-12"] {
-    gap: 2rem !important;
-  }
-  
-  .gap-8,
-  [class*="gap-8"] {
-    gap: 1.5rem !important;
-  }
-  
-  /* Optimize rounded corners on mobile */
-  .rounded-\[32px\] {
-    border-radius: 1.5rem;
-  }
-  
-  /* Reduce shadow on mobile for performance */
-  [class*="shadow"] {
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08) !important;
-  }
 }
 
 .section-heading {
@@ -1763,6 +1732,33 @@ section {
     transform: translateX(-50%);
   }
 }
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 26s linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 30s linear infinite;
+}
+
 .orvia-launcher {
   position: fixed;
   right: 1.5rem;
@@ -1782,13 +1778,22 @@ section {
 .orvia-launcher-lottie {
   width: 90px;
   height: 90px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  overflow: visible;
 }
 
 .orvia-launcher-lottie svg,
 .orvia-launcher-lottie canvas,
-.orvia-launcher-lottie div {
+.orvia-launcher-lottie > div,
+.orvia-launcher-lottie > div > div {
   width: 100% !important;
   height: 100% !important;
+  display: block !important;
+  position: relative !important;
 }
 
 .orvia-launcher-logo {
@@ -1926,8 +1931,12 @@ section {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(59, 91, 255, 0.9);
+  background: rgba(255, 255, 255, 0.6);
   animation: typing 1.2s infinite ease-in-out;
+}
+
+.orvia-chat-messages-new .typing-indicator span {
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .typing-indicator span:nth-child(2) {
@@ -2058,6 +2067,393 @@ section {
   font-size: 0.8rem;
   color: var(--muted);
   text-align: center;
+}
+
+/* New Orvia Chat Design */
+.orvia-chat-panel {
+  background: #1a1a1a !important;
+  border: none !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  max-height: calc(100vh - 8rem);
+}
+
+.dark .orvia-chat-panel {
+  background: #1a1a1a !important;
+}
+
+/* Header */
+.orvia-chat-header-new {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 0.75rem;
+  position: relative;
+}
+
+.orvia-header-back {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orvia-header-logo-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.orvia-header-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.orvia-header-name {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.orvia-header-subtitle {
+  position: absolute;
+  left: 3.5rem;
+  top: 2.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.orvia-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.orvia-header-menu,
+.orvia-header-close {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.orvia-header-menu:hover,
+.orvia-header-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.orvia-header-close {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.orvia-header-actions {
+  position: relative;
+}
+
+.orvia-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: rgba(30, 30, 30, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.orvia-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  text-align: left;
+}
+
+.orvia-menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.orvia-menu-item svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* Messages Area */
+.orvia-chat-messages-new {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.orvia-message-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.orvia-message-assistant {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 85%;
+}
+
+.orvia-message-bubble {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.orvia-message-meta {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  margin-top: 0.25rem;
+  padding-left: 0.5rem;
+}
+
+.orvia-message-user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.orvia-message-pill {
+  background: white;
+  color: #1a1a1a;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Input Area */
+.orvia-chat-input-new {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1a1a1a;
+}
+
+.orvia-input-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.orvia-input-content {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 56px;
+  position: relative;
+}
+
+.orvia-input-field {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  padding: 0;
+  outline: none;
+  width: 100%;
+}
+
+.orvia-input-field::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.orvia-input-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.orvia-input-icon {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.orvia-input-icon:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.orvia-input-icon span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+}
+
+.orvia-input-icon:hover span {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.orvia-input-icon.recording {
+  color: #ff4444;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.orvia-emoji-picker {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  background: rgba(30, 30, 30, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.75rem;
+  max-width: 280px;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.orvia-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.5rem;
+}
+
+.orvia-emoji-item {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.orvia-emoji-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.orvia-send-button {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.orvia-send-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.orvia-send-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Footer */
+.orvia-chat-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1a1a1a;
+}
+
+.orvia-footer-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.orvia-footer-text {
+  color: white;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .orvia-chat-panel {
+    height: calc(100vh - 8rem);
+    max-height: calc(100vh - 8rem);
+  }
+  
+  .orvia-chat-header-subtitle {
+    display: none;
+  }
 }
 
 /* === Codex button reset & hover handling (light/dark) === */
@@ -2362,146 +2758,17 @@ body.dark .codex-button:hover * {
   }
 }
 
-/* Mobile optimizations for Orvia chat - iPhone and Android */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .orvia-launcher {
     right: 1rem;
     bottom: 1rem;
-    z-index: 40;
-  }
-
-  .orvia-launcher-lottie {
-    width: 70px;
-    height: 70px;
-  }
-
-  .orvia-launcher-logo {
-    width: 50px;
+    padding: 0.7rem 1rem;
   }
 
   .orvia-chat-panel {
-    width: 100vw;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    border-radius: 0;
-    max-height: 100vh;
-    max-width: 100vw;
-    padding: 1rem;
-    position: fixed;
-    z-index: 50;
-  }
-
-  .orvia-chat-panel.full {
-    width: 100vw;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    max-height: 100vh;
-    border-radius: 0;
-  }
-
-  .orvia-chat-panel {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh; /* Dynamic viewport height - adjusts when keyboard appears */
-    max-height: 100vh;
-    max-height: 100dvh;
-    overflow: hidden;
-  }
-
-  .orvia-chat-messages {
-    flex: 1 1 auto;
-    min-height: 0; /* Critical: allows flex item to shrink below content size */
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    /* Dynamic height that adjusts when keyboard opens */
-    max-height: calc(100dvh - 180px);
-    transition: max-height 0.3s ease-out;
-    will-change: max-height;
-  }
-  
-  /* When keyboard is detected, reduce messages area */
-  .orvia-chat-panel.keyboard-open .orvia-chat-messages {
-    max-height: calc(100dvh - 280px);
-  }
-
-  .orvia-chat-input {
-    flex-shrink: 0;
-    position: relative;
-    background: inherit;
-    padding-top: 0.5rem;
-    padding-bottom: env(safe-area-inset-bottom, 0.5rem);
-    border-top: 1px solid var(--border);
-    z-index: 10;
-  }
-  
-  .orvia-chat-input input {
-    font-size: 16px; /* Prevents zoom on iOS */
-    padding: 0.75rem 1rem;
-    /* Ensure input is above keyboard */
-    position: relative;
-    z-index: 11;
-  }
-  
-  .orvia-chat-header {
-    flex-shrink: 0;
-    padding-top: env(safe-area-inset-top, 0);
-  }
-
-  /* iOS Safari viewport fix */
-  @supports (-webkit-touch-callout: none) {
-    .orvia-chat-panel {
-      height: -webkit-fill-available;
-      height: 100dvh;
-      max-height: -webkit-fill-available;
-      max-height: 100dvh;
-    }
-    
-    .orvia-chat-messages {
-      /* Dynamic height that adjusts when keyboard appears */
-      max-height: calc(100dvh - 180px);
-      transition: max-height 0.3s ease-out;
-    }
-    
-    /* When keyboard is open, adjust messages area */
-    .orvia-chat-panel.keyboard-open .orvia-chat-messages {
-      max-height: calc(100dvh - 280px);
-    }
-    
-    /* Prevent body scroll when chat is open on iOS */
-    body:has(.orvia-chat-panel.open) {
-      position: fixed;
-      width: 100%;
-      overflow: hidden;
-      height: 100%;
-      height: 100dvh;
-    }
-  }
-  
-  /* Android keyboard handling */
-  @media (max-width: 768px) {
-    .orvia-chat-panel {
-      /* Use dynamic viewport units for better keyboard handling */
-      height: 100dvh;
-      max-height: 100dvh;
-    }
-    
-    /* Smooth transition when keyboard appears/disappears */
-    .orvia-chat-messages {
-      transition: max-height 0.25s ease-out, transform 0.25s ease-out;
-    }
-    
-    /* Ensure input stays visible */
-    .orvia-chat-input {
-      position: sticky;
-      bottom: 0;
-      transform: translateZ(0); /* Force hardware acceleration */
-    }
+    width: calc(100% - 2rem);
+    left: 1rem;
+    right: 1rem;
+    bottom: 4.5rem;
   }
 }
