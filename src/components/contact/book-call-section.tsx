@@ -1,8 +1,58 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export function BookCallSection() {
+  useEffect(() => {
+    // Cal.com inline embed initialization
+    if (typeof window !== "undefined" && !(window as any).Cal) {
+      (function (C: any, A: string, L: string) {
+        let p = function (a: any, ar: any) {
+          a.q.push(ar);
+        };
+        let d = C.document;
+        C.Cal = C.Cal || function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement("script")).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () {
+              p(api, arguments);
+            };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+
+      (window as any).Cal("init", "30min", { origin: "https://app.cal.com" });
+
+      (window as any).Cal.ns["30min"]("inline", {
+        elementOrSelector: "#my-cal-inline-30min",
+        config: { layout: "month_view" },
+        calLink: "virtuprose/30min",
+      });
+
+      (window as any).Cal.ns["30min"]("ui", {
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    }
+  }, []);
+
   return (
     <section id="book-call" className="max-w-6xl mx-auto px-6 py-16 md:py-20">
       <motion.div
@@ -48,43 +98,15 @@ export function BookCallSection() {
         >
           <div className="rounded-2xl dark:bg-white/5 dark:border-white/10 dark:text-white bg-white border-gray-300 text-gray-900 border shadow-md p-6">
             <div className="h-[520px] w-full overflow-hidden rounded-2xl bg-[var(--bg)] dark:bg-[var(--bg-secondary)]">
-              {/* 
-                OPTION 1: Cal.com Embed
-                Replace 'your-username' with your Cal.com username
-                Get your embed URL from: https://cal.com/your-username/30min
-              */}
-              <iframe
-                src="https://cal.com/your-username/30min"
+              {/* Cal.com Inline Embed */}
+              <div
+                id="my-cal-inline-30min"
                 style={{
                   width: "100%",
                   height: "100%",
-                  border: "none",
-                  borderRadius: "1rem",
+                  overflow: "scroll",
                 }}
-                title="Book a strategy call"
               />
-
-              {/* 
-                OPTION 2: Calendly Embed (Alternative)
-                Uncomment this and comment out Cal.com iframe above
-                Replace 'your-username' with your Calendly username
-                Get your embed URL from: https://calendly.com/your-username/30min
-              */}
-              {/* <iframe
-                src="https://calendly.com/your-username/30min?embed_domain=yourdomain.com&embed_type=Inline"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                  borderRadius: "1rem",
-                }}
-                title="Book a strategy call"
-              /> */}
-
-              {/* 
-                OPTION 3: Custom Scheduler
-                If you have a custom booking system, replace the iframe with your component
-              */}
             </div>
           </div>
         </motion.div>

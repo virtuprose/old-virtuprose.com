@@ -32,19 +32,10 @@ export function ContactHero() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-[var(--text-heading)]"
+        className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-8 text-[var(--text-heading)]"
       >
         Talk to Orvia or book time with the team.
       </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="text-lg text-[var(--text-subheading)] max-w-2xl mx-auto mb-8"
-      >
-        No forms, no friction. Start with our AI agent if you want fast answers about implementing Orvia in your business. Or book a strategy call to go deep on automation, integrations, and revenue growth.
-      </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}

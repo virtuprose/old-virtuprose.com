@@ -375,22 +375,19 @@ function LongFormNarrative() {
         </h2>
         <div className="prose prose-lg max-w-none text-[var(--text-secondary)] dark:text-gray-300 text-center md:text-left">
           <p className="leading-relaxed mb-4">
-            VirtuProse Solutions Private Limited (CIN: U47912GJ2025PTC162443) is a leading digital transformation agency
-            specializing in AI-powered solutions, web development, mobile applications, and growth-driven digital marketing
-            strategies. Operating across the GCC (Kuwait), United States, Canada, Australia, and India, we deliver
-            enterprise-grade services that combine cutting-edge technology with strategic business outcomes.
+            VirtuProse Solutions Private Limited (CIN: U47912GJ2025PTC162443) exists for one reason: remove the friction that slows businesses down. Every product we build and every service we deliver is designed to automate work, eliminate manual tasks, and help companies operate at a pace their competitors can't match.
           </p>
           <p className="leading-relaxed mb-4">
-            Our core expertise spans custom web development, e-commerce solutions, UI/UX design, mobile app development for iOS and
-            Android, SEO and content marketing, paid advertising campaigns, and AI agent development. As pioneers in
-            conversational AI, we've developed Orvia – an intelligent AI concierge platform that automates lead
-            qualification, appointment booking, payment processing, and customer support across multiple channels including
-            web chat, WhatsApp, and CRM integrations.
+            We're the team behind Orvia, our AI agent platform that handles conversations, booking, follow ups, payments, and support without human involvement. Orvia sits inside websites, WhatsApp, CRM systems, and internal tools, turning slow, inconsistent processes into automated revenue engines.
+          </p>
+          <p className="leading-relaxed mb-4">
+            Our work spans the GCC, United States, Canada, Australia, and India. The stack is wide, but tightly aligned with one outcome: business acceleration.
+          </p>
+          <p className="leading-relaxed mb-4">
+            We've delivered more than 250 projects for over 100 companies, from startups to enterprise teams. The pattern is always the same: simplify the system, automate the repetitive work, and build digital experiences that drive measurable growth.
           </p>
           <p className="leading-relaxed">
-            With a proven track record of over 250 successfully delivered projects for more than 100 companies worldwide, VirtuProse transforms businesses through scalable websites, performant
-            applications, conversion-focused design systems, and data-driven marketing strategies that accelerate revenue
-            growth and customer retention.
+            If a business wants to reduce workload, increase conversions, or operate with fewer manual steps, that's where VirtuProse fits. We build the tools that let modern companies run leaner, faster, and smarter.
           </p>
               </div>
       </motion.div>
