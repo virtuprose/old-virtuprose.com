@@ -128,6 +128,40 @@ export function OrviaChat() {
     if (isOpen) {
       inputRef.current?.focus();
     }
+
+    // Lock body scroll on mobile when chat is open
+    if (isOpen && typeof window !== "undefined") {
+      const isMobile = window.innerWidth <= 640;
+      if (isMobile) {
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
+        document.body.style.top = `-${window.scrollY}px`;
+      }
+    } else if (typeof window !== "undefined") {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      }
+    }
+
+    return () => {
+      // Cleanup on unmount
+      if (typeof window !== "undefined") {
+        const scrollY = document.body.style.top;
+        document.body.style.overflow = "";
+        document.body.style.position = "";
+        document.body.style.width = "";
+        document.body.style.top = "";
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+        }
+      }
+    };
   }, [messages, isOpen]);
 
   // Animation loops automatically with loop={true} and autoplay={true}
