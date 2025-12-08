@@ -58,7 +58,7 @@ Growth Plan - $499/month
 
 Custom Package - Custom Pricing
 - Unlimited conversations (custom volume)
-- WhatsApp integration
+- Web + WhatsApp + Voice Integration
 - Custom-built website tailored to requirements
 - Enterprise features
 - Action: Collect name, company, email, needs summary → Team follows up in 24 hours
@@ -83,7 +83,7 @@ Example script:
 "We have three options for you:
 Starter Plan ($300/month) - 200 conversations, free website, full setup
 Growth Plan ($499/month) - 500 conversations, free website, full setup
-Custom Package - Unlimited conversations, WhatsApp integration, custom website
+Custom Package - Unlimited conversations, Web + WhatsApp + Voice Integration, custom website
 Which one fits your needs best?"
 
 STEP 3: EMPHASIZE VALUE

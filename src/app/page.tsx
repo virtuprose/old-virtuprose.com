@@ -409,7 +409,7 @@ export default function HomePage() {
               </div>
               
               <p data-hero-animate className="text-[0.7875rem] leading-relaxed text-[var(--text-secondary)] sm:text-lg md:text-xl">
-                Orvia replies instantly, books appointments, collects payments, and closes sales. From the first message to the final payment, everything is handled automatically. It plugs into your existing tools so revenue keeps moving without added effort. Never lose a lead again, not even at 3 AM.
+                Orvia replies instantly, books appointments, collects payments, and closes sales. Deploy Orvia across Web, WhatsApp, and Voice channels. Never lose a lead again, not even at 3 AM.
               </p>
 
               <div data-hero-animate className="flex flex-wrap gap-3">

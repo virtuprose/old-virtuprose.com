@@ -306,130 +306,252 @@ export default function OrviaPage() {
         {/* Other sections below */}
         <div className="space-y-16 pt-20">
 
-        <section className="container space-y-6">
-          <div className="space-y-2">
+        {/* Problems Section - Premium Redesign */}
+        <section className="container space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Where teams struggle</p>
-            <h2 className="text-3xl font-semibold">The real problems Orvia wipes out</h2>
-          </div>
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">The real problems Orvia wipes out</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
+              Manual processes that slow down revenue and frustrate customers.
+            </p>
+          </motion.div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {problemPoints.map((point) => (
-              <Card key={point.text} className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/80" data-interactive>
-                <CardContent className="flex items-center gap-3 p-4 text-sm text-[var(--text-secondary)]">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
+            {problemPoints.map((point, index) => (
+              <motion.div
+                key={point.text}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="group relative overflow-hidden border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-lg hover:shadow-[var(--accent)]/10">
+                  <CardContent className="flex items-start gap-4 p-5">
+                    <motion.span
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 text-[var(--accent)] shadow-sm transition-all group-hover:shadow-md group-hover:shadow-[var(--accent)]/20">
                     <point.icon className="h-5 w-5" />
-                  </span>
-                  <span>{point.text}</span>
+                    </motion.span>
+                    <span className="text-sm font-medium leading-relaxed text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{point.text}</span>
                 </CardContent>
               </Card>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        <section className="container space-y-6">
-          <div className="space-y-2">
+        {/* Snapshot Section - Premium 3-Column Grid */}
+        <section className="container space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Orvia snapshot</p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Automation built for clinics, real estate, e-commerce, and services</h2>
-          </div>
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Automation built for clinics, real estate, e-commerce, and services</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
+              Three pillars that make Orvia different from chatbots.
+            </p>
+          </motion.div>
           <div className="grid gap-6 lg:grid-cols-3">
-            {automationColumns.map((block) => (
-              <Card
+            {automationColumns.map((block, colIndex) => (
+              <motion.div
                 key={block.title}
-                className="group relative overflow-hidden border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50 before:absolute before:inset-0 before:bg-gradient-to-br before:from-[var(--accent)]/15 before:via-transparent before:to-transparent before:opacity-0 before:transition before:duration-500 before:content-[''] hover:before:opacity-100"
-                data-interactive
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: colIndex * 0.15 }}
               >
-                <CardContent className="relative z-10 space-y-4 p-6">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg)]/80 text-[var(--accent)] shadow-[0_12px_40px_rgba(15,23,42,0.12)]">
-                      <block.icon className="h-5 w-5" />
-                    </span>
+                <Card className="group relative h-full overflow-hidden border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/80 to-[var(--bg-secondary)]/40 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-[var(--accent)]/50 hover:shadow-xl hover:shadow-[var(--accent)]/10">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <CardContent className="relative z-10 space-y-5 p-6">
+                    <div className="flex items-center gap-3 border-b border-[var(--border)]/30 pb-4">
+                      <motion.span
+                        whileHover={{ scale: 1.1 }}
+                        className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 text-[var(--accent)] shadow-lg shadow-[var(--accent)]/20"
+                      >
+                        <block.icon className="h-6 w-6" />
+                      </motion.span>
                     <h3 className="text-xl font-semibold text-[var(--text-primary)]">{block.title}</h3>
                   </div>
-                  <ul className="space-y-3 text-sm text-[var(--text-secondary)]">
-                    {block.items.map((item) => (
-                      <li
+                    <ul className="space-y-3">
+                      {block.items.map((item, itemIndex) => (
+                        <motion.li
                         key={item.label}
-                        className="flex items-center gap-3 rounded-2xl border border-[var(--border)]/50 bg-[var(--bg)]/75 px-3 py-2 transition duration-300 group-hover:border-[var(--accent)]/40 group-hover:text-[var(--text-primary)]"
-                      >
-                        <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[var(--bg-secondary)]/80 text-[var(--accent)] shadow-[0_10px_30px_rgba(15,23,42,0.12)]">
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: colIndex * 0.15 + itemIndex * 0.1 }}
+                          className="flex items-start gap-3 rounded-xl border border-[var(--border)]/50 bg-[var(--bg)]/60 p-3 transition-all duration-300 group-hover:border-[var(--accent)]/30 group-hover:bg-[var(--bg)]/80"
+                        >
+                          <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/15 text-[var(--accent)]">
                           <item.icon className="h-4 w-4" />
                         </span>
-                        <span>{item.label}</span>
-                      </li>
+                          <span className="text-sm leading-relaxed text-[var(--text-secondary)]">{item.label}</span>
+                        </motion.li>
                     ))}
                   </ul>
                 </CardContent>
               </Card>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        <section className="container space-y-6">
-          <div className="space-y-2">
+        {/* Core Capabilities - Premium Grid */}
+        <section className="container space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Core capabilities</p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Feature blocks that power every interaction</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {featureBlocks.map((feature) => (
-              <Card
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Feature blocks that power every interaction</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
+              Everything you need to automate conversations, bookings, and payments.
+            </p>
+          </motion.div>
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {featureBlocks.map((feature, index) => (
+              <motion.div
                 key={feature.title}
-                className="group relative overflow-hidden border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-[var(--accent)]/12 before:via-transparent before:to-transparent before:opacity-0 before:transition before:duration-500 before:content-[''] hover:before:opacity-100"
-                data-interactive
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
               >
+                <Card className="group relative h-full overflow-hidden border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/8 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <CardContent className="relative z-10 space-y-3 p-5">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg)]/70 text-[var(--accent)] shadow-[0_12px_30px_rgba(15,23,42,0.12)]">
-                      <feature.icon className="h-5 w-5" />
-                    </span>
-                    <h3 className="text-lg font-semibold text-[var(--text-primary)]">{feature.title}</h3>
-                  </div>
-                  <p className="text-sm text-[var(--text-secondary)] transition duration-300 group-hover:text-[var(--text-primary)]">{feature.copy}</p>
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 text-[var(--accent)] shadow-md"
+                    >
+                      <feature.icon className="h-6 w-6" />
+                    </motion.div>
+                    <h3 className="text-base font-semibold text-[var(--text-primary)]">{feature.title}</h3>
+                    <p className="text-sm leading-relaxed text-[var(--text-secondary)]">{feature.copy}</p>
                 </CardContent>
               </Card>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        <section className="container grid gap-6 rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 p-8 md:grid-cols-[minmax(0,0.45fr)_minmax(0,1fr)]">
-          <div className="space-y-4">
+        {/* How It Works - Premium Timeline */}
+        <section className="container space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">How it works</p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Five steps from query to booked & paid</h2>
-          </div>
-          <ol className="space-y-3 text-sm text-[var(--text-secondary)]">
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Five steps from query to booked & paid</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
+              A simple flow that turns conversations into revenue.
+            </p>
+          </motion.div>
+          <div className="relative">
+            <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[var(--accent)]/30 via-[var(--accent)]/20 to-transparent hidden md:block" />
+            <ol className="space-y-6">
             {workflowSteps.map((step, index) => (
-              <li key={step} className="flex items-start gap-3">
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[var(--border)]/80 text-xs font-semibold text-[var(--text-secondary)]">
+                <motion.li
+                  key={step}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="relative flex items-start gap-6 md:gap-8"
+                >
+                  <motion.span
+                    whileHover={{ scale: 1.15 }}
+                    className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-hover)] text-white shadow-lg shadow-[var(--accent)]/30 font-semibold text-sm"
+                  >
                   {index + 1}
-                </span>
-                <span>{step}</span>
-              </li>
+                  </motion.span>
+                  <div className="flex-1 space-y-2 pt-2">
+                    <p className="text-base leading-relaxed text-[var(--text-secondary)]">{step}</p>
+                  </div>
+                </motion.li>
             ))}
           </ol>
+          </div>
         </section>
 
-        <section className="container space-y-6">
-          <div className="space-y-2">
+        {/* Industries - Premium 4-Card Grid */}
+        <section className="container space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Industries</p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Orvia delivers across sectors</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {industries.map((industry) => (
-            <Card key={industry.label} className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/80" data-interactive>
-              <CardContent className="space-y-3 p-5">
-                  <div className="flex items-center gap-2">
-                    <industry.icon className="h-5 w-5 text-[var(--accent)]" />
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Orvia delivers across sectors</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
+              Proven automation patterns for different business models.
+            </p>
+          </motion.div>
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {industries.map((industry, index) => {
+              const accentColors = [
+                "from-[var(--accent)]/20 to-[var(--accent)]/5",
+                "from-[var(--accent-hover)]/20 to-[var(--accent-hover)]/5",
+                "from-[var(--accent)]/15 to-[var(--accent)]/5",
+                "from-[var(--accent-hover)]/15 to-[var(--accent-hover)]/5",
+              ];
+              return (
+                <motion.div
+                  key={industry.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Card className="group relative h-full overflow-hidden border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-lg">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${accentColors[index]} opacity-0 transition-opacity duration-500 group-hover:opacity-100`} />
+                    <CardContent className="relative z-10 space-y-4 p-6">
+                      <div className="flex items-center gap-3">
+                        <motion.span
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 text-[var(--accent)] shadow-md"
+                        >
+                          <industry.icon className="h-6 w-6" />
+                        </motion.span>
                     <h3 className="text-lg font-semibold text-[var(--text-primary)]">{industry.label}</h3>
                   </div>
-                  <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
-                    {industry.bullets.map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+                      <ul className="space-y-2.5">
+                        {industry.bullets.map((bullet, bulletIndex) => (
+                          <motion.li
+                            key={bullet}
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: index * 0.1 + bulletIndex * 0.05 }}
+                            className="flex items-start gap-2.5 text-sm leading-relaxed text-[var(--text-secondary)]"
+                          >
+                            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--accent)]" />
                         <span>{bullet}</span>
-                      </li>
+                          </motion.li>
                     ))}
                   </ul>
                 </CardContent>
               </Card>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
@@ -452,46 +574,66 @@ export default function OrviaPage() {
           </ScrollArea>
         </section>
 
-        <section id="pricing" className="container space-y-6 scroll-mt-24">
-          <div className="space-y-2">
+        {/* Pricing Section - Premium Redesign */}
+        <section id="pricing" className="container space-y-8 scroll-mt-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3 text-center"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Pricing</p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Transparent tiers built to scale</h2>
-            <p className="text-sm text-[var(--text-secondary)]">
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Transparent tiers built to scale</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
               Every package includes a free website, Orvia's AI agent, and white-glove setup. Choose the plan that fits your growth pace.
             </p>
-          </div>
+          </motion.div>
           <TooltipProvider>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {pricingPlans.map((plan) => (
-                <Card
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {pricingPlans.map((plan, index) => (
+                <motion.div
                   key={plan.name}
-                  className={`relative border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 ${plan.highlight ? "ring-2 ring-[var(--accent)]" : ""}`}
-                  data-interactive
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
-                  <CardContent className="space-y-5 p-6">
-                    <div className="flex items-start justify-between">
+                  <Card
+                    className={`group relative h-full overflow-hidden border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/60 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl ${
+                      plan.highlight
+                        ? "ring-2 ring-[var(--accent)]/50 shadow-lg shadow-[var(--accent)]/20"
+                        : "hover:border-[var(--accent)]/40"
+                    }`}
+                  >
+                    {plan.highlight && (
+                      <div className="absolute top-0 right-0 rounded-bl-2xl bg-gradient-to-br from-[var(--accent)]/20 to-transparent px-4 py-1.5">
+                        <span className="text-xs font-semibold text-[var(--accent)]">{plan.badge}</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <CardContent className="relative z-10 space-y-6 p-6">
+                      <div className="space-y-2">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                          <plan.icon className="h-5 w-5" />
-                        </span>
+                          <motion.span
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 text-[var(--accent)] shadow-md"
+                          >
+                            <plan.icon className="h-6 w-6" />
+                          </motion.span>
                         <div>
-                          <p className="text-lg font-semibold text-[var(--text-primary)]">{plan.name}</p>
-                          <p className="text-sm text-[var(--text-secondary)]">{plan.price}</p>
+                            <p className="text-xl font-semibold text-[var(--text-primary)]">{plan.name}</p>
+                            <p className="text-lg font-medium text-[var(--text-secondary)]">{plan.price}</p>
+                          </div>
                         </div>
                       </div>
-                      {plan.badge ? (
-                        <span className="rounded-full border border-[var(--accent)]/60 bg-[var(--accent)]/10 px-3 py-1 text-xs font-semibold text-[var(--accent)]">
-                          {plan.badge}
-                        </span>
-                      ) : null}
-                    </div>
-                    <ul className="space-y-3 text-sm text-[var(--text-secondary)]">
+                      <ul className="space-y-3">
                       {plan.features.map((feature) => (
                         <li key={`${plan.name}-${feature.label}`} className="flex items-start gap-3">
-                          <span className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)]/12 text-[var(--accent)]">
+                            <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15 text-[var(--accent)]">
                             <feature.icon className="h-4 w-4" />
                           </span>
-                          <span className="flex items-center gap-2">
+                            <span className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
                             {feature.label}
                             {feature.label === "Free website included" && (
                               <Tooltip>
@@ -501,7 +643,7 @@ export default function OrviaPage() {
                                     className="inline-flex items-center justify-center rounded-full text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors"
                                     aria-label="More information"
                                   >
-                                    <Info className="h-4 w-4" />
+                                      <Info className="h-3.5 w-3.5" />
                                   </button>
                                 </TooltipTrigger>
                                 <TooltipContent className="max-w-xs bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)]">
@@ -515,49 +657,96 @@ export default function OrviaPage() {
                     </ul>
                     <Button
                       asChild
-                      className="w-full rounded-full"
+                        className="w-full rounded-full h-11 font-semibold"
                       variant={plan.highlight ? "default" : "outline"}
                     >
                       <Link href={plan.cta.href}>{plan.cta.label}</Link>
                     </Button>
                   </CardContent>
                 </Card>
+                </motion.div>
               ))}
             </div>
           </TooltipProvider>
         </section>
 
-        <section className="container space-y-6">
-          <div className="space-y-2">
+        {/* Testimonials - Premium Carousel */}
+        <section className="container space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3 text-center"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Testimonials</p>
-            <h2 className="text-3xl font-semibold">Orvia in the field</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {testimonials.map((quote) => (
-              <Card key={quote} className="border-[var(--border)]/70 bg-[var(--bg-secondary)]/80">
-                <CardContent className="space-y-2 p-5 text-sm text-[var(--text-secondary)]">{quote}</CardContent>
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Orvia in the field</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+              Real results from teams using Orvia to automate conversations and bookings.
+            </p>
+          </motion.div>
+          <div className="relative overflow-hidden">
+            <div className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory">
+              {testimonials.map((quote, index) => (
+                <motion.div
+                  key={quote}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: index * 0.15 }}
+                  className="flex-shrink-0 w-full md:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-1.25rem)] snap-start"
+                >
+                  <Card className="group relative h-full overflow-hidden border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/60 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-lg">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <CardContent className="relative z-10 p-6">
+                      <p className="text-base leading-relaxed text-[var(--text-secondary)] italic">{quote}</p>
+                    </CardContent>
               </Card>
+                </motion.div>
             ))}
+            </div>
           </div>
         </section>
 
-        <section className="container space-y-6">
-          <div className="space-y-2">
+        {/* Security Section - Premium Two-Column Grid */}
+        <section className="container space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-3"
+          >
             <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Security</p>
-            <h2 className="text-3xl font-semibold">Enterprise-grade controls</h2>
+            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Enterprise-grade controls</h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
+              Built with security and compliance at the core.
+            </p>
+          </motion.div>
+          <div className="grid gap-5 md:grid-cols-2">
+            {securityPoints.map((point, index) => (
+              <motion.div
+                key={point.text}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="group relative h-full overflow-hidden border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/60 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <CardContent className="relative z-10 flex items-start gap-4 p-6">
+                    <motion.span
+                      whileHover={{ scale: 1.1 }}
+                      className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 text-[var(--accent)] shadow-md"
+                    >
+                      <point.icon className="h-6 w-6" />
+                    </motion.span>
+                    <p className="text-sm leading-relaxed text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{point.text}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
-          <ScrollArea className="rounded-[28px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/80">
-            <div className="grid gap-4 p-6 text-sm text-[var(--text-secondary)] md:grid-cols-2">
-              {securityPoints.map((point) => (
-                <div key={point.text} className="flex items-start gap-3 rounded-2xl border border-[var(--border)]/60 bg-[var(--bg)]/70 p-4">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
-                    <point.icon className="h-4 w-4" />
-                  </span>
-                  <span className="text-sm text-[var(--text-secondary)]">{point.text}</span>
-                </div>
-              ))}
-            </div>
-          </ScrollArea>
         </section>
 
         <section className="container rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/70 p-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.08)]">
@@ -566,16 +755,17 @@ export default function OrviaPage() {
               <Image src="/assets/orvia-logo-black.svg" alt="Orvia crest" width={96} height={26} />
             </div>
             <h3 className="text-3xl font-semibold">Deploy Orvia and capture every opportunity</h3>
-            <p className="text-sm text-[var(--text-secondary)]">Book a full walkthrough or chat with our sales desk on WhatsApp.</p>
+            <p className="text-sm text-[var(--text-secondary)]">Book a full walkthrough or try a live demo with Orvia.</p>
             <div className="flex flex-wrap justify-center gap-3">
               <Button asChild className="rounded-full">
                 <Link href="/contact">Book Demo</Link>
               </Button>
-              <Button asChild variant="outline" className="rounded-full">
-                <a href="https://wa.me/96569984942" target="_blank" rel="noopener noreferrer">
-                  Talk to Sales on WhatsApp
-                </a>
-              </Button>
+              <OrviaOpenChatButton
+                label="Live Demo"
+                variant="outline"
+                className="rounded-full"
+                presetMessage="Show me a live Orvia demo"
+              />
             </div>
           </div>
         </section>

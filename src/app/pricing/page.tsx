@@ -67,7 +67,7 @@ const plans: Plan[] = [
     subtitle: "Tailored automations & enterprise",
     icon: Globe2,
     cta: { label: "Contact Team", href: "/contact" },
-    features: ["Unlimited conversations", "WhatsApp integration", "Custom website", "Enterprise features"],
+    features: ["Unlimited conversations", "Web + WhatsApp + Voice Integration", "Custom website", "Enterprise features"],
   },
 ];
 
@@ -273,7 +273,6 @@ function PricingGrid() {
           ))}
         </div>
       </TooltipProvider>
-      <p className="text-center text-xs text-[var(--text-secondary)]">No credit card required for consultation · Cancel anytime</p>
     </section>
   );
 }
