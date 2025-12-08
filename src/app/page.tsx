@@ -579,25 +579,53 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Premium CTA Section - Stripe Style */}
         <section data-section className="container">
-          <div className="relative overflow-hidden rounded-[32px] border border-[var(--border)]/70 bg-gradient-to-r from-[var(--accent)]/20 via-[#8c9bff]/20 to-transparent p-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/10 to-transparent" />
-            <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="space-y-3">
-                <h3 className="text-3xl font-semibold">Ready to scale smarter with AI?</h3>
-                <p className="text-sm text-[var(--text-secondary)]">
-                  Let’s align strategy, automation, and experiences that convert.
-                </p>
-              </div>
-              <Button
-                size="lg"
-                className="rounded-full px-8"
-                onClick={() => window.dispatchEvent(new Event("open-orvia-chat"))}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative overflow-hidden rounded-[32px] border border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/95 via-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/85 p-12 md:p-16 shadow-[0_40px_120px_rgba(15,23,42,0.15)] backdrop-blur-xl"
+          >
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/8 via-transparent to-[var(--accent)]/5 pointer-events-none" />
+            
+            <div className="relative mx-auto max-w-4xl text-center space-y-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="space-y-4"
               >
-                Let’s Talk
-              </Button>
+                <h3 className="text-3xl font-semibold leading-tight text-[var(--text-primary)] md:text-4xl lg:text-5xl">
+                  What would your business look like if every lead was answered instantly?
+                </h3>
+                <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+                  Talk to us. We'll show you where Orvia creates the biggest wins in your business.
+                </p>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="relative inline-block"
+              >
+                {/* Soft glow behind button */}
+                <div className="absolute inset-0 blur-2xl bg-[var(--accent)]/30 rounded-full -z-10" />
+                <Button
+                  asChild
+                  size="lg"
+                  className="relative rounded-full px-8 h-12 font-semibold bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] shadow-lg shadow-[var(--accent)]/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--accent)]/40"
+                >
+                  <Link href="/contact">Show me what Orvia can do</Link>
+                </Button>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </section>
       </div>
     </div>
