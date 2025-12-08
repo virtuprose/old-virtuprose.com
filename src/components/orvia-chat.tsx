@@ -38,7 +38,7 @@ export function OrviaChat() {
     async (text: string) => {
       const trimmed = text.trim();
       if (!trimmed || isLoading) return;
-      
+
       // Client-side validation
       const validation = validateInputClient(trimmed);
       if (!validation.valid) {
@@ -51,7 +51,7 @@ export function OrviaChat() {
         ]);
         return;
       }
-      
+
       setIsOpen(true);
       const userMessage: ChatMessage = { role: "user", content: trimmed };
       setMessages((prev) => [...prev, userMessage]);
@@ -64,22 +64,22 @@ export function OrviaChat() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ messages: [...messages, userMessage] }),
         });
-        
+
         if (!response.ok) {
           const errorData = (await response.json().catch(() => ({}))) as { error?: string; retryAfter?: number };
-          
+
           if (response.status === 429) {
             const retrySeconds = errorData.retryAfter || 60;
             throw new Error(`Too many requests. Please wait ${retrySeconds} seconds before trying again.`);
           }
-          
+
           if (response.status === 400) {
             throw new Error(errorData.error || "Invalid message format. Please try rephrasing.");
           }
-          
+
           throw new Error(errorData.error || "Failed to reach Orvia");
         }
-        
+
         const data = (await response.json()) as { reply?: string };
         const reply: ChatMessage = {
           role: "assistant",
@@ -247,12 +247,12 @@ export function OrviaChat() {
     if (file) {
       // Validate file
       const validation = validateFile(file);
-      
+
       if (!validation.valid) {
         // Show error message
-        setMessages((prev) => [...prev, { 
-          role: "assistant", 
-          content: `❌ ${validation.error}` 
+        setMessages((prev) => [...prev, {
+          role: "assistant",
+          content: `❌ ${validation.error}`
         }]);
         // Reset file input
         if (fileInputRef.current) {
@@ -264,22 +264,22 @@ export function OrviaChat() {
       // Sanitize file name
       const sanitizedFileName = sanitizeFileName(file.name);
       const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
-      
-      setMessages((prev) => [...prev, { 
-        role: "user", 
-        content: `[File attachment: ${sanitizedFileName} (${fileSizeMB}MB)]` 
+
+      setMessages((prev) => [...prev, {
+        role: "user",
+        content: `[File attachment: ${sanitizedFileName} (${fileSizeMB}MB)]`
       }]);
-      
+
       // In a real implementation, you would upload the file to a secure server and send the URL
       // For now, we'll just acknowledge receipt
       setTimeout(() => {
-        setMessages((prev) => [...prev, { 
-          role: "assistant", 
-          content: `✅ I've received your file: ${sanitizedFileName}. This file appears safe. How can I help you with it?` 
+        setMessages((prev) => [...prev, {
+          role: "assistant",
+          content: `✅ I've received your file: ${sanitizedFileName}. This file appears safe. How can I help you with it?`
         }]);
       }, 1000);
     }
-    
+
     // Reset file input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -298,9 +298,9 @@ export function OrviaChat() {
     // For now, we'll add a placeholder message
     setMessages((prev) => [...prev, { role: "user", content: "[GIF selection coming soon]" }]);
     setTimeout(() => {
-      setMessages((prev) => [...prev, { 
-        role: "assistant", 
-        content: "GIF picker will be integrated soon! For now, you can describe what you're looking for." 
+      setMessages((prev) => [...prev, {
+        role: "assistant",
+        content: "GIF picker will be integrated soon! For now, you can describe what you're looking for."
       }]);
     }, 1000);
   };
@@ -322,9 +322,9 @@ export function OrviaChat() {
         // In a real implementation, you would upload the audio and send it
         setMessages((prev) => [...prev, { role: "user", content: "[Voice message]" }]);
         setTimeout(() => {
-          setMessages((prev) => [...prev, { 
-            role: "assistant", 
-            content: "I've received your voice message. Voice processing will be available soon!" 
+          setMessages((prev) => [...prev, {
+            role: "assistant",
+            content: "I've received your voice message. Voice processing will be available soon!"
           }]);
         }, 1000);
         stream.getTracks().forEach(track => track.stop());
@@ -335,9 +335,9 @@ export function OrviaChat() {
       setIsRecording(true);
     } catch (error) {
       console.error("Error accessing microphone:", error);
-      setMessages((prev) => [...prev, { 
-        role: "assistant", 
-        content: "I couldn't access your microphone. Please check your permissions." 
+      setMessages((prev) => [...prev, {
+        role: "assistant",
+        content: "I couldn't access your microphone. Please check your permissions."
       }]);
     }
   };
@@ -369,11 +369,12 @@ export function OrviaChat() {
             <div className="orvia-launcher-lottie">
               {orviaAnimation && (
                 <Lottie
-                  ref={lottieRef}
+                  lottieRef={lottieRef}
                   animationData={orviaAnimation}
                   loop={true}
                   autoplay={true}
                   aria-hidden="true"
+                  style={{ width: '100%', height: '100%' }}
                 />
               )}
             </div>
@@ -407,9 +408,9 @@ export function OrviaChat() {
           </div>
           <p className="orvia-header-subtitle">The team can also help.</p>
           <div className="orvia-header-actions" ref={menuRef}>
-            <button 
-              type="button" 
-              className="orvia-header-menu" 
+            <button
+              type="button"
+              className="orvia-header-menu"
               aria-label="More options"
               onClick={() => setShowMenu(!showMenu)}
             >
@@ -503,17 +504,17 @@ export function OrviaChat() {
                 aria-label="Your message"
               />
               <div className="orvia-input-icons">
-                <button 
-                  type="button" 
-                  className="orvia-input-icon" 
+                <button
+                  type="button"
+                  className="orvia-input-icon"
                   aria-label="Attach file"
                   onClick={handleFileAttachment}
                 >
                   <Paperclip className="w-4 h-4" />
                 </button>
-                <button 
-                  type="button" 
-                  className="orvia-input-icon" 
+                <button
+                  type="button"
+                  className="orvia-input-icon"
                   aria-label="Emoji"
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 >
@@ -536,16 +537,16 @@ export function OrviaChat() {
                     </div>
                   </div>
                 )}
-                <button 
-                  type="button" 
-                  className="orvia-input-icon" 
+                <button
+                  type="button"
+                  className="orvia-input-icon"
                   aria-label="GIF"
                   onClick={handleGIFClick}
                 >
                   <span className="text-xs font-medium">GIF</span>
                 </button>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className={`orvia-input-icon ${isRecording ? 'recording' : ''}`}
                   aria-label="Voice message"
                   onMouseDown={startRecording}
