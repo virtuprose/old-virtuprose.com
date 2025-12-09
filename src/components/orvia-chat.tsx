@@ -112,12 +112,19 @@ export function OrviaChat() {
       }
     };
     window.addEventListener("open-orvia-chat", handleOpen as EventListener);
-    const tooltipTimer = window.setTimeout(() => setShowTooltip(false), 60000);
+
+    // Tooltip timing: hide after 15 seconds, reappear after 1 minute
+    const hideTimer = window.setTimeout(() => setShowTooltip(false), 15000);
+    const reappearTimer = window.setTimeout(() => setShowTooltip(true), 60000);
+    const finalHideTimer = window.setTimeout(() => setShowTooltip(false), 75000); // Hide again after 15s of reappearing
+
     const handleResize = () => setIsFullScreen(window.innerWidth <= 640);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
-      window.clearTimeout(tooltipTimer);
+      window.clearTimeout(hideTimer);
+      window.clearTimeout(reappearTimer);
+      window.clearTimeout(finalHideTimer);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("open-orvia-chat", handleOpen as EventListener);
     };
@@ -400,6 +407,7 @@ export function OrviaChat() {
         <span className="sr-only">{isOpen ? "Hide Orvia chat" : "Chat with Orvia"}</span>
         {!isOpen ? (
           <>
+            {showTooltip && <span className="orvia-launcher-tooltip">Hi, I&apos;m Orvia. How can I help you?</span>}
             <div className="orvia-launcher-lottie">
               {orviaAnimation && (
                 <Lottie
@@ -422,7 +430,6 @@ export function OrviaChat() {
             />
           </>
         ) : null}
-        {!isOpen && showTooltip ? <span className="orvia-launcher-tooltip">Hi, I&#39;m Orvia. Need help?</span> : null}
       </button>
       <div className={panelClassName} id="orvia-chat-panel" role="dialog" aria-label="Orvia live chat">
         {/* Header */}
