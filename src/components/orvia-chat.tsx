@@ -14,7 +14,7 @@ type ChatMessage = {
 };
 
 const welcomeMessage =
-  "Hey! I'm ORVIA, your AI business assistant. Need help with bookings, leads, or scaling your operations? Let's talk.";
+  "Hi, you're speaking with Orvia AI Agent. I'll help you with whatever you need! What brings you here today?";
 
 export function OrviaChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -438,9 +438,16 @@ export function OrviaChat() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="orvia-header-logo-text">
-            <span className="orvia-header-name">ORVIA</span>
+            <Image
+              src="/assets/orvia-logo-black.svg"
+              alt="Orvia"
+              width={24}
+              height={24}
+              className="orvia-header-logo dark:invert"
+            />
+            <span className="orvia-header-name">Orvia</span>
           </div>
-          <p className="orvia-header-subtitle">AI Assistant • 24/7</p>
+          <p className="orvia-header-subtitle">The team can also help.</p>
           <div className="orvia-header-actions" ref={menuRef}>
             <button
               type="button"
@@ -607,7 +614,7 @@ export function OrviaChat() {
             height={16}
             className="orvia-footer-logo dark:invert"
           />
-          <span className="orvia-footer-text">Powered by ORVIA</span>
+          <span className="orvia-footer-text">Powered by Orvia</span>
         </div>
       </div>
     </>
