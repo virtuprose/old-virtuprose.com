@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { OrviaOpenChatButton } from "@/components/orvia-open-chat-button";
 
 export function ContactHero() {
   const scrollToSection = (id: string) => {
@@ -54,14 +53,9 @@ export function ContactHero() {
         transition={{ duration: 0.5, delay: 0.4 }}
         className="flex flex-col sm:flex-row items-center justify-center gap-4"
       >
-        <OrviaOpenChatButton
-          label="Chat With Orvia"
-          className="rounded-full h-11 px-6 bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] shadow-lg shadow-[var(--accent)]/30"
-        />
         <Button
           onClick={() => scrollToSection("book-call")}
-          variant="outline"
-          className="rounded-full h-11 px-6 border-[var(--text-heading)]/25 text-[var(--text-heading)]/80 hover:border-[var(--text-heading)]/40 hover:text-[var(--text-heading)]"
+          className="rounded-full h-11 px-6 bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] shadow-lg shadow-[var(--accent)]/30"
         >
           Book a Strategy Call
         </Button>

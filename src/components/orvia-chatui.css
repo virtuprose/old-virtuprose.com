@@ -1,0 +1,474 @@
+/* ========================================
+   ORVIA CUSTOM CHAT - WEBSITE THEME
+   ======================================== */
+
+/* Container */
+.orvia-chat-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 400px;
+    height: 620px;
+    max-height: calc(100vh - 6rem);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    background: #03161a;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-sans, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+@media (max-width: 640px) {
+    .orvia-chat-container {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+    }
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.orvia-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #050d14;
+    border-bottom: 1px solid rgba(39, 231, 236, 0.12);
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .orvia-chat-header {
+        padding-top: calc(16px + env(safe-area-inset-top, 0));
+    }
+}
+
+.orvia-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.orvia-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #27e7ec 0%, #2f95d5 100%);
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.orvia-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.orvia-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.orvia-title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1;
+    margin: 0;
+}
+
+.orvia-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    margin: 0;
+    line-height: 1;
+}
+
+.orvia-online-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+}
+
+.orvia-close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.orvia-close-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ========================================
+   MESSAGES AREA
+   ======================================== */
+
+.orvia-messages {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #03161a;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar */
+.orvia-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.orvia-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.orvia-messages::-webkit-scrollbar-thumb {
+    background: rgba(39, 231, 236, 0.2);
+    border-radius: 3px;
+}
+
+/* ========================================
+   MESSAGE BUBBLES
+   ======================================== */
+
+.orvia-message {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    max-width: 85%;
+}
+
+/* Bot messages - LEFT */
+.orvia-message--bot {
+    align-self: flex-start;
+    flex-direction: row;
+}
+
+/* User messages - RIGHT */
+.orvia-message--user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+/* Avatar */
+.orvia-message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #27e7ec 0%, #2f95d5 100%);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.orvia-message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Bubble Base */
+.orvia-message-bubble {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    word-wrap: break-word;
+}
+
+/* Bot Bubble - Dark with cyan tint */
+.orvia-message--bot .orvia-message-bubble {
+    background: rgba(39, 231, 236, 0.08);
+    color: #ffffff;
+    border: 1px solid rgba(39, 231, 236, 0.15);
+    border-radius: 18px;
+    border-top-left-radius: 4px;
+}
+
+/* User Bubble - Gradient */
+.orvia-message--user .orvia-message-bubble {
+    background: linear-gradient(135deg, #27e7ec 0%, #14a8bc 100%);
+    color: #03161a;
+    border-radius: 18px;
+    border-top-right-radius: 4px;
+    font-weight: 500;
+}
+
+/* ========================================
+   TYPING INDICATOR
+   ======================================== */
+
+.orvia-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 18px;
+    background: rgba(39, 231, 236, 0.08);
+    border: 1px solid rgba(39, 231, 236, 0.15);
+    border-radius: 18px;
+    border-top-left-radius: 4px;
+}
+
+.orvia-typing span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(39, 231, 236, 0.6);
+    animation: typingDot 1.4s infinite ease-in-out;
+}
+
+.orvia-typing span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.orvia-typing span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.orvia-typing span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   INPUT AREA
+   ======================================== */
+
+.orvia-input-area {
+    padding: 16px 20px;
+    background: #03161a;
+    border-top: 1px solid rgba(39, 231, 236, 0.1);
+    flex-shrink: 0;
+}
+
+.orvia-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(39, 231, 236, 0.06);
+    border: 1px solid rgba(39, 231, 236, 0.15);
+    border-radius: 24px;
+    padding: 8px 8px 8px 18px;
+    transition: border-color 0.2s;
+}
+
+.orvia-input-wrapper:focus-within {
+    border-color: rgba(39, 231, 236, 0.4);
+}
+
+.orvia-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 0.925rem;
+    padding: 6px 0;
+    outline: none;
+    font-family: inherit;
+}
+
+.orvia-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.orvia-input:disabled {
+    opacity: 0.6;
+}
+
+.orvia-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #27e7ec 0%, #2f95d5 100%);
+    border: none;
+    color: #03161a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+
+.orvia-send-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(39, 231, 236, 0.35);
+}
+
+.orvia-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.orvia-chat-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #050d14;
+    border-top: 1px solid rgba(39, 231, 236, 0.08);
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .orvia-chat-footer {
+        padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+    }
+}
+
+.orvia-powered-text {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.orvia-powered-logo {
+    filter: brightness(0) invert(1);
+    opacity: 0.5;
+}
+
+/* ========================================
+   LAUNCHER BUTTON
+   ======================================== */
+
+.orvia-launcher {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9998;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+
+.orvia-launcher:hover {
+    transform: translateY(-3px);
+}
+
+@media (max-width: 640px) {
+    .orvia-launcher {
+        bottom: 1.25rem;
+        right: 1.25rem;
+    }
+}
+
+.orvia-launcher-lottie {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #27e7ec, #2f95d5);
+    box-shadow: 0 8px 24px rgba(39, 231, 236, 0.35);
+    transition: all 0.2s ease;
+}
+
+.orvia-launcher:hover .orvia-launcher-lottie {
+    box-shadow: 0 10px 30px rgba(39, 231, 236, 0.45);
+}
+
+.orvia-launcher-logo {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+}
+
+.orvia-launcher-tooltip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    background: #ffffff;
+    color: #03161a;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    animation: tooltipIn 0.2s ease;
+}
+
+.orvia-launcher-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    border: 7px solid transparent;
+    border-top-color: #ffffff;
+}
+
+@keyframes tooltipIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

@@ -130,8 +130,8 @@ function WhatWeDo() {
               </CardContent>
             </Card>
           </motion.div>
-            ))}
-          </div>
+        ))}
+      </div>
     </section>
   );
 }
@@ -169,8 +169,8 @@ function StatsSection() {
                   <span className="text-sm font-medium text-[var(--text-secondary)]">{stat.label}</span>
                 </div>
                 <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{stat.description}</p>
-        </CardContent>
-      </Card>
+              </CardContent>
+            </Card>
           </motion.div>
         ))}
       </div>
@@ -244,13 +244,13 @@ function ValuesSection() {
               <CardContent className="flex gap-3 p-0">
                 <span className="mt-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
                   <value.icon className="h-5 w-5" />
-              </span>
+                </span>
                 <div className="space-y-1">
                   <p className="text-sm font-semibold text-[var(--text-primary)]">{value.title}</p>
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{value.body}</p>
                 </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
           </motion.div>
         ))}
       </div>
@@ -285,15 +285,15 @@ function FounderSection() {
             {/* Portrait */}
             <div className="flex justify-center lg:justify-start">
               <div className="relative h-40 w-40 md:h-48 md:w-48 overflow-hidden rounded-full shadow-[0_0_40px_rgba(0,0,0,0.4)] ring-1 ring-white/10">
-                  <Image
-                    src="/assets/zaid.webp"
+                <Image
+                  src="/assets/zaid.webp"
                   alt="Mohammad Zaid Anarwala"
                   width={200}
                   height={200}
                   className="h-full w-full object-cover"
                   priority
-                  />
-                </div>
+                />
+              </div>
             </div>
 
             {/* Name and Role */}
@@ -302,7 +302,7 @@ function FounderSection() {
                 Muhammad Zaid Anarwala
               </h3>
               <p className="text-base text-[var(--text-secondary)]">
-                    Founder & CEO
+                Founder & CEO
               </p>
             </div>
 
@@ -316,9 +316,9 @@ function FounderSection() {
                   <span className="text-sm tracking-wide text-[var(--text-secondary)]">
                     {stat.label}
                   </span>
-                    </div>
-                  ))}
                 </div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Right Column: Story */}
@@ -332,7 +332,7 @@ function FounderSection() {
             <div className="space-y-4">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-[var(--text-primary)]">
                 Founder's Story
-            </h2>
+              </h2>
               <p className="text-lg md:text-xl font-medium text-[var(--text-primary)]">
                 Muhammad Zaid Anarwala, Founder & CEO
               </p>
@@ -389,7 +389,7 @@ function LongFormNarrative() {
           <p className="leading-relaxed">
             If a business wants to reduce workload, increase conversions, or operate with fewer manual steps, that's where VirtuProse fits. We build the tools that let modern companies run leaner, faster, and smarter.
           </p>
-              </div>
+        </div>
       </motion.div>
     </section>
   );
@@ -409,14 +409,6 @@ function CTA() {
           <div className="flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full px-8">
               <Link href="/contact">Start Your Project</Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full px-8"
-              onClick={() => window.dispatchEvent(new Event("open-orvia-chat"))}
-            >
-              Chat with Orvia
             </Button>
           </div>
         </div>

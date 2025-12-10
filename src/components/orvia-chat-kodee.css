@@ -1,0 +1,475 @@
+/* ========================================
+   ORVIA KODEE-STYLE CHAT - LIGHT THEME
+   Inspired by Hostinger's Kodee
+   ======================================== */
+
+/* Container */
+.kodee-chat {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 380px;
+    height: 580px;
+    max-height: calc(100vh - 6rem);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    z-index: 9999;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-sans, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+@media (max-width: 640px) {
+    .kodee-chat {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+    }
+}
+
+/* ========================================
+   HEADER - Minimal like Kodee
+   ======================================== */
+
+.kodee-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .kodee-header {
+        padding-top: calc(14px + env(safe-area-inset-top, 0));
+    }
+}
+
+.kodee-header-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.kodee-header-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: #666666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.kodee-header-btn:hover {
+    background: #f5f5f5;
+    color: #1a1a1a;
+}
+
+/* ========================================
+   MESSAGES AREA - Proper Scroll
+   ======================================== */
+
+.kodee-messages {
+    flex: 1;
+    min-height: 0;
+    /* CRITICAL for scroll to work */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #ffffff;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+/* Scrollbar */
+.kodee-messages::-webkit-scrollbar {
+    width: 4px;
+}
+
+.kodee-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.kodee-messages::-webkit-scrollbar-thumb {
+    background: #d4d4d4;
+    border-radius: 2px;
+}
+
+/* ========================================
+   WELCOME SCREEN
+   ======================================== */
+
+.kodee-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px 20px;
+    flex: 1;
+}
+
+.kodee-welcome-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #27e7ec 0%, #2f95d5 100%);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.kodee-welcome-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.kodee-welcome-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 4px 0;
+}
+
+.kodee-welcome-subtitle {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 0;
+}
+
+/* ========================================
+   QUICK REPLIES
+   ======================================== */
+
+.kodee-quick-replies {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 4px;
+}
+
+.kodee-quick-reply {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    color: #1a1a1a;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    text-align: left;
+    font-family: inherit;
+}
+
+.kodee-quick-reply:hover {
+    background: #f9f9f9;
+    border-color: #d4d4d4;
+}
+
+.kodee-quick-reply svg {
+    color: #666666;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   MESSAGES
+   ======================================== */
+
+.kodee-message {
+    display: flex;
+    gap: 10px;
+    max-width: 90%;
+}
+
+/* Bot messages - Left */
+.kodee-message--bot {
+    align-self: flex-start;
+}
+
+/* User messages - Right */
+.kodee-message--user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+/* Avatar */
+.kodee-message-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #27e7ec 0%, #2f95d5 100%);
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kodee-message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Message Content */
+.kodee-message-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.kodee-message-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* Bot Bubble */
+.kodee-message--bot .kodee-message-bubble {
+    background: #f5f5f5;
+    color: #1a1a1a;
+    border-radius: 12px;
+    border-top-left-radius: 4px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* User Bubble */
+.kodee-message--user .kodee-message-bubble {
+    background: linear-gradient(135deg, #27e7ec 0%, #2f95d5 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    border-top-right-radius: 4px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* ========================================
+   TYPING INDICATOR
+   ======================================== */
+
+.kodee-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 16px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    border-top-left-radius: 4px;
+}
+
+.kodee-typing span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #999999;
+    animation: typingDot 1.4s infinite ease-in-out;
+}
+
+.kodee-typing span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.kodee-typing span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.kodee-typing span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+
+    30% {
+        transform: translateY(-3px);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   INPUT AREA
+   ======================================== */
+
+.kodee-input-area {
+    padding: 12px 16px 16px;
+    background: #ffffff;
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .kodee-input-area {
+        padding-bottom: calc(16px + env(safe-area-inset-bottom, 0));
+    }
+}
+
+.kodee-input-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    padding: 10px 10px 10px 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.kodee-input-wrapper:focus-within {
+    border-color: #27e7ec;
+    box-shadow: 0 0 0 3px rgba(39, 231, 236, 0.1);
+}
+
+.kodee-textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #1a1a1a;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding: 4px 0;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    min-height: 24px;
+    max-height: 120px;
+}
+
+.kodee-textarea::placeholder {
+    color: #999999;
+}
+
+.kodee-textarea:disabled {
+    opacity: 0.6;
+}
+
+.kodee-send-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e5e5e5;
+    border: none;
+    color: #999999;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.kodee-send-btn:not(:disabled) {
+    background: linear-gradient(135deg, #27e7ec 0%, #2f95d5 100%);
+    color: #ffffff;
+}
+
+.kodee-send-btn:not(:disabled):hover {
+    transform: scale(1.05);
+}
+
+.kodee-send-btn:disabled {
+    cursor: not-allowed;
+}
+
+/* Disclaimer */
+.kodee-disclaimer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #999999;
+    margin: 10px 0 0 0;
+}
+
+/* ========================================
+   LAUNCHER BUTTON - Kodee Style
+   ======================================== */
+
+.orvia-launcher {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9998;
+    background: linear-gradient(135deg, #27e7ec, #2f95d5);
+    border: none;
+    border-radius: 24px;
+    padding: 10px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(39, 231, 236, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.orvia-launcher:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(39, 231, 236, 0.4);
+}
+
+@media (max-width: 640px) {
+    .orvia-launcher {
+        bottom: 1.25rem;
+        right: 1.25rem;
+    }
+}
+
+.orvia-launcher-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.orvia-launcher-text {
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* Hide old tooltip and lottie for simpler design */
+.orvia-launcher-tooltip,
+.orvia-launcher-lottie,
+.orvia-launcher-logo {
+    display: none;
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

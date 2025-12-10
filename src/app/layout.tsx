@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { OrviaChat } from "@/components/orvia-chat";
+import { OrviaChatUI } from "@/components/orvia-chatui";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -68,7 +68,7 @@ export default function RootLayout({
             <main className="flex-1 bg-[var(--bg)] pt-8 text-[var(--text-primary)] md:pt-12">{children}</main>
             <SiteFooter />
           </div>
-          <OrviaChat />
+          <OrviaChatUI />
         </ThemeProvider>
       </body>
     </html>
