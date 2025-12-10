@@ -48,8 +48,8 @@ const plans: Plan[] = [
     price: "$300/month",
     subtitle: "Free site + 24/7 web AI agent",
     icon: Sparkles,
-    cta: { label: "Buy Now", href: "https://rzp.io/rzp/b2uLy2tC" },
-    features: ["Free website included", "200 conversations / month", "Web-based AI agent", "Full setup included"],
+    cta: { label: "Get Started", href: "https://rzp.io/rzp/b2uLy2tC" },
+    features: ["Your branded website built for conversions", "Booking and scheduling system", "200 conversations every month", "Web AI Agent that responds instantly", "Complete setup done for you"],
   },
   {
     title: "Growth",
@@ -58,8 +58,8 @@ const plans: Plan[] = [
     badge: "Most Popular",
     highlight: true,
     icon: LineChart,
-    cta: { label: "Buy Now", href: "https://rzp.io/rzp/LNubLwT" },
-    features: ["Free website included", "500 conversations / month", "Web-based AI agent", "Full setup included"],
+    cta: { label: "Get Started", href: "https://rzp.io/rzp/LNubLwT" },
+    features: ["High-performance website crafted to convert more leads", "Smart booking engine that runs your calendar automatically", "500 conversations every month", "Web AI Agent for nonstop customer handling", "Full setup and optimization"],
   },
   {
     title: "Custom",
@@ -67,7 +67,7 @@ const plans: Plan[] = [
     subtitle: "Tailored automations & enterprise",
     icon: Globe2,
     cta: { label: "Contact Team", href: "/contact" },
-    features: ["Unlimited conversations", "Web + WhatsApp + Voice Integration", "Custom website", "Enterprise features"],
+    features: ["Unlimited conversations", "Web, WhatsApp, and Voice automations", "Custom booking and scheduling system", "Tailored website and customer journey", "Enterprise-grade workflows and integrations", "Payment reminders", "Custom dashboards & reporting"],
   },
 ];
 
@@ -249,9 +249,9 @@ function PricingHero() {
     <section className="container">
       <div className="relative overflow-hidden rounded-[32px] border border-[var(--border)]/70 bg-[linear-gradient(135deg,#5AA5CC_0%,#27E7EC_45%,#14A8BC_100%)] p-10 shadow-[0_30px_100px_rgba(2,53,96,0.18)] dark:bg-[radial-gradient(circle_at_75%_50%,rgba(39,231,236,0.18)_0%,transparent_52%),radial-gradient(circle_at_10%_20%,rgba(255,255,255,0.05)_0%,transparent_58%),linear-gradient(145deg,#07141d_0%,#050d14_100%)] dark:shadow-[0_8px_18px_rgba(0,0,0,0.45),0_0_22px_rgba(39,231,236,0.15)]">
         <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-on-dark)]/80 dark:text-[var(--text-on-dark)]/60">Pricing</p>
-        <h1 className="mt-3 text-4xl font-semibold md:text-5xl text-[var(--text-on-dark)]">Plans built for ambitious teams</h1>
+        <h1 className="mt-3 text-4xl font-semibold md:text-5xl text-[var(--text-on-dark)]">Built for teams who want growth without hiring more people</h1>
         <p className="mt-3 max-w-2xl text-sm text-[var(--text-on-dark)]/85">
-          Choose your Orvia plan, then tell us what to build. We’ll pair pricing with a guided intake—no heavy forms.
+          Pick your Orvia plan and we'll configure the entire system for you. No forms, no friction, just instant operational power.
         </p>
       </div>
     </section>
@@ -263,8 +263,8 @@ function PricingGrid() {
     <section className="container space-y-6" id="orvia-pricing">
       <div className="space-y-2 text-center">
         <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Orvia pricing</p>
-        <h2 className="text-3xl font-semibold md:text-4xl">Flexible options with white-glove setup</h2>
-        <p className="text-sm text-[var(--text-secondary)]">Glassmorphism cards with simple, transparent details.</p>
+        <h2 className="text-3xl font-semibold md:text-4xl">Plans built to automate your business from day one</h2>
+        <p className="text-sm text-[var(--text-secondary)]">Pricing made simple. Setup done for you. Results that scale with your team.</p>
       </div>
       <TooltipProvider>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

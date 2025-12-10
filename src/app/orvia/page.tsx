@@ -39,6 +39,7 @@ import {
   Phone,
   MessageCircle,
   Info,
+  Check,
 } from "lucide-react";
 
 const problemPoints = [
@@ -153,51 +154,40 @@ const differentiators = [
 ];
 
 const pricingPlans: {
-  name: string;
+  title: string;
   price: string;
+  subtitle: string;
   icon: LucideIcon;
   highlight?: boolean;
   badge?: string;
   cta: { label: string; href: string };
-  features: { label: string; icon: LucideIcon }[];
+  features: string[];
 }[] = [
   {
-    name: "Starter Plan",
+    title: "Starter",
     price: "$300/month",
+    subtitle: "Free site + 24/7 web AI agent",
     icon: Sparkles,
-    cta: { label: "Buy Now", href: "https://rzp.io/rzp/b2uLy2tC" },
-    features: [
-      { label: "Free website included", icon: Sparkles },
-      { label: "200 conversations / month", icon: MessagesSquare },
-      { label: "Web-based AI agent", icon: Bot },
-      { label: "Full setup included", icon: Workflow },
-    ],
+    cta: { label: "Get Started", href: "https://rzp.io/rzp/b2uLy2tC" },
+    features: ["Your branded website built for conversions", "Booking and scheduling system", "200 conversations every month", "Web AI Agent that responds instantly", "Complete setup done for you"],
   },
   {
-    name: "Growth Plan",
+    title: "Growth",
     price: "$499/month",
-    icon: LineChart,
-    highlight: true,
+    subtitle: "Most loved by scaling teams",
     badge: "Most Popular",
-    cta: { label: "Buy Now", href: "https://rzp.io/rzp/LNubLwT" },
-    features: [
-      { label: "Free website included", icon: Sparkles },
-      { label: "500 conversations / month", icon: MessagesSquare },
-      { label: "Web-based AI agent", icon: Bot },
-      { label: "Full setup included", icon: Workflow },
-    ],
+    highlight: true,
+    icon: LineChart,
+    cta: { label: "Get Started", href: "https://rzp.io/rzp/LNubLwT" },
+    features: ["High-performance website crafted to convert more leads", "Smart booking engine that runs your calendar automatically", "500 conversations every month", "Web AI Agent for nonstop customer handling", "Full setup and optimization"],
   },
   {
-    name: "Custom Package",
+    title: "Custom",
     price: "Custom pricing",
-    icon: Workflow,
+    subtitle: "Tailored automations & enterprise",
+    icon: Globe2,
     cta: { label: "Contact Team", href: "/contact" },
-    features: [
-      { label: "Unlimited conversations", icon: MessagesSquare },
-      { label: "WhatsApp & Voice integration", icon: Globe2 },
-      { label: "Custom-built website", icon: LaptopMinimal },
-      { label: "Enterprise features", icon: ShieldCheck },
-    ],
+    features: ["Unlimited conversations", "Web, WhatsApp, and Voice automations", "Custom booking and scheduling system", "Tailored website and customer journey", "Enterprise-grade workflows and integrations", "Payment reminders", "Custom dashboards & reporting"],
   },
 ];
 
@@ -574,68 +564,49 @@ export default function OrviaPage() {
           </ScrollArea>
         </section>
 
-        {/* Pricing Section - Premium Redesign */}
-        <section id="pricing" className="container space-y-8 scroll-mt-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="space-y-3 text-center"
-          >
-            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Pricing</p>
-            <h2 className="text-3xl font-semibold text-[var(--text-primary)] md:text-4xl">Transparent tiers built to scale</h2>
-            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-              Every package includes a free website, Orvia's AI agent, and white-glove setup. Choose the plan that fits your growth pace.
-            </p>
-          </motion.div>
+        {/* Pricing Section - Duplicated from Pricing Page */}
+        <section id="pricing" className="container space-y-6 scroll-mt-24">
+          <div className="space-y-2 text-center">
+            <p className="text-xs uppercase tracking-[0.55em] text-[var(--text-secondary)]">Orvia pricing</p>
+            <h2 className="text-3xl font-semibold md:text-4xl">Plans built to automate your business from day one</h2>
+            <p className="text-sm text-[var(--text-secondary)]">Pricing made simple. Setup done for you. Results that scale with your team.</p>
+          </div>
           <TooltipProvider>
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {pricingPlans.map((plan, index) => (
-                <motion.div
-                  key={plan.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+              {pricingPlans.map((plan) => (
+                <Card
+                  key={plan.title}
+                  className={`relative overflow-hidden border border-white/60 bg-white/40 shadow-[0_25px_90px_rgba(15,23,42,0.12)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_35px_120px_rgba(15,23,42,0.16)] dark:border-[var(--border)]/70 dark:bg-[var(--bg-secondary)]/70 ${
+                    plan.highlight ? "ring-2 ring-[var(--accent)]/70" : ""
+                  }`}
+                  data-interactive
                 >
-                  <Card
-                    className={`group relative h-full overflow-hidden border-[var(--border)]/70 bg-gradient-to-br from-[var(--bg-secondary)]/90 to-[var(--bg-secondary)]/60 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl ${
-                      plan.highlight
-                        ? "ring-2 ring-[var(--accent)]/50 shadow-lg shadow-[var(--accent)]/20"
-                        : "hover:border-[var(--accent)]/40"
-                    }`}
-                  >
-                    {plan.highlight && (
-                      <div className="absolute top-0 right-0 rounded-bl-2xl bg-gradient-to-br from-[var(--accent)]/20 to-transparent px-4 py-1.5">
-                        <span className="text-xs font-semibold text-[var(--accent)]">{plan.badge}</span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    <CardContent className="relative z-10 space-y-6 p-6">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-white/0 dark:from-white/5" />
+                  <CardContent className="relative space-y-5 p-6">
+                    <div className="flex items-start justify-between">
                       <div className="space-y-2">
-                      <div className="flex items-center gap-3">
-                          <motion.span
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 text-[var(--accent)] shadow-md"
-                          >
-                            <plan.icon className="h-6 w-6" />
-                          </motion.span>
-                        <div>
-                            <p className="text-xl font-semibold text-[var(--text-primary)]">{plan.name}</p>
-                            <p className="text-lg font-medium text-[var(--text-secondary)]">{plan.price}</p>
-                          </div>
+                        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]/15 text-[var(--accent)]">
+                          <plan.icon className="h-5 w-5" />
+                        </span>
+                        <div className="space-y-1">
+                          <p className="text-lg font-semibold text-[var(--text-primary)]">{plan.title}</p>
+                          <p className="text-sm text-[var(--text-secondary)]">{plan.subtitle}</p>
+                          <p className="text-2xl font-semibold text-[var(--text-primary)]">{plan.price}</p>
                         </div>
                       </div>
-                      <ul className="space-y-3">
+                      {plan.badge ? (
+                        <span className="rounded-full bg-[var(--accent)]/15 px-3 py-1 text-xs font-semibold text-[var(--accent)]">{plan.badge}</span>
+                      ) : null}
+                    </div>
+                    <ul className="space-y-3 text-sm text-[var(--text-secondary)]">
                       {plan.features.map((feature) => (
-                        <li key={`${plan.name}-${feature.label}`} className="flex items-start gap-3">
-                            <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15 text-[var(--accent)]">
-                            <feature.icon className="h-4 w-4" />
+                        <li key={`${plan.title}-${feature}`} className="flex items-center gap-3">
+                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)]/12 text-[var(--accent)]">
+                            <Check className="h-3.5 w-3.5" />
                           </span>
-                            <span className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                            {feature.label}
-                            {feature.label === "Free website included" && (
+                          <span className="flex items-center gap-2">
+                            {feature}
+                            {(feature === "Your branded website built for conversions" || feature === "High-performance website crafted to convert more leads") && (
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <button
@@ -643,7 +614,7 @@ export default function OrviaPage() {
                                     className="inline-flex items-center justify-center rounded-full text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors"
                                     aria-label="More information"
                                   >
-                                      <Info className="h-3.5 w-3.5" />
+                                    <Info className="h-4 w-4" />
                                   </button>
                                 </TooltipTrigger>
                                 <TooltipContent className="max-w-xs bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)]">
@@ -655,16 +626,11 @@ export default function OrviaPage() {
                         </li>
                       ))}
                     </ul>
-                    <Button
-                      asChild
-                        className="w-full rounded-full h-11 font-semibold"
-                      variant={plan.highlight ? "default" : "outline"}
-                    >
+                    <Button asChild className="w-full rounded-full" variant={plan.highlight ? "default" : "outline"}>
                       <Link href={plan.cta.href}>{plan.cta.label}</Link>
                     </Button>
                   </CardContent>
                 </Card>
-                </motion.div>
               ))}
             </div>
           </TooltipProvider>

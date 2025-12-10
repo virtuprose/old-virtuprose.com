@@ -1861,6 +1861,10 @@ section {
   bottom: 5.5rem;
   width: clamp(320px, 28vw, 420px);
   border-radius: 24px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.35);
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(241, 246, 255, 0.9));
   box-shadow: 0 35px 70px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
@@ -1892,9 +1896,14 @@ section {
   width: calc(100% - 2rem);
   right: 1rem;
   left: 1rem;
-  bottom: 5.5rem;
+  bottom: 1.5rem;
   top: auto;
-  max-height: calc(100vh - 7rem);
+  max-height: calc(100vh - 3rem);
+  border-radius: 24px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
 }
 
 @media (max-width: 640px) {
@@ -1912,7 +1921,11 @@ section {
     /* Dynamic viewport height for mobile keyboards */
     max-height: 100vh;
     max-height: 100dvh;
-    border-radius: 0;
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
     border: none;
     z-index: 9999;
   }
@@ -2137,6 +2150,18 @@ section {
   max-height: calc(100vh - 8rem);
 }
 
+@media (min-width: 641px) {
+  .orvia-chat-panel {
+    border-radius: 24px !important;
+    border-top-left-radius: 24px !important;
+    border-top-right-radius: 24px !important;
+    border-bottom-left-radius: 24px !important;
+    border-bottom-right-radius: 24px !important;
+    overflow: hidden !important;
+    bottom: 1.5rem !important;
+  }
+}
+
 .dark .orvia-chat-panel {
   background: #1a1a1a !important;
 }
@@ -2149,6 +2174,13 @@ section {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   gap: 0.75rem;
   position: relative;
+}
+
+@media (min-width: 641px) {
+  .orvia-chat-header-new {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+  }
 }
 
 .orvia-header-back {
@@ -2492,6 +2524,13 @@ section {
   padding: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   background: #1a1a1a;
+}
+
+@media (min-width: 641px) {
+  .orvia-chat-footer {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
 }
 
 .orvia-footer-logo {

@@ -13,7 +13,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
+import { Menu, Sparkles } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -31,11 +31,9 @@ type NavItem = {
 
 const NAV_LINKS: NavItem[] = [
   { href: "/", label: "Home" },
-  // { href: "/services", label: "Services" }, // Hidden for now
   { href: "/pricing", label: "Pricing" },
   { href: "/who-we-are", label: "Who We Are" },
-  { href: "/contact", label: "Contact Us" },
-  { href: "/orvia", label: "Orvia", cta: true, ctaText: "Explore Orvia →" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteNav() {
@@ -61,40 +59,46 @@ export function SiteNav() {
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          className="group h-10 w-10 hover:bg-[var(--accent)]/15"
+          className="group h-9 w-9 rounded-xl hover:bg-[var(--text-primary)]/5"
           variant="ghost"
           size="icon"
           aria-label="Open navigation"
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5 text-[var(--text-secondary)]" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-64 border-l border-[var(--border)] bg-[var(--bg-secondary)]">
+      <SheetContent side="right" className="w-72 border-l border-[var(--border)]/50 bg-[var(--bg)] backdrop-blur-2xl">
         <SheetHeader>
-          <SheetTitle>Navigate</SheetTitle>
+          <SheetTitle className="text-left text-sm font-medium text-[var(--text-secondary)]">Menu</SheetTitle>
         </SheetHeader>
-        <div className="mt-4 flex flex-col gap-2">
-          {NAV_LINKS.filter((link) => !link.cta).map((link) => (
-            <Fragment key={link.href}>
-              <Link
-                href={link.href}
-                className={cn(
-                  "rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-[var(--bg)]/60",
-                  pathname === link.href ? "text-[var(--accent)]" : "text-[var(--text-secondary)]",
-                )}
-              >
-                {link.label}
-              </Link>
-              {link.href === "/" && (
-                <Link
-                  href="/orvia"
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap h-9 px-4 rounded-full text-sm font-semibold text-[var(--accent)] border border-[var(--accent)]/40 bg-[var(--accent)]/15 shadow-[0_4px_18px_rgba(99,102,241,0.25)] transition-all duration-200 hover:brightness-110 hover:shadow-[0_6px_24px_rgba(99,102,241,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2"
-                >
-                  Explore Orvia →
-                </Link>
+        <div className="mt-6 flex flex-col gap-1">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "rounded-xl px-4 py-3 text-[15px] font-medium transition-all duration-200",
+                pathname === link.href 
+                  ? "bg-[var(--text-primary)]/5 text-[var(--text-primary)]" 
+                  : "text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/5 hover:text-[var(--text-primary)]",
               )}
-            </Fragment>
+            >
+              {link.label}
+            </Link>
           ))}
+          <div className="my-3 h-px bg-[var(--border)]/50" />
+          <Link
+            href="/orvia"
+            className="group relative flex items-center gap-3 rounded-xl bg-gradient-to-r from-[var(--accent)]/10 to-[var(--accent)]/5 px-4 py-3 transition-all duration-300 hover:from-[var(--accent)]/15 hover:to-[var(--accent)]/10"
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--accent)] text-white shadow-lg shadow-[var(--accent)]/25">
+              <Sparkles className="h-4 w-4" />
+            </span>
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold text-[var(--text-primary)]">ORVIA</span>
+              <span className="text-xs text-[var(--text-secondary)]">AI Business Assistant</span>
+            </div>
+          </Link>
         </div>
       </SheetContent>
     </Sheet>
@@ -102,36 +106,45 @@ export function SiteNav() {
 
   const desktopMenu = (
     <NavigationMenu className="hidden lg:flex">
-      <NavigationMenuList className="items-center gap-4">
-        {NAV_LINKS.filter((link) => !link.cta).map((link) => (
-          <Fragment key={link.href}>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-sm font-medium transition",
-                    pathname === link.href ? "text-[var(--accent)]" : "text-[var(--text-secondary)] hover:text-[var(--accent)]",
-                  )}
-                >
-                  {link.label}
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            {link.href === "/" && (
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/orvia"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap h-9 px-4 rounded-full text-sm font-semibold text-[var(--accent)] border border-[var(--accent)]/40 bg-[var(--accent)]/15 shadow-[0_4px_18px_rgba(99,102,241,0.25)] transition-all duration-200 hover:brightness-110 hover:shadow-[0_6px_24px_rgba(99,102,241,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2"
-                  >
-                    Explore Orvia →
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            )}
-          </Fragment>
+      <NavigationMenuList className="items-center gap-1">
+        {NAV_LINKS.map((link) => (
+          <NavigationMenuItem key={link.href}>
+            <NavigationMenuLink asChild>
+              <Link
+                href={link.href}
+                className={cn(
+                  "relative rounded-lg px-4 py-2 text-[13px] font-medium tracking-[-0.01em] transition-all duration-200",
+                  pathname === link.href 
+                    ? "text-[var(--text-primary)]" 
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
+                )}
+              >
+                {link.label}
+                {pathname === link.href && (
+                  <span className="absolute bottom-0 left-1/2 h-[2px] w-4 -translate-x-1/2 rounded-full bg-[var(--accent)]" />
+                )}
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
         ))}
+        <div className="mx-2 h-5 w-px bg-[var(--border)]/60" />
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link
+              href="/orvia"
+              className={cn(
+                "group relative inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300",
+                "bg-gradient-to-r from-[var(--accent)] to-[#14b8a6]",
+                "text-white shadow-[0_2px_12px_rgba(39,231,236,0.35)]",
+                "hover:shadow-[0_4px_20px_rgba(39,231,236,0.45)] hover:scale-[1.02]",
+                pathname === "/orvia" && "ring-2 ring-[var(--accent)]/30 ring-offset-2 ring-offset-[var(--bg)]"
+              )}
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>ORVIA</span>
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -141,11 +154,11 @@ export function SiteNav() {
       ref={(node) => {
         containerRef.current = node;
       }}
-      className="sticky top-0 z-40 w-full border-b border-[var(--border)] bg-[var(--bg)]/95 px-4 shadow-[0_10px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl"
+      className="sticky top-0 z-40 w-full border-b border-[var(--border)]/40 bg-[var(--bg)]/80 px-4 backdrop-blur-xl"
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="relative h-[2.6rem] w-36">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
+          <div className="relative h-9 w-32">
             <Image
               src="/newbranding/logo-light.svg"
               alt="VirtuProse logo"
@@ -167,9 +180,9 @@ export function SiteNav() {
 
         {!isMobile && desktopMenu}
 
-        <div className="flex items-center gap-1.5">
-          {isMobile && mobileMenu}
+        <div className="flex items-center gap-2">
           <ThemeToggle />
+          {isMobile && mobileMenu}
         </div>
       </div>
     </header>

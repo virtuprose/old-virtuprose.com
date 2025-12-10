@@ -272,9 +272,8 @@ export default function HomePage() {
               const formatted = target > 100 ? value.toLocaleString() : value;
               el.textContent = `${formatted}${el.dataset.suffix ?? ""}`;
               if (progress < 1) requestAnimationFrame(update);
-              else el.textContent = `${target.toLocaleString()}${
-                el.dataset.suffix ?? ""
-              }`;
+              else el.textContent = `${target.toLocaleString()}${el.dataset.suffix ?? ""
+                }`;
             };
 
             requestAnimationFrame(update);
@@ -357,7 +356,7 @@ export default function HomePage() {
         >
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(39,231,236,0.15),transparent_40%),radial-gradient(circle_at_80%_10%,rgba(90,165,204,0.12),transparent_35%)] blur-3xl pointer-events-none" />
-          
+
           <div className="relative space-y-10">
             {/* Mobile-only reordered structure */}
             <div className="flex flex-col gap-4 sm:hidden">
@@ -372,16 +371,21 @@ export default function HomePage() {
                   priority
                 />
               </div>
-              {/* Your first AI closer - Second on mobile */}
-              <span className="order-2 rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-[0.6rem] uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap w-fit">
-                Your first AI closer
-              </span>
+              {/* Feature badges - Second on mobile */}
+              <div className="order-2 flex flex-wrap gap-2">
+                <span className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-[0.6rem] uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap w-fit">
+                  Your first AI closer
+                </span>
+                <span className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-[0.6rem] uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap w-fit">
+                  Free website & booking system included
+                </span>
+              </div>
             </div>
 
             {/* Desktop structure - Original order */}
             <div className="hidden sm:flex sm:flex-col sm:items-start sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   <Image
                     src="/assets/orvia-logo-black.svg"
                     alt="Orvia logo"
@@ -392,6 +396,9 @@ export default function HomePage() {
                   />
                   <span className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-xs uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap">
                     Your first AI closer
+                  </span>
+                  <span className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-xs uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap">
+                    Free website & booking system included
                   </span>
                 </div>
               </div>
@@ -407,7 +414,7 @@ export default function HomePage() {
                   More bookings. More sales. Zero extra staff.
                 </h2>
               </div>
-              
+
               <p data-hero-animate className="text-[0.7875rem] leading-relaxed text-[var(--text-secondary)] sm:text-lg md:text-xl">
                 Orvia replies instantly, books appointments, collects payments, and closes sales. Deploy Orvia across Web, WhatsApp, and Voice channels. Never lose a lead again, not even at 3 AM.
               </p>
@@ -435,7 +442,7 @@ export default function HomePage() {
         >
           <div className="rounded-[30px] border border-white/15 bg-white/5 p-8 shadow-[0_30px_100px_rgba(3,22,26,0.25)] backdrop-blur">
             <div className="space-y-3 text-center text-[var(--gunmetal)]">
-              <p className="text-[11px] uppercase tracking-[0.5em] text-[var(--gunmetal)]/70">Rated ★★★★★ by teams that replaced slow replies, missed leads, and manual work with AI-driven execution.</p>
+              <p className="text-[11px] uppercase tracking-[0.5em] text-[var(--gunmetal)]/70">Rated ★★★★★ by Growth Teams</p>
               <h3 className="text-3xl font-bold leading-tight text-[var(--gunmetal)] md:text-4xl">
                 You're one conversation away from more revenue. Don't miss it.
               </h3>
@@ -514,38 +521,38 @@ export default function HomePage() {
 
 
         {false && (
-        <section className="container space-y-4 rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 p-8 shadow-[0_30px_90px_rgba(15,23,42,0.08)]">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.45em] text-[var(--text-secondary)]">Startups built with VirtuProse</p>
-              <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Growth builds we’ve launched</h3>
-              <p className="text-sm text-[var(--text-secondary)]">
-                Product, GTM, and AI agents crafted for fast-moving founders and marketing teams.
-              </p>
+          <section className="container space-y-4 rounded-[32px] border border-[var(--border)]/70 bg-[var(--bg-secondary)]/80 p-8 shadow-[0_30px_90px_rgba(15,23,42,0.08)]">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.45em] text-[var(--text-secondary)]">Startups built with VirtuProse</p>
+                <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Growth builds we’ve launched</h3>
+                <p className="text-sm text-[var(--text-secondary)]">
+                  Product, GTM, and AI agents crafted for fast-moving founders and marketing teams.
+                </p>
+              </div>
+              <Button asChild>
+                <Link href="/services">Browse portfolio</Link>
+              </Button>
             </div>
-            <Button asChild>
-              <Link href="/services">Browse portfolio</Link>
-            </Button>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {showcaseProjects.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--border)]/70 bg-[var(--bg)]/90 transition hover:border-[var(--accent)]/60"
-              >
-                <div className="relative h-44 w-full overflow-hidden bg-[var(--bg-secondary)]">
-                  <Image src={item.image} alt={item.title} fill className="object-contain p-6 transition duration-500 group-hover:scale-105" />
-                </div>
-                <div className="space-y-1 p-4">
-                  <p className="text-base font-semibold text-[var(--text-primary)]">{item.title}</p>
-                  <p className="text-sm text-[var(--text-secondary)]">{item.description}</p>
-                  <span className="text-xs text-[var(--accent)]">Browse →</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {showcaseProjects.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--border)]/70 bg-[var(--bg)]/90 transition hover:border-[var(--accent)]/60"
+                >
+                  <div className="relative h-44 w-full overflow-hidden bg-[var(--bg-secondary)]">
+                    <Image src={item.image} alt={item.title} fill className="object-contain p-6 transition duration-500 group-hover:scale-105" />
+                  </div>
+                  <div className="space-y-1 p-4">
+                    <p className="text-base font-semibold text-[var(--text-primary)]">{item.title}</p>
+                    <p className="text-sm text-[var(--text-secondary)]">{item.description}</p>
+                    <span className="text-xs text-[var(--accent)]">Browse →</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
 
 
@@ -607,7 +614,7 @@ export default function HomePage() {
           >
             {/* Subtle gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/8 via-transparent to-[var(--accent)]/5 pointer-events-none" />
-            
+
             <div className="relative mx-auto max-w-4xl text-center space-y-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -623,7 +630,7 @@ export default function HomePage() {
                   Talk to us. We'll show you where Orvia creates the biggest wins in your business.
                 </p>
               </motion.div>
-              
+
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

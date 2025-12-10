@@ -10,8 +10,8 @@ const secondaryTiles = [
     icon: MessageSquare,
   },
   {
-    title: "Your calendar fills itself",
-    text: "From first message to confirmed booking, Orvia handles the entire flow.",
+    title: "Free website & booking system included",
+    text: "Save thousands on website development and costly booking systems. Both come free with Orvia.",
     icon: Calendar,
   },
   {
