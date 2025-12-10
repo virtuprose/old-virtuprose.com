@@ -74,9 +74,11 @@ export default function HomePage() {
       duration: 1.2,
       smoothWheel: true,
       prevent: (node) => {
-        // Prevent Lenis from handling scroll inside Orvia chat
+        // Prevent Lenis from handling scroll inside Orvia chat (both old and Kodee styles)
         return node.closest('.orvia-chat-container') !== null ||
-          node.closest('.orvia-messages') !== null;
+          node.closest('.orvia-messages') !== null ||
+          node.closest('.kodee-chat') !== null ||
+          node.closest('.kodee-messages') !== null;
       },
     });
 
