@@ -306,7 +306,7 @@ export default function HomePage() {
                   Your first AI closer
                 </span>
                 <span className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-[0.6rem] uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap w-fit">
-                  Free website & booking system included
+                  Website & booking system included
                 </span>
               </div>
             </div>
@@ -327,7 +327,7 @@ export default function HomePage() {
                     Your first AI closer
                   </span>
                   <span className="rounded-full border border-[var(--border)]/60 bg-[var(--bg)]/60 px-3 py-1 text-xs uppercase tracking-[0.4em] text-[var(--text-secondary)] backdrop-blur-sm whitespace-nowrap">
-                    Free website & booking system included
+                    Website & booking system included
                   </span>
                 </div>
               </div>
