@@ -10,8 +10,8 @@ const secondaryTiles = [
     icon: MessageSquare,
   },
   {
-    title: "Free website & booking system included",
-    text: "Save thousands on website development and costly booking systems. Both come free with Orvia.",
+    title: "Smart booking engine provided",
+    text: "Save thousands on costly booking systems. Our intelligent booking engine automates scheduling, confirmations, and follow-ups seamlessly.",
     icon: Calendar,
   },
   {
