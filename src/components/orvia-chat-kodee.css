@@ -595,3 +595,68 @@
     white-space: nowrap;
     border-width: 0;
 }
+/* Markdown Content Styles */
+.kodee-message-bubble p {
+    margin-bottom: 0.5rem;
+}
+
+.kodee-message-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+.kodee-message-bubble strong {
+    font-weight: 700;
+}
+
+.kodee-message-bubble em {
+    font-style: italic;
+}
+
+.kodee-message-bubble ul, 
+.kodee-message-bubble ol {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+}
+
+.kodee-message-bubble li {
+    margin-bottom: 0.25rem;
+    list-style: disc;
+}
+
+.kodee-message-bubble ol li {
+    list-style: decimal;
+}
+
+.kodee-message-bubble a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    opacity: 0.9;
+}
+
+.kodee-message-bubble a:hover {
+    opacity: 1;
+}
+
+/* Markdown Tables */
+.kodee-message-bubble table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+    font-size: 0.9em;
+    display: block;
+    overflow-x: auto;
+    border-radius: 4px;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.kodee-message-bubble th, 
+.kodee-message-bubble td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.kodee-message-bubble th {
+    font-weight: 600;
+    background-color: rgba(128, 128, 128, 0.1);
+}

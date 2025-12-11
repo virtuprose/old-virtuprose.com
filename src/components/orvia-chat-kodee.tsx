@@ -4,6 +4,8 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import "./orvia-chat-kodee.css";
 import Image from "next/image";
 import { ChevronDown, Send, ArrowUpRight } from "lucide-react";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const WELCOME_MESSAGE = "Hi, you're speaking with Orvia AI Agent. I'll help you with whatever you need! What brings you here today?";
 
@@ -224,7 +226,20 @@ export function OrviaKodeeChat({ onClose }: OrviaKodeeChatProps) {
                         )}
                         <div className="kodee-message-content">
                             {msg.sender === "bot" && <span className="kodee-message-name">Orvia</span>}
-                            <div className="kodee-message-bubble">{msg.text}</div>
+                            <div className="kodee-message-bubble">
+                                {msg.sender === "bot" ? (
+                                    <ReactMarkdown
+                                        remarkPlugins={[remarkGfm]}
+                                        components={{
+                                            a: ({ ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />
+                                        }}
+                                    >
+                                        {msg.text}
+                                    </ReactMarkdown>
+                                ) : (
+                                    msg.text
+                                )}
+                            </div>
                         </div>
                     </div>
                 ))}
