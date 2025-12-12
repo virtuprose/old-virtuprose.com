@@ -9,12 +9,86 @@ import remarkGfm from 'remark-gfm';
 
 const WELCOME_MESSAGE = "Hi, you're speaking with Orvia AI Agent. I'll help you with whatever you need! What brings you here today?";
 
-const QUICK_REPLIES = [
-    "Learn about ORVIA services",
-    "Get a demo",
-    "Pricing information",
-    "Talk to sales team",
+// Quick-action button configuration with display labels and prompt injections
+const QUICK_ACTIONS = [
+    {
+        label: "Learn what Orvia can automate",
+        prompt: "Can you explain what Orvia can automate for my business?"
+    },
+    {
+        label: "See a live demo",
+        prompt: "I want to see a demo. Show me lead capture, booking, or full automation flow."
+    },
+    {
+        label: "Pricing & plans",
+        prompt: "Show me the pricing plans."
+    },
+    {
+        label: "Talk to a human",
+        prompt: "I want to speak with someone from your team."
+    }
 ];
+
+// localStorage keys and expiry (24 hours in milliseconds)
+const STORAGE_KEY = "orvia_chat_history";
+const STORAGE_EXPIRY = 24 * 60 * 60 * 1000;
+
+interface StoredChatData {
+    messages: Array<{
+        id: string;
+        text: string;
+        sender: "user" | "bot";
+        timestamp: string;
+    }>;
+    savedAt: number;
+}
+
+// Helper functions for localStorage
+const saveToStorage = (messages: Message[]) => {
+    if (typeof window === "undefined") return;
+    const data: StoredChatData = {
+        messages: messages.map(m => ({
+            ...m,
+            timestamp: m.timestamp.toISOString()
+        })),
+        savedAt: Date.now()
+    };
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {
+        console.warn("[orvia-chat] Failed to save to localStorage:", e);
+    }
+};
+
+const loadFromStorage = (): Message[] | null => {
+    if (typeof window === "undefined") return null;
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) return null;
+
+        const data: StoredChatData = JSON.parse(stored);
+
+        // Check if data has expired (24 hours)
+        if (Date.now() - data.savedAt > STORAGE_EXPIRY) {
+            localStorage.removeItem(STORAGE_KEY);
+            return null;
+        }
+
+        // Convert timestamps back to Date objects
+        return data.messages.map(m => ({
+            ...m,
+            timestamp: new Date(m.timestamp)
+        }));
+    } catch (e) {
+        console.warn("[orvia-chat] Failed to load from localStorage:", e);
+        return null;
+    }
+};
+
+const clearStorage = () => {
+    if (typeof window === "undefined") return;
+    localStorage.removeItem(STORAGE_KEY);
+};
 
 interface Message {
     id: string;
@@ -32,9 +106,27 @@ export function OrviaKodeeChat({ onClose }: OrviaKodeeChatProps) {
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [showQuickReplies, setShowQuickReplies] = useState(true);
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Load chat history from localStorage on mount
+    useEffect(() => {
+        const storedMessages = loadFromStorage();
+        if (storedMessages && storedMessages.length > 0) {
+            setMessages(storedMessages);
+            setShowQuickReplies(false);
+        }
+        setIsInitialized(true);
+    }, []);
+
+    // Save messages to localStorage whenever they change
+    useEffect(() => {
+        if (isInitialized && messages.length > 0) {
+            saveToStorage(messages);
+        }
+    }, [messages, isInitialized]);
 
     // Auto-scroll to bottom
     const scrollToBottom = useCallback(() => {
@@ -167,7 +259,7 @@ export function OrviaKodeeChat({ onClose }: OrviaKodeeChatProps) {
         <div className="kodee-chat">
             {/* Header */}
             <header className="kodee-header">
-                <span className="kodee-header-title">Orvia</span>
+                <span className="kodee-header-title">ORVIA 24/7 Ai Assistant</span>
                 <button
                     onClick={onClose}
                     className="kodee-header-btn"
@@ -191,23 +283,24 @@ export function OrviaKodeeChat({ onClose }: OrviaKodeeChatProps) {
                                 height={48}
                             />
                         </div>
-                        <h2 className="kodee-welcome-title">Hello 👋</h2>
-                        <p className="kodee-welcome-subtitle">How can I help you today?</p>
+                        <h2 className="kodee-welcome-title">What would you like Orvia to grow for your business today?</h2>
+                        <p className="kodee-welcome-subtitle">Your appointment booking system is already included from day one.</p>
                     </div>
                 )}
 
                 {/* Quick Replies */}
                 {showQuickReplies && messages.length === 0 && (
                     <div className="kodee-quick-replies">
-                        {QUICK_REPLIES.map((reply) => (
+                        {QUICK_ACTIONS.map((action, index) => (
                             <button
-                                key={reply}
-                                onClick={() => handleQuickReply(reply)}
+                                key={action.label}
+                                onClick={() => handleQuickReply(action.prompt)}
                                 className="kodee-quick-reply"
                                 type="button"
+                                style={{ animationDelay: `${index * 0.1}s` }}
                             >
                                 <ArrowUpRight size={16} />
-                                {reply}
+                                {action.label}
                             </button>
                         ))}
                     </div>
@@ -287,7 +380,7 @@ export function OrviaKodeeChat({ onClose }: OrviaKodeeChatProps) {
                         <Send size={18} />
                     </button>
                 </div>
-                <p className="kodee-disclaimer">Orvia can make mistakes. Double-check replies.</p>
+                <p className="kodee-disclaimer">Powered by ORVIA</p>
             </div>
         </div>
     );

@@ -143,16 +143,26 @@
 }
 
 .kodee-welcome-title {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 600;
     color: #1a1a1a;
-    margin: 0 0 4px 0;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    max-width: 320px;
+}
+
+@media (max-width: 640px) {
+    .kodee-welcome-title {
+        font-size: 1.1rem;
+        max-width: 280px;
+    }
 }
 
 .kodee-welcome-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #666666;
     margin: 0;
+    line-height: 1.4;
 }
 
 /* ========================================
@@ -178,19 +188,46 @@
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
     text-align: left;
     font-family: inherit;
+    animation: fadeInUp 0.4s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .kodee-quick-reply:hover {
     background: #f9f9f9;
     border-color: #d4d4d4;
+    transform: translateY(-1px);
+}
+
+.kodee-quick-reply:active {
+    transform: scale(0.98);
 }
 
 .kodee-quick-reply svg {
     color: #666666;
     flex-shrink: 0;
+}
+
+/* Mobile: Larger tap targets */
+@media (max-width: 640px) {
+    .kodee-quick-reply {
+        padding: 14px 16px;
+        min-height: 48px;
+    }
 }
 
 /* ========================================
@@ -595,6 +632,7 @@
     white-space: nowrap;
     border-width: 0;
 }
+
 /* Markdown Content Styles */
 .kodee-message-bubble p {
     margin-bottom: 0.5rem;
@@ -612,7 +650,7 @@
     font-style: italic;
 }
 
-.kodee-message-bubble ul, 
+.kodee-message-bubble ul,
 .kodee-message-bubble ol {
     margin: 0.5rem 0;
     padding-left: 1.25rem;
@@ -649,7 +687,7 @@
     border: 1px solid rgba(128, 128, 128, 0.2);
 }
 
-.kodee-message-bubble th, 
+.kodee-message-bubble th,
 .kodee-message-bubble td {
     padding: 0.5rem 0.75rem;
     text-align: left;
