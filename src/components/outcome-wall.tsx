@@ -1,13 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageSquare, Calendar, CreditCard, Briefcase } from "lucide-react";
+import { LayoutDashboard, Calendar, CreditCard, Briefcase } from "lucide-react";
 
 const secondaryTiles = [
   {
-    title: "Never lose a lead again",
-    text: "Orvia answers every inquiry in seconds on WhatsApp, web, and voice.",
-    icon: MessageSquare,
+    title: "Meet the Orvia Control Center",
+    text: "The Orvia Control Center lets you track leads, manage bookings, and see results without asking anyone for reports. You're always in control.",
+    icon: LayoutDashboard,
   },
   {
     title: "Smart booking engine provided",
@@ -20,7 +20,7 @@ const secondaryTiles = [
     icon: CreditCard,
   },
   {
-    title: "One agent. Any industry.",
+    title: "One agent, any industry",
     text: "Clinics, salons, real estate, education, and services.",
     icon: Briefcase,
   },

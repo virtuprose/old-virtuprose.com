@@ -78,7 +78,7 @@ type Plan = {
 const plans: Plan[] = [
   {
     title: "Starter",
-    price: "$300/month",
+    price: "$299/month",
     subtitle: "For businesses automating their daily lead flow",
     icon: Sparkles,
     cta: { label: "Get Started", href: "/contact" },
