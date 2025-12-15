@@ -6,22 +6,22 @@ import { LayoutDashboard, Calendar, CreditCard, Briefcase } from "lucide-react";
 const secondaryTiles = [
   {
     title: "Meet the Orvia Control Center",
-    text: "The Orvia Control Center lets you track leads, manage bookings, and see results without asking anyone for reports. You're always in control.",
+    text: "See every lead, every booking, and every result in one place. No reports. No chasing. You always know what's happening.",
     icon: LayoutDashboard,
   },
   {
-    title: "Smart booking engine provided",
-    text: "Save thousands on costly booking systems. Our intelligent booking engine automates scheduling, confirmations, and follow-ups seamlessly.",
+    title: "Booking, handled automatically",
+    text: "Appointments booked, confirmed, and followed up without manual work. No expensive booking tools required.",
     icon: Calendar,
   },
   {
-    title: "Payments collected without chasing",
-    text: "It sends links, reminders, and confirmations automatically.",
+    title: "Payments collected. Automatically.",
+    text: "It sends links, reminders, and confirmations so you don't have to follow up.",
     icon: CreditCard,
   },
   {
-    title: "One agent, any industry",
-    text: "Clinics, salons, real estate, education, and services.",
+    title: "Built for how your business actually runs",
+    text: "Orvia adapts to your workflow, your schedule, and your customers. You don't have to change how you operate.",
     icon: Briefcase,
   },
 ];
@@ -48,10 +48,10 @@ export function OutcomeWall() {
             MEET ORVIA
           </span>
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mt-2 max-sm:text-xl max-sm:mt-1">
-            Orvia runs the conversations that grow your business.
+            Your business doesn't sleep. Neither does Orvia.
           </h2>
           <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mt-3 max-w-2xl max-sm:mt-2 max-sm:text-sm">
-            It replies instantly, books appointments, follows up, and collects payments while your team sleeps.
+            Every inquiry answered. Every booking handled. Every payment followed through. Without relying on your team to be online.
           </p>
         </motion.div>
 

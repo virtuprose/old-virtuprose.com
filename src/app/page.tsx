@@ -340,12 +340,12 @@ export default function HomePage() {
                   data-hero-animate
                   className="text-4xl font-semibold leading-tight tracking-tight text-[var(--text-primary)] md:text-5xl lg:text-6xl mt-[3px] sm:mt-0"
                 >
-                  More bookings. More sales. Zero extra staff.
+                  More bookings. More sales. No extra hires.
                 </h2>
               </div>
 
               <p data-hero-animate className="text-[0.7875rem] leading-relaxed text-[var(--text-secondary)] sm:text-lg md:text-xl">
-                Orvia replies instantly, books appointments, collects payments, and closes sales. Deploy Orvia across Web, WhatsApp, and Voice channels. Never lose a lead again, not even at 3 AM.
+                Orvia handles every conversation, books appointments, and closes sales automatically. Your business keeps growing. Even when you're offline.
               </p>
 
               <div data-hero-animate className="flex flex-wrap gap-3">
@@ -468,10 +468,10 @@ export default function HomePage() {
                 className="space-y-4"
               >
                 <h3 className="text-3xl font-semibold leading-tight text-[var(--text-primary)] md:text-4xl lg:text-5xl">
-                  What would your business look like if every lead was answered instantly?
+                  What would change if every lead was handled properly?
                 </h3>
                 <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-                  Talk to us. We'll show you where Orvia creates the biggest wins in your business.
+                  We'll show you exactly where Orvia removes friction and increases revenue in your business.
                 </p>
               </motion.div>
 
@@ -489,7 +489,7 @@ export default function HomePage() {
                   size="lg"
                   className="relative rounded-full px-8 h-12 font-semibold bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] shadow-lg shadow-[var(--accent)]/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--accent)]/40"
                 >
-                  <Link href="/contact">Show me what Orvia can do</Link>
+                  <Link href="/contact">Show me Orvia in action</Link>
                 </Button>
               </motion.div>
             </div>
