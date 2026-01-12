@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { SiteNav } from "@/components/site-nav";
-import { SiteFooter } from "@/components/site-footer";
 import { OrviaChatUI } from "@/components/orvia-chatui";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
@@ -27,7 +25,7 @@ export const metadata: Metadata = {
   title: "Muhammad Zaid | Strategic Automation Partner",
   description:
     "I help ambitious brands scale with intelligent automation engines. Leveraging 10 years of experience to replace manual work with scalable systems.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://virtuprose.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://connectzaid.com"),
   icons: {
     icon: "/assets/favicon.png",
     shortcut: "/assets/favicon.png",
@@ -37,14 +35,14 @@ export const metadata: Metadata = {
     title: "Muhammad Zaid | Strategic Automation Partner",
     description:
       "I help ambitious brands scale with intelligent automation engines. Leveraging 10 years of experience to replace manual work with scalable systems.",
-    url: "https://virtuprose.com",
+    url: "https://connectzaid.com",
     siteName: "Muhammad Zaid",
     images: [
       {
-        url: "/assets/vps-icon.svg",
+        url: "/assets/favicon.png",
         width: 512,
         height: 512,
-        alt: "VirtuProse Halo Icon",
+        alt: "Muhammad Zaid",
       },
     ],
   },
@@ -63,11 +61,9 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased bg-[var(--bg)] text-[var(--text-primary)]`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="relative flex min-h-screen flex-col bg-[var(--bg)]">
-            <div className="aurora-overlay" aria-hidden="true" />
-            <SiteNav />
-            <main className="flex-1 bg-[var(--bg)] pt-8 text-[var(--text-primary)] md:pt-12">{children}</main>
-            <SiteFooter />
+            <main className="flex-1">{children}</main>
           </div>
+          {/* Orvia AI Chat Floating Widget */}
           <OrviaChatUI />
         </ThemeProvider>
       </body>
