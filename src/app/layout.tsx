@@ -48,6 +48,12 @@ export const metadata: Metadata = {
   },
 };
 
+import { Navbar } from "@/components/navbar";
+
+// ... existing imports
+
+// ... existing code
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -60,7 +66,8 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans antialiased bg-[var(--bg)] text-[var(--text-primary)]`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="relative flex min-h-screen flex-col bg-[var(--bg)]">
+          <Navbar />
+          <div className="relative flex min-h-screen flex-col bg-[var(--bg)] pt-20">
             <main className="flex-1">{children}</main>
           </div>
           {/* Orvia AI Chat Floating Widget */}
