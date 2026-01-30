@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const STAGES = [
@@ -9,21 +10,25 @@ const STAGES = [
         id: "01",
         title: "Understand",
         desc: "Deep discovery to uncover goals, constraints, and opportunities.",
+        icon: "/assets/icons/3d/understand.png",
     },
     {
         id: "02",
         title: "Design the System",
         desc: "Strategic architecture that aligns every piece toward the outcome.",
+        icon: "/assets/icons/3d/design.png",
     },
     {
         id: "03",
         title: "Build & Ship",
         desc: "Precision execution — fast, focused, and production-ready.",
+        icon: "/assets/icons/3d/build.png",
     },
     {
         id: "04",
         title: "Optimize & Automate",
         desc: "Continuous refinement and intelligent automation that compounds.",
+        icon: "/assets/icons/3d/optimize.png",
     },
 ];
 
@@ -195,26 +200,37 @@ function StageNode({
             animate={isInView ? { opacity: brightness, scale: isActive ? 1.02 : 1 } : {}}
             transition={{ duration: 0.6, delay: 0.3 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-                "relative p-6 md:p-8 rounded-2xl border transition-all duration-500 cursor-pointer group",
+                "relative p-6 md:p-8 rounded-2xl border transition-all duration-500 cursor-pointer group overflow-hidden",
                 vertical ? "w-full" : "flex-1",
                 isActive
                     ? "bg-[var(--bg-secondary)] border-[var(--accent)] shadow-lg shadow-[var(--accent)]/10"
                     : "bg-[var(--bg)] border-[var(--border)] hover:bg-[var(--bg-secondary)]"
             )}
         >
+            {/* 3D Icon Container */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 mb-6 mx-auto transform transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1">
+                <Image
+                    src={stage.icon}
+                    alt={stage.title}
+                    fill
+                    className="object-contain drop-shadow-xl"
+                    priority
+                />
+            </div>
+
             {/* ID Badge */}
-            <span className="absolute -top-3 left-6 px-2 py-0.5 text-xs font-mono bg-[var(--bg)] text-[#27ECEC] border border-[var(--border)] rounded-full">
+            <span className="absolute top-4 right-4 md:right-auto md:left-6 md:-top-3 px-2 py-0.5 text-xs font-mono bg-[var(--bg)] text-[#27ECEC] border border-[var(--border)] rounded-full">
                 {stage.id}
             </span>
 
-            <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2 transition-colors duration-300">
+            <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2 transition-colors duration-300 text-center">
                 {stage.title}
             </h3>
 
             {/* Description - always visible but emphasized on hover */}
             <p
                 className={cn(
-                    "text-sm md:text-base leading-relaxed transition-all duration-500",
+                    "text-sm md:text-base leading-relaxed transition-all duration-500 text-center",
                     isActive ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)]"
                 )}
             >

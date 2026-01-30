@@ -112,14 +112,17 @@ export function OrviaKodeeChat({ onClose, initialMessage }: OrviaKodeeChatProps)
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    const hasSentInitialMessage = useRef(false);
+
     // Load chat history from localStorage on mount
     useEffect(() => {
         const storedMessages = loadFromStorage();
         if (storedMessages && storedMessages.length > 0) {
             setMessages(storedMessages);
             setShowQuickReplies(false);
-        } else if (initialMessage) {
+        } else if (initialMessage && !hasSentInitialMessage.current) {
             // If no history but there's a handoff message, send it immediately
+            hasSentInitialMessage.current = true;
             sendMessage(initialMessage);
         }
         setIsInitialized(true);
