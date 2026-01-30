@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Mic, ArrowUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export interface RadiantPromptInputProps {
     placeholder?: string;
@@ -13,8 +14,27 @@ export interface RadiantPromptInputProps {
     disabled?: boolean;
 }
 
+const PLACEHOLDERS = [
+    "Build a custom web app...",
+    "Automate my lead generation...",
+    "Scale my SEO strategy...",
+    "Create an AI agent...",
+    "Design a new brand identity...",
+];
+
+const SUGGESTIONS = [
+    "I want to build a custom web app",
+    "I want to automate my lead generation",
+    "I want to scale my SEO strategy",
+    "I want to create an AI agent",
+    "I want to design a new brand identity",
+    "How can you help me grow?",
+    "What is intelligent automation?",
+    "Book a consultation call",
+];
+
 export function RadiantPromptInput({
-    placeholder = "Ask anything...",
+    placeholder: defaultPlaceholder = "Ask anything...",
     value: propValue,
     onChange: propOnChange,
     onSubmit,
@@ -25,17 +45,98 @@ export function RadiantPromptInput({
     const isControlled = propValue !== undefined;
     const value = isControlled ? propValue : internalValue;
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!isControlled) {
-            setInternalValue(e.target.value);
+    // Typewriter State
+    const [placeholder, setPlaceholder] = useState(defaultPlaceholder);
+    const [placeholderIndex, setPlaceholderIndex] = useState(0);
+    const [charIndex, setCharIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+
+    // Ghost Text State
+    const [ghostText, setGhostText] = useState("");
+
+    // Typewriter Logic
+    useEffect(() => {
+        if (value) return; // Don't animate if user is typing
+
+        const currentFullText = PLACEHOLDERS[placeholderIndex];
+
+        // Typing/Deleting speed logic
+        let typeSpeed = isDeleting ? 30 : 50;
+        if (!isDeleting && charIndex === currentFullText.length) {
+            typeSpeed = 2000; // Pause at end
+            setIsPaused(true);
+        } else if (isDeleting && charIndex === 0) {
+            typeSpeed = 500; // Pause before new word
+            setIsPaused(true);
+        } else {
+            setIsPaused(false);
         }
-        propOnChange?.(e.target.value);
+
+        const timer = setTimeout(() => {
+            if (isPaused) {
+                if (!isDeleting && charIndex === currentFullText.length) {
+                    setIsDeleting(true);
+                } else if (isDeleting && charIndex === 0) {
+                    setIsDeleting(false);
+                    setPlaceholderIndex((prev) => (prev + 1) % PLACEHOLDERS.length);
+                }
+            } else {
+                setCharIndex((prev) => prev + (isDeleting ? -1 : 1));
+            }
+        }, typeSpeed);
+
+        return () => clearTimeout(timer);
+    }, [charIndex, isDeleting, isPaused, placeholderIndex, value]);
+
+    // Update displayed placeholder
+    useEffect(() => {
+        if (value) {
+            setPlaceholder("");
+        } else {
+            setPlaceholder(PLACEHOLDERS[placeholderIndex].substring(0, charIndex));
+        }
+    }, [charIndex, placeholderIndex, value]);
+
+
+    // Ghost Text Logic
+    useEffect(() => {
+        if (!value || value.length < 3) {
+            setGhostText("");
+            return;
+        }
+
+        const match = SUGGESTIONS.find(s => s.toLowerCase().startsWith(value.toLowerCase()) && s.length > value.length);
+        if (match) {
+            // Only show the part that hasn't been typed yet
+            // Careful: we want the ghost text to start AFTER the cursor primarily, 
+            // but for simple overlay we render the whole string but hide the user's part with transparency?
+            // Actually, best approach for perfect alignment is to render the user's text invisible + ghost text suffix
+            // But fonts might mismatch. 
+            // Simpler: Render the FULL suggestion, and rely on input value overlapping it. 
+            // We need to match case for the prefix? Or force user case?
+            // Let's adopt the "suffix" approach.
+            const suffix = match.slice(value.length);
+            setGhostText(suffix);
+        } else {
+            setGhostText("");
+        }
+    }, [value]);
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        if (!isControlled) {
+            setInternalValue(newValue);
+        }
+        propOnChange?.(newValue);
     };
 
     const handleSubmit = () => {
         if (value && !disabled) {
             onSubmit?.(value);
             if (!isControlled) setInternalValue("");
+            setGhostText("");
         }
     };
 
@@ -43,6 +144,15 @@ export function RadiantPromptInput({
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSubmit();
+        }
+        if ((e.key === 'Tab' || e.key === 'ArrowRight') && ghostText) {
+            e.preventDefault();
+            // Accept suggestion
+            const fullText = value + ghostText;
+            if (!isControlled) {
+                setInternalValue(fullText);
+            }
+            propOnChange?.(fullText);
         }
     };
 
@@ -123,16 +233,27 @@ export function RadiantPromptInput({
                         <Plus size={20} strokeWidth={2} />
                     </button>
 
-                    {/* Text Input */}
-                    <input
-                        type="text"
-                        value={value}
-                        onChange={handleChange}
-                        onKeyDown={handleKeyDown}
-                        placeholder={placeholder}
-                        disabled={disabled}
-                        className="flex-1 bg-transparent border-none outline-none text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 text-base md:text-lg font-light tracking-wide h-full w-full min-w-0"
-                    />
+                    {/* Text Input Container */}
+                    <div className="relative flex-1 h-full flex items-center">
+                        {/* Ghost Text Overlay */}
+                        <div className="absolute inset-0 flex items-center pointer-events-none text-base md:text-lg font-light tracking-wide overflow-hidden max-w-full whitespace-pre">
+                            {/* Invisible User Text to push ghost text */}
+                            <span className="opacity-0">{value}</span>
+                            {/* Visible Ghost Text */}
+                            <span className="text-gray-400/60 dark:text-gray-500/60">{ghostText}</span>
+                        </div>
+
+                        {/* Actual Input */}
+                        <input
+                            type="text"
+                            value={value}
+                            onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                            placeholder={value ? "" : placeholder}
+                            disabled={disabled}
+                            className="absolute inset-0 w-full h-full bg-transparent border-none outline-none text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 text-base md:text-lg font-light tracking-wide min-w-0"
+                        />
+                    </div>
 
                     {/* Right Actions */}
                     <div className="flex items-center gap-1 md:gap-2">

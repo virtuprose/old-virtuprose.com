@@ -99,9 +99,10 @@ interface Message {
 
 interface OrviaKodeeChatProps {
     onClose: () => void;
+    initialMessage?: string;
 }
 
-export function OrviaKodeeChat({ onClose }: OrviaKodeeChatProps) {
+export function OrviaKodeeChat({ onClose, initialMessage }: OrviaKodeeChatProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -117,6 +118,9 @@ export function OrviaKodeeChat({ onClose }: OrviaKodeeChatProps) {
         if (storedMessages && storedMessages.length > 0) {
             setMessages(storedMessages);
             setShowQuickReplies(false);
+        } else if (initialMessage) {
+            // If no history but there's a handoff message, send it immediately
+            sendMessage(initialMessage);
         }
         setIsInitialized(true);
     }, []);

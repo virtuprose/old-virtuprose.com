@@ -49,6 +49,7 @@ export const metadata: Metadata = {
 };
 
 import { Navbar } from "@/components/navbar";
+import { SiteFooter } from "@/components/site-footer";
 
 // ... existing imports
 
@@ -69,6 +70,7 @@ export default function RootLayout({
           <Navbar />
           <div className="relative flex min-h-screen flex-col bg-[var(--bg)] pt-20">
             <main className="flex-1">{children}</main>
+            <SiteFooter />
           </div>
           {/* Orvia AI Chat Floating Widget */}
           <OrviaChatUI />

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import "./orvia-chat-kodee.css";
 
@@ -13,6 +13,19 @@ const OrviaKodeeChat = dynamic(
 
 export function OrviaChatUI() {
     const [isOpen, setIsOpen] = useState(false);
+    const [initialMessage, setInitialMessage] = useState("");
+
+    useEffect(() => {
+        const handleOpenChat = (event: CustomEvent<{ message?: string }>) => {
+            if (event.detail?.message) {
+                setInitialMessage(event.detail.message);
+            }
+            setIsOpen(true);
+        };
+
+        window.addEventListener('orvia-open-chat', handleOpenChat as EventListener);
+        return () => window.removeEventListener('orvia-open-chat', handleOpenChat as EventListener);
+    }, []);
 
     return (
         <>
@@ -48,7 +61,12 @@ export function OrviaChatUI() {
             )}
 
             {/* Chat Panel */}
-            {isOpen && <OrviaKodeeChat onClose={() => setIsOpen(false)} />}
+            {isOpen && (
+                <OrviaKodeeChat
+                    onClose={() => setIsOpen(false)}
+                    initialMessage={initialMessage}
+                />
+            )}
         </>
     );
 }

@@ -4,7 +4,10 @@ import React, { useState } from "react";
 
 import { RadiantPromptInput } from "@/components/ui/radiant-prompt-input";
 import RetroGrid from "@/components/ui/retro-grid";
+import { ClientLogos } from "@/components/client-logos";
 import { ServicesSection } from "@/components/services-section";
+import { SelectedWorkSection } from "@/components/selected-work-section";
+import { ProcessSection } from "@/components/process-section";
 import { Star } from "lucide-react";
 
 // ============================================
@@ -15,7 +18,10 @@ export default function HomePage() {
     return (
         <div className="min-h-screen bg-[var(--bg)] text-[var(--text-primary)]">
             <Hero />
+            <ClientLogos />
             <ServicesSection />
+            {/* <SelectedWorkSection /> */}
+            <ProcessSection />
         </div>
     );
 }
@@ -145,10 +151,10 @@ function GoogleRatingBadge() {
                     <div className="space-y-0.5">
                         <div className="flex items-center gap-2 text-[var(--text-primary)] text-[15px] md:text-base font-semibold tracking-tight">
                             <Star className="h-[18px] w-[18px] fill-amber-400 text-amber-400 drop-shadow-[0_6px_18px_rgba(252,211,77,0.28)]" strokeWidth={1.5} />
-                            <span>Google [Rating]/5</span>
+                            <span>Rated 4.7 Star on Google</span>
                         </div>
                         <p className="text-xs md:text-sm text-[var(--text-secondary)]">
-                            Rated by [ReviewCount] real clients
+                            Rated by 10 real clients
                         </p>
                     </div>
                 </div>

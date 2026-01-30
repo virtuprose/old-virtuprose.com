@@ -4,7 +4,8 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
-import { servicesData } from "@/data/services";
+// import { servicesData } from "@/data/services";
+const servicesData = [{ title: "Service 1" }, { title: "Service 2" }];
 import { useReCaptcha } from "./recaptcha-provider";
 
 interface ContactFormProps {
@@ -20,7 +21,7 @@ export function ContactForm({ showSuccess, showError }: ContactFormProps) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!isLoaded) {
       setSubmitError("Security verification is loading. Please wait a moment and try again.");
       return;
@@ -31,10 +32,10 @@ export function ContactForm({ showSuccess, showError }: ContactFormProps) {
 
     try {
       const formData = new FormData(e.currentTarget);
-      
+
       // Execute reCAPTCHA
       const recaptchaToken = await executeRecaptcha("contact_form");
-      
+
       if (!recaptchaToken) {
         throw new Error("Security verification failed. Please try again.");
       }
@@ -71,7 +72,7 @@ export function ContactForm({ showSuccess, showError }: ContactFormProps) {
     <CardContent className="p-8">
       <form onSubmit={handleSubmit} className="space-y-5">
         <input type="hidden" name="source" value="Contact page" />
-        
+
         {showError || submitError ? (
           <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 dark:border-red-800 dark:bg-red-950 dark:text-red-400" role="alert">
             {submitError || "Something went wrong while sending your message. Please email "}
