@@ -88,32 +88,126 @@ const DEV_EXCELLENCE = [
     { icon: Settings, title: "Future-Proof", desc: "Built to evolve. Easy to extend and maintain." },
 ];
 
-const TECH_STACK = {
-    frontend: [
-        { name: "React", icon: "⚛️" },
-        { name: "Next.js", icon: "▲" },
-        { name: "TypeScript", icon: "TS" },
-        { name: "Tailwind CSS", icon: "🎨" },
-    ],
-    backend: [
-        { name: "Node.js", icon: "🟢" },
-        { name: "APIs", icon: "🔗" },
-        { name: "PostgreSQL", icon: "🐘" },
-        { name: "Firebase", icon: "🔥" },
-    ],
-    cms: [
-        { name: "WordPress", icon: "W" },
-        { name: "Shopify", icon: "🛒" },
-        { name: "Webflow", icon: "W" },
-        { name: "Headless CMS", icon: "📝" },
-    ],
-    infra: [
-        { name: "Vercel", icon: "▲" },
-        { name: "AWS", icon: "☁️" },
-        { name: "CDN", icon: "🌐" },
-        { name: "CI/CD", icon: "🔄" },
-    ],
-};
+const ALL_TECHNOLOGIES = [
+    // Languages & Core
+    { name: "HTML5" },
+    { name: "CSS3" },
+    { name: "JavaScript" },
+    { name: "TypeScript" },
+    { name: "Python" },
+    { name: "PHP" },
+    { name: "Ruby" },
+    { name: "Go" },
+    { name: "Rust" },
+    { name: "Java" },
+    { name: "C#" },
+    { name: "Swift" },
+    { name: "Kotlin" },
+
+    // Frontend Frameworks
+    { name: "React" },
+    { name: "Next.js" },
+    { name: "Vue.js" },
+    { name: "Nuxt.js" },
+    { name: "Angular" },
+    { name: "Svelte" },
+    { name: "SvelteKit" },
+    { name: "Astro" },
+    { name: "Remix" },
+    { name: "Gatsby" },
+    { name: "Qwik" },
+    { name: "Solid.js" },
+
+    // Styling
+    { name: "Tailwind CSS" },
+    { name: "Sass/SCSS" },
+    { name: "Styled Components" },
+    { name: "CSS Modules" },
+    { name: "Bootstrap" },
+    { name: "Material UI" },
+    { name: "Chakra UI" },
+    { name: "Radix UI" },
+    { name: "Framer Motion" },
+
+    // Backend & Runtime
+    { name: "Node.js" },
+    { name: "Express.js" },
+    { name: "Fastify" },
+    { name: "Nest.js" },
+    { name: "Django" },
+    { name: "Flask" },
+    { name: "FastAPI" },
+    { name: "Laravel" },
+    { name: "Ruby on Rails" },
+    { name: ".NET" },
+    { name: "Spring Boot" },
+    { name: "Deno" },
+    { name: "Bun" },
+
+    // Databases
+    { name: "PostgreSQL" },
+    { name: "MySQL" },
+    { name: "MongoDB" },
+    { name: "Redis" },
+    { name: "SQLite" },
+    { name: "Supabase" },
+    { name: "Firebase" },
+    { name: "PlanetScale" },
+    { name: "Neon" },
+    { name: "DynamoDB" },
+    { name: "Prisma" },
+    { name: "Drizzle" },
+
+    // CMS & E-commerce
+    { name: "WordPress" },
+    { name: "Shopify" },
+    { name: "WooCommerce" },
+    { name: "Magento" },
+    { name: "Webflow" },
+    { name: "Framer" },
+    { name: "Sanity" },
+    { name: "Contentful" },
+    { name: "Strapi" },
+    { name: "Ghost" },
+    { name: "Payload CMS" },
+    { name: "Directus" },
+
+    // Cloud & Infrastructure
+    { name: "Vercel" },
+    { name: "Netlify" },
+    { name: "AWS" },
+    { name: "Google Cloud" },
+    { name: "Azure" },
+    { name: "DigitalOcean" },
+    { name: "Cloudflare" },
+    { name: "Railway" },
+    { name: "Render" },
+    { name: "Fly.io" },
+    { name: "Docker" },
+    { name: "Kubernetes" },
+
+    // Tools & APIs
+    { name: "GraphQL" },
+    { name: "REST APIs" },
+    { name: "tRPC" },
+    { name: "WebSockets" },
+    { name: "Stripe" },
+    { name: "Auth0" },
+    { name: "Clerk" },
+    { name: "Twilio" },
+    { name: "SendGrid" },
+    { name: "Algolia" },
+
+    // Testing & DevOps
+    { name: "Jest" },
+    { name: "Playwright" },
+    { name: "Cypress" },
+    { name: "Vitest" },
+    { name: "GitHub Actions" },
+    { name: "GitLab CI" },
+    { name: "Jenkins" },
+    { name: "Terraform" },
+];
 
 const PROCESS_STEPS = [
     { icon: Lightbulb, title: "Discovery", desc: "Understand your goals, audience, and competitive landscape." },
@@ -327,35 +421,36 @@ export default function WebDesignPage() {
 
             {/* ===== TECHNOLOGY STACK ===== */}
             <section className="py-24 md:py-32 px-6">
-                <div className="container mx-auto max-w-5xl">
+                <div className="container mx-auto max-w-6xl">
                     <SectionHeader
                         eyebrow="Technology Stack"
                         title="Modern Tools. Proven Results."
-                        description="We use the best tools for the job—never the trendiest."
+                        description="We master the full spectrum of web technologies to deliver the right solution for every project."
                     />
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {Object.entries(TECH_STACK).map(([category, items], catIndex) => (
+                    <motion.div
+                        className="flex flex-wrap justify-center gap-3"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        {ALL_TECHNOLOGIES.map((tech, i) => (
                             <motion.div
-                                key={category}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                key={tech.name}
+                                className={cn(
+                                    "px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)]",
+                                    "hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-200",
+                                    "text-sm font-medium"
+                                )}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: catIndex * 0.1 }}
+                                transition={{ delay: i * 0.01 }}
                             >
-                                <h3 className="text-sm font-medium text-[var(--foreground)]/50 uppercase tracking-wider mb-4">
-                                    {category === "cms" ? "CMS & Platforms" : category === "infra" ? "Infrastructure" : category.charAt(0).toUpperCase() + category.slice(1)}
-                                </h3>
-                                <div className="space-y-3">
-                                    {items.map((tech) => (
-                                        <div key={tech.name} className="flex items-center gap-3 p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)]">
-                                            <span className="text-lg">{tech.icon}</span>
-                                            <span className="font-medium">{tech.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
+                                {tech.name}
                             </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
