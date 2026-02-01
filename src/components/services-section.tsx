@@ -10,25 +10,25 @@ const SERVICES = [
     {
         title: "Website Design & Development",
         desc: "High-performance websites designed and built for speed, clarity, and conversions—engineered to scale as your business grows.",
-        image: "/assets/services/website.png",
+        image: "/assets/images/services/website.jpg",
         id: "01",
     },
     {
         title: "Digital Marketing",
         desc: "AI-driven search, paid media, and performance marketing that attracts the right audience and turns demand into revenue.",
-        image: "/assets/services/marketing.png",
+        image: "/assets/images/services/seo-geo.jpg",
         id: "02",
     },
     {
         title: "Mobile Apps",
         desc: "Custom iOS and Android applications built for usability, reliability, and seamless integration with your digital ecosystem.",
-        image: "/assets/services/mobile-apps.png",
+        image: "/assets/images/services/mobile-apps.jpg",
         id: "03",
     },
     {
         title: "AI Automation",
         desc: "Intelligent AI agents and automations that capture leads, book meetings, support customers, and streamline operations.",
-        image: "/assets/services/ai-automation.png",
+        image: "/assets/images/services/ai-automation.jpg",
         id: "04",
     },
 ];
