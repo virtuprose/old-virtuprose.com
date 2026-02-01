@@ -53,7 +53,7 @@ export default function AboutPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 bg-gradient-to-r from-[var(--primary)] to-[var(--foreground)] bg-clip-text text-transparent">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 text-[var(--foreground)]">
                             Digital Growth.<br />Engineered for Outcomes.
                         </h1>
                         <p className="text-xl md:text-2xl text-[var(--foreground)]/70 max-w-3xl mx-auto leading-relaxed">
@@ -94,7 +94,6 @@ export default function AboutPage() {
                                 transition={{ duration: 1, ease: "easeOut" }}
                             >
                                 <div className="relative aspect-square w-full max-w-[600px] mx-auto rounded-[3rem] overflow-hidden shadow-2xl bg-gradient-to-br from-[var(--primary)]/10 to-transparent p-1 border border-[var(--border)]/20 backdrop-blur-3xl">
-                                    <div className="absolute inset-0 bg-[var(--bg)]/40 backdrop-blur-sm z-10" /> {/* Subtle overlay for blending */}
                                     <Image
                                         src={section.image}
                                         alt={section.title}
@@ -102,6 +101,7 @@ export default function AboutPage() {
                                         className="object-cover z-0 hover:scale-105 transition-transform duration-700 ease-in-out"
                                         sizes="(max-w-768px) 100vw, 50vw"
                                         priority={index === 0}
+                                        quality={100}
                                     />
                                 </div>
                             </motion.div>
