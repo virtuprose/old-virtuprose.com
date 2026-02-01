@@ -44,7 +44,7 @@ export function ServicesSection() {
     return (
         <section className="py-20 md:py-28 bg-[var(--bg)]">
             <div className="container mx-auto px-6 max-w-6xl">
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+                <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
 
                     {/* Left: Image Preview */}
                     <div className="w-full lg:w-[45%]">

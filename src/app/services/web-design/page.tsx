@@ -292,7 +292,7 @@ export default function WebDesignPage() {
                         <p className="text-sm font-medium text-[var(--primary)] uppercase tracking-widest mb-6">
                             Website Design & Development
                         </p>
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-[1.1] text-[var(--foreground)]">
                             Websites That Convert.<br />
                             <span className="text-[var(--primary)]">Code That Scales.</span>
                         </h1>
@@ -315,7 +315,7 @@ export default function WebDesignPage() {
                             <a
                                 href="#what-we-build"
                                 className={cn(
-                                    "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full",
+                                    "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-[var(--foreground)]",
                                     "border border-[var(--border)] bg-[var(--bg)]",
                                     "hover:bg-[var(--bg-secondary)] transition-all duration-200"
                                 )}
@@ -428,9 +428,9 @@ export default function WebDesignPage() {
                         description="We master the full spectrum of web technologies to deliver the right solution for every project."
                     />
                     <motion.div
-                        className="flex flex-wrap justify-center gap-3"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
+                        className="flex flex-wrap justify-center gap-3 p-8 rounded-3xl border border-[var(--border)] bg-[var(--bg)] shadow-xl"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
@@ -440,7 +440,7 @@ export default function WebDesignPage() {
                                 className={cn(
                                     "px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)]",
                                     "hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/5 transition-all duration-200",
-                                    "text-sm font-medium"
+                                    "text-sm font-medium text-[var(--foreground)]"
                                 )}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
@@ -459,7 +459,7 @@ export default function WebDesignPage() {
                 <div className="container mx-auto max-w-5xl">
                     <SectionHeader
                         eyebrow="Our Process"
-                        title="From Idea to Launch. Seamlessly."
+                        title="Idea to Launch. Zero Friction."
                         description="A proven process that removes risk and delivers results."
                     />
                     <div className="relative">
@@ -480,8 +480,8 @@ export default function WebDesignPage() {
                                         <step.icon className="w-7 h-7 text-white" />
                                     </div>
                                     <span className="text-xs font-bold text-[var(--primary)] mb-2 block">0{i + 1}</span>
-                                    <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
-                                    <p className="text-sm text-[var(--foreground)]/60">{step.desc}</p>
+                                    <h3 className="text-lg font-semibold mb-2 text-[var(--foreground)]">{step.title}</h3>
+                                    <p className="text-sm text-[var(--foreground)]/70">{step.desc}</p>
                                 </motion.div>
                             ))}
                         </div>
@@ -564,11 +564,11 @@ export default function WebDesignPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                            Let's Build Something That Works.
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6 text-[var(--foreground)]">
+                            Ready to Launch Your Next Big Thing?
                         </h2>
-                        <p className="text-lg text-[var(--foreground)]/60 mb-10 max-w-xl mx-auto">
-                            Whether you're starting fresh or ready to scale, we'd love to hear about your project.
+                        <p className="text-lg text-[var(--foreground)]/70 mb-10 max-w-xl mx-auto">
+                            Whether you're launching a new product or scaling an existing platform, let's talk.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
@@ -586,7 +586,7 @@ export default function WebDesignPage() {
                             <Link
                                 href="/contact"
                                 className={cn(
-                                    "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full",
+                                    "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-[var(--foreground)]",
                                     "border border-[var(--border)] bg-[var(--bg)]",
                                     "hover:bg-[var(--bg-secondary)] transition-all duration-200"
                                 )}

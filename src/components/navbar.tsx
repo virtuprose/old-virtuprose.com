@@ -46,7 +46,7 @@ const NAV_LINKS = [
             },
         ],
     },
-    { label: "Blog", href: "/blog", icon: BookOpen },
+    { label: "Our Work", href: "/portfolio", icon: BookOpen },
     { label: "Contact", href: "/contact", icon: Mail },
 ];
 
@@ -122,7 +122,7 @@ export function Navbar() {
                                 "bg-[var(--text-primary)] text-[var(--bg)] hover:opacity-90 active:scale-[0.97] shadow-lg shadow-black/10"
                             )}
                         >
-                            <span>Pricing</span>
+                            <span>Free Quote</span>
                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                         </Link>
 
@@ -288,15 +288,15 @@ function MobileMenuToggle() {
                         <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)]/30">
                             <Link href="/" onClick={() => setIsOpen(false)} className="h-7">
                                 <img
-                                src="/assets/branding/light-logo.v1.svg"
+                                    src="/assets/branding/light-logo.v1.svg"
                                     alt="Virtuprose"
                                     className="h-full w-auto object-contain dark:hidden"
                                 />
-                                    <img
-                                        src={darkLogo.src}
-                                        alt="Virtuprose"
-                                        className="h-full w-auto object-contain hidden dark:block"
-                                    />
+                                <img
+                                    src={darkLogo.src}
+                                    alt="Virtuprose"
+                                    className="h-full w-auto object-contain hidden dark:block"
+                                />
                             </Link>
                             <button
                                 onClick={() => setIsOpen(false)}
@@ -401,7 +401,7 @@ function MobileMenuToggle() {
                                     onClick={() => setIsOpen(false)}
                                     className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--text-primary)] text-[var(--bg)] font-semibold text-base shadow-lg hover:opacity-90 active:scale-95 transition-all"
                                 >
-                                    Pricing
+                                    Free Quote
                                     <ArrowRight className="w-4 h-4" />
                                 </Link>
                             </div>
