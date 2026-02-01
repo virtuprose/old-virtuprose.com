@@ -1,6 +1,17 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+// Always execute on request; custom pricing submissions must never be cached.
+export const dynamic = "force-dynamic";
+
+const noStoreHeader = "no-store";
+
+function jsonNoStore<T>(data: T, init: ResponseInit = {}) {
+  const headers = new Headers(init.headers);
+  headers.set("Cache-Control", noStoreHeader);
+  return NextResponse.json(data, { ...init, headers });
+}
+
 function formatList(label: string, value?: string | string[]) {
   if (!value || (Array.isArray(value) && value.length === 0)) return `${label}: Not provided`;
   if (Array.isArray(value)) return `${label}: ${value.join(", ")}`;
@@ -10,7 +21,7 @@ function formatList(label: string, value?: string | string[]) {
 export async function POST(request: Request) {
   try {
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      return NextResponse.json({ error: "Email configuration missing." }, { status: 500 });
+      return jsonNoStore({ error: "Email configuration missing." }, { status: 500 });
     }
 
     const body = await request.json();
@@ -34,7 +45,7 @@ export async function POST(request: Request) {
     });
 
     if (missing.length > 0) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: "Please complete all required fields.", details: missing },
         { status: 400 },
       );
@@ -42,13 +53,13 @@ export async function POST(request: Request) {
 
     const minText = 10;
     if (typeof body.projectDescription === "string" && body.projectDescription.trim().length < minText) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: `Project description must be at least ${minText} characters.` },
         { status: 400 },
       );
     }
     if (typeof body.comments === "string" && body.comments.trim().length < minText) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: `Additional comments must be at least ${minText} characters.` },
         { status: 400 },
       );
@@ -111,10 +122,10 @@ If you have any immediate questions, feel free to reply to this email or reach u
 — VirtuProse Solutions`,
     });
 
-    return NextResponse.json({ success: true });
+    return jsonNoStore({ success: true });
   } catch (error) {
     console.error("[custom-pricing]", error);
-    return NextResponse.json(
+    return jsonNoStore(
       { error: "Something went wrong. Please try again or email info@virtuprose.com." },
       { status: 500 },
     );

@@ -3,7 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+
+import aboutWhoWeAre from "../../../public/assets/images/about/who-we-are.png";
+import aboutWhatWeDo from "../../../public/assets/images/about/what-we-do.png";
+import aboutWhyChooseUs from "../../../public/assets/images/about/why-choose-us.png";
+
+// Static marketing page; content changes only on deploy.
+export const dynamic = "force-static";
 
 const sections = [
     {
@@ -13,7 +19,7 @@ const sections = [
             "We do not sell tools.\nWe build growth infrastructure that works across websites, apps, AI, and marketing channels as one connected engine.",
             "Simple principle: if it does not drive revenue, efficiency, or measurable growth, we do not do it."
         ],
-        image: "/assets/images/about/who-we-are.png",
+        image: aboutWhoWeAre,
         align: "right", // Image on right, text on left
     },
     {
@@ -25,7 +31,7 @@ const sections = [
             "• Strategy first, execution second\n• Performance measured in data, not opinions\n• Built to last, not patched together",
             "Every project is designed to reduce manual work, improve customer experience, and turn digital presence into a predictable business asset."
         ],
-        image: "/assets/images/about/what-we-do.png",
+        image: aboutWhatWeDo,
         align: "left", // Image on left, text on right
     },
     {
@@ -37,7 +43,7 @@ const sections = [
             "• Clear direction instead of confusion\n• Scalable systems instead of temporary fixes\n• Long-term growth instead of short-term wins",
             "We exist to help ambitious businesses grow with clarity, confidence, and control."
         ],
-        image: "/assets/images/about/why-choose-us.png",
+        image: aboutWhyChooseUs,
         align: "right",
     },
 ];

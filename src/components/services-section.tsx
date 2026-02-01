@@ -6,29 +6,34 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import serviceWebsite from "../../public/assets/images/services/website.jpg";
+import serviceSeoGeo from "../../public/assets/images/services/seo-geo.jpg";
+import serviceMobileApps from "../../public/assets/images/services/mobile-apps.jpg";
+import serviceAiAutomation from "../../public/assets/images/services/ai-automation.jpg";
+
 const SERVICES = [
     {
         title: "Website Design & Development",
         desc: "High-performance websites designed and built for speed, clarity, and conversions—engineered to scale as your business grows.",
-        image: "/assets/images/services/website.jpg",
+        image: serviceWebsite,
         id: "01",
     },
     {
         title: "Digital Marketing",
         desc: "AI-driven search, paid media, and performance marketing that attracts the right audience and turns demand into revenue.",
-        image: "/assets/images/services/seo-geo.jpg",
+        image: serviceSeoGeo,
         id: "02",
     },
     {
         title: "Mobile Apps",
         desc: "Custom iOS and Android applications built for usability, reliability, and seamless integration with your digital ecosystem.",
-        image: "/assets/images/services/mobile-apps.jpg",
+        image: serviceMobileApps,
         id: "03",
     },
     {
         title: "AI Automation",
         desc: "Intelligent AI agents and automations that capture leads, book meetings, support customers, and streamline operations.",
-        image: "/assets/images/services/ai-automation.jpg",
+        image: serviceAiAutomation,
         id: "04",
     },
 ];

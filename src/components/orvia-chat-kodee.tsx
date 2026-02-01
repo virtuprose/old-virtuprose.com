@@ -284,7 +284,7 @@ export function OrviaKodeeChat({ onClose, initialMessage }: OrviaKodeeChatProps)
                     <div className="kodee-welcome">
                         <div className="kodee-welcome-icon">
                             <Image
-                                src="/orvia/chat-02.svg"
+                                src="/orvia/chat-02.v1.svg"
                                 alt="Orvia"
                                 width={48}
                                 height={48}
@@ -321,7 +321,7 @@ export function OrviaKodeeChat({ onClose, initialMessage }: OrviaKodeeChatProps)
                     >
                         {msg.sender === "bot" && (
                             <div className="kodee-message-avatar">
-                                <Image src="/orvia/chat-02.svg" alt="Orvia" width={24} height={24} />
+                                <Image src="/orvia/chat-02.v1.svg" alt="Orvia" width={24} height={24} />
                             </div>
                         )}
                         <div className="kodee-message-content">
@@ -348,7 +348,7 @@ export function OrviaKodeeChat({ onClose, initialMessage }: OrviaKodeeChatProps)
                 {isLoading && (
                     <div className="kodee-message kodee-message--bot">
                         <div className="kodee-message-avatar">
-                            <Image src="/orvia/chat-02.svg" alt="Orvia" width={24} height={24} />
+                            <Image src="/orvia/chat-02.v1.svg" alt="Orvia" width={24} height={24} />
                         </div>
                         <div className="kodee-message-content">
                             <span className="kodee-message-name">Orvia</span>

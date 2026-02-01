@@ -2,22 +2,38 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+import clientLogo01 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-01-3.webp";
+import clientLogo02 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-02-3.webp";
+import clientLogo03 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-03-3.webp";
+import clientLogo04 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-04.webp";
+import clientLogo05 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-05-3.webp";
+import clientLogo06 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-06-3.webp";
+import clientLogo07 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-07-3.webp";
+import clientLogo08 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-08.webp";
+import clientLogo09 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-09-3.webp";
+import clientLogo10 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-10-3.webp";
+import clientLogo11 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-11-3.webp";
+import clientLogo12 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-12-3.webp";
+import clientLogo14 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-14-3.webp";
+import clientLogo15 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-15-3.webp";
+import clientLogoType12 from "../../public/assets/clients/Type-12-2048x499-1.webp";
+
 const CLIENTS = [
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-01-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-02-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-03-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-04.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-05-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-06-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-07-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-08.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-09-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-10-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-11-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-12-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-14-3.webp",
-    "/assets/clients/CLIENT-LOGO-MAIN-FILE-15-3.webp",
-    "/assets/clients/Type-12-2048x499-1.webp",
+    clientLogo01,
+    clientLogo02,
+    clientLogo03,
+    clientLogo04,
+    clientLogo05,
+    clientLogo06,
+    clientLogo07,
+    clientLogo08,
+    clientLogo09,
+    clientLogo10,
+    clientLogo11,
+    clientLogo12,
+    clientLogo14,
+    clientLogo15,
+    clientLogoType12,
 ];
 
 export function ClientLogos() {

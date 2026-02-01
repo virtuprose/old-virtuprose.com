@@ -1,10 +1,27 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+// Always execute on request; contact submissions must never be cached.
+export const dynamic = "force-dynamic";
+
+const noStoreHeader = "no-store";
+
 const requiredEnv = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"] as const;
 
 function missingEnvVars() {
   return requiredEnv.filter((key) => !process.env[key]);
+}
+
+function jsonNoStore<T>(data: T, init: ResponseInit = {}) {
+  const headers = new Headers(init.headers);
+  headers.set("Cache-Control", noStoreHeader);
+  return NextResponse.json(data, { ...init, headers });
+}
+
+function redirectNoStore(url: URL, init?: ResponseInit) {
+  const response = NextResponse.redirect(url, init);
+  response.headers.set("Cache-Control", noStoreHeader);
+  return response;
 }
 
 async function verifyRecaptcha(token: string): Promise<boolean> {
@@ -22,6 +39,8 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
   try {
     const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
+      // Avoid any cache reuse for verification results.
+      cache: "no-store",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -59,7 +78,7 @@ export async function POST(request: Request) {
     // Verify reCAPTCHA token
     const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
     if (!isRecaptchaValid) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: "Security verification failed. Please try again." },
         { status: 400 }
       );
@@ -76,7 +95,7 @@ export async function POST(request: Request) {
     const country = String(formData.get("country") ?? "").trim();
 
     if (!name || !email) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: "Missing required fields" },
         { status: 400 }
       );
@@ -148,7 +167,7 @@ ${message}`,
     });
 
     const redirectUrl = new URL("/contact?status=success", request.url);
-    return NextResponse.redirect(redirectUrl);
+    return redirectNoStore(redirectUrl);
   } catch (error) {
     console.error("[contact:POST]", error);
     
@@ -156,10 +175,10 @@ ${message}`,
     if (request.headers.get("content-type")?.includes("application/x-www-form-urlencoded") || 
         request.headers.get("content-type")?.includes("multipart/form-data")) {
       const redirectUrl = new URL("/contact?status=error", request.url);
-      return NextResponse.redirect(redirectUrl);
+      return redirectNoStore(redirectUrl);
     }
     
-    return NextResponse.json(
+    return jsonNoStore(
       { error: "Failed to send message. Please try again." },
       { status: 500 }
     );

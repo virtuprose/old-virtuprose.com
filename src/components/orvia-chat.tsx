@@ -421,7 +421,7 @@ export function OrviaChat() {
               )}
             </div>
             <Image
-              src="/assets/orvia-logo-black.svg"
+              src="/assets/orvia-logo-black.v1.svg"
               alt="Orvia logo"
               width={70}
               height={20}
@@ -439,7 +439,7 @@ export function OrviaChat() {
           </button>
           <div className="orvia-header-logo-text">
             <Image
-              src="/assets/orvia-logo-black.svg"
+              src="/assets/orvia-logo-black.v1.svg"
               alt="Orvia"
               width={24}
               height={24}
@@ -608,7 +608,7 @@ export function OrviaChat() {
         {/* Footer */}
         <div className="orvia-chat-footer">
           <Image
-            src="/assets/orvia-logo-black.svg"
+            src="/assets/orvia-logo-black.v1.svg"
             alt="Orvia"
             width={16}
             height={16}

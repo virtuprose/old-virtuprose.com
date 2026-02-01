@@ -5,30 +5,35 @@ import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+import iconUnderstand from "../../public/assets/icons/3d/understand.png";
+import iconDesign from "../../public/assets/icons/3d/design.png";
+import iconBuild from "../../public/assets/icons/3d/build.png";
+import iconOptimize from "../../public/assets/icons/3d/optimize.png";
+
 const STAGES = [
     {
         id: "01",
         title: "Understand",
         desc: "Deep discovery to uncover goals, constraints, and opportunities.",
-        icon: "/assets/icons/3d/understand.png",
+        icon: iconUnderstand,
     },
     {
         id: "02",
         title: "Design the System",
         desc: "Strategic architecture that aligns every piece toward the outcome.",
-        icon: "/assets/icons/3d/design.png",
+        icon: iconDesign,
     },
     {
         id: "03",
         title: "Build & Ship",
         desc: "Precision execution — fast, focused, and production-ready.",
-        icon: "/assets/icons/3d/build.png",
+        icon: iconBuild,
     },
     {
         id: "04",
         title: "Optimize & Automate",
         desc: "Continuous refinement and intelligent automation that compounds.",
-        icon: "/assets/icons/3d/optimize.png",
+        icon: iconOptimize,
     },
 ];
 

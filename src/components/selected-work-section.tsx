@@ -5,14 +5,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ProjectCard, Project } from "./project-card";
 import { FilterBar } from "./filter-bar";
 
+import sampleProject from "../../public/images/sample-project.png";
+import sampleLogo from "../../public/images/sample-logo.png";
+
 const PROJECTS: Project[] = [
     {
         id: "1",
         client: "Apex Financial",
         description: "Reinventing the dashboard experience for high-frequency traders with real-time WebSocket data.",
         tags: ["Web App", "Fintech", "Real-time"],
-        imageUrl: "/images/sample-project.png",
-        logoUrl: "/images/sample-logo.png",
+        imageUrl: sampleProject.src,
+        logoUrl: sampleLogo.src,
         link: "#",
     },
     {
@@ -20,8 +23,8 @@ const PROJECTS: Project[] = [
         client: "Lumina Health",
         description: "A patient-first digital booking system that increased conversion by 40% in the first quarter.",
         tags: ["Mobile App", "Healthcare", "UX Design"],
-        imageUrl: "/images/sample-project.png",
-        logoUrl: "/images/sample-logo.png",
+        imageUrl: sampleProject.src,
+        logoUrl: sampleLogo.src,
         link: "#",
     },
     {
@@ -29,8 +32,8 @@ const PROJECTS: Project[] = [
         client: "Strata AI",
         description: "Enterprise administration panel for managing large-scale LLM training pipelines.",
         tags: ["AI Automation", "Dashboard", "React"],
-        imageUrl: "/images/sample-project.png",
-        logoUrl: "/images/sample-logo.png",
+        imageUrl: sampleProject.src,
+        logoUrl: sampleLogo.src,
         link: "#",
     },
     {
@@ -38,8 +41,8 @@ const PROJECTS: Project[] = [
         client: "Echo Logistics",
         description: "Global supply chain visualization tool used by major carriers to track fleet movement.",
         tags: ["Websites", "Data Viz", "Mapbox"],
-        imageUrl: "/images/sample-project.png",
-        logoUrl: "/images/sample-logo.png",
+        imageUrl: sampleProject.src,
+        logoUrl: sampleLogo.src,
         link: "#",
     },
 ];

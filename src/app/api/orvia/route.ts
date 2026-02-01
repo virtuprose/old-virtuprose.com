@@ -15,6 +15,17 @@ import {
   cleanupLeadNotificationLimit,
 } from "@/lib/orvia-security";
 
+// Always execute on request; chat responses must never be cached.
+export const dynamic = "force-dynamic";
+
+const noStoreHeader = "no-store";
+
+function jsonNoStore<T>(data: T, init: ResponseInit = {}) {
+  const headers = new Headers(init.headers);
+  headers.set("Cache-Control", noStoreHeader);
+  return NextResponse.json(data, { ...init, headers });
+}
+
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -89,7 +100,7 @@ export async function POST(request: Request) {
   try {
     if (!process.env.OPENAI_API_KEY) {
       console.error(JSON.stringify({ level: "error", requestId, message: "Missing OPENAI_API_KEY" }));
-      return NextResponse.json(
+      return jsonNoStore(
         { error: "Missing OPENAI_API_KEY env variable." },
         { status: 500 },
       );
@@ -104,7 +115,7 @@ export async function POST(request: Request) {
     const rateLimit = checkRateLimit(clientIP);
 
     if (!rateLimit.allowed) {
-      return NextResponse.json(
+      return jsonNoStore(
         {
           error: "Too many requests. Please slow down and try again in a moment.",
           retryAfter: Math.ceil((rateLimit.resetAt - Date.now()) / 1000),
@@ -128,7 +139,7 @@ export async function POST(request: Request) {
     const sanitizedMessages = sanitizeMessageHistory(rawMessages);
 
     if (sanitizedMessages.length === 0) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: "No valid messages provided." },
         { status: 400 },
       );
@@ -139,7 +150,7 @@ export async function POST(request: Request) {
     if (lastUserMessage) {
       const validation = validateMessage(lastUserMessage.content);
       if (!validation.valid) {
-        return NextResponse.json(
+        return jsonNoStore(
           { error: validation.error || "Invalid message format." },
           { status: 400 },
         );
@@ -241,7 +252,7 @@ export async function POST(request: Request) {
       ip: clientIP.slice(0, 8) + "...",
     }));
 
-    return NextResponse.json(
+    return jsonNoStore(
       { reply },
       {
         headers: {
@@ -257,13 +268,13 @@ export async function POST(request: Request) {
 
     // Check if it's a validation error
     if (error instanceof Error && error.message.includes("Invalid")) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: "Invalid request. Please check your message and try again." },
         { status: 400 },
       );
     }
 
-    return NextResponse.json(
+    return jsonNoStore(
       { error: "Unable to reach Orvia right now. Please try again in a moment." },
       { status: 500 },
     );

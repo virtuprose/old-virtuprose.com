@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     "I help ambitious brands scale with intelligent automation engines. Leveraging 10 years of experience to replace manual work with scalable systems.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://connectzaid.com"),
   icons: {
-    icon: "/assets/favicon.png",
-    shortcut: "/assets/favicon.png",
-    apple: "/assets/favicon.png",
+    icon: "/assets/favicon.v1.png",
+    shortcut: "/assets/favicon.v1.png",
+    apple: "/assets/favicon.v1.png",
   },
   openGraph: {
     title: "Muhammad Zaid | Strategic Automation Partner",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "Muhammad Zaid",
     images: [
       {
-        url: "/assets/favicon.png",
+        url: "/assets/favicon.v1.png",
         width: 512,
         height: 512,
         alt: "Muhammad Zaid",

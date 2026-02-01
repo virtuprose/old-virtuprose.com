@@ -151,7 +151,7 @@ export function OrviaChatUIClient({ onClose }: OrviaChatUIClientProps) {
             <header className="orvia-chat-header">
                 <div className="orvia-header-left">
                     <div className="orvia-avatar">
-                        <Image src="/orvia/chat-02.svg" alt="Orvia" width={32} height={32} />
+                        <Image src="/orvia/chat-02.v1.svg" alt="Orvia" width={32} height={32} />
                     </div>
                     <div className="orvia-header-text">
                         <h2 className="orvia-title">Orvia</h2>
@@ -175,7 +175,7 @@ export function OrviaChatUIClient({ onClose }: OrviaChatUIClientProps) {
                     >
                         {msg.sender === "bot" && (
                             <div className="orvia-message-avatar">
-                                <Image src="/orvia/chat-02.svg" alt="Orvia" width={28} height={28} />
+                                <Image src="/orvia/chat-02.v1.svg" alt="Orvia" width={28} height={28} />
                             </div>
                         )}
                         <div className="orvia-message-bubble">
@@ -188,7 +188,7 @@ export function OrviaChatUIClient({ onClose }: OrviaChatUIClientProps) {
                 {isLoading && (
                     <div className="orvia-message orvia-message--bot">
                         <div className="orvia-message-avatar">
-                            <Image src="/orvia/chat-02.svg" alt="Orvia" width={28} height={28} />
+                            <Image src="/orvia/chat-02.v1.svg" alt="Orvia" width={28} height={28} />
                         </div>
                         <div className="orvia-typing">
                             <span></span>
@@ -229,7 +229,7 @@ export function OrviaChatUIClient({ onClose }: OrviaChatUIClientProps) {
             {/* Footer */}
             <footer className="orvia-chat-footer">
                 <span className="orvia-powered-text">Powered by</span>
-                <Image src="/orvia/chat-01.svg" alt="ORVIA" width={60} height={15} className="orvia-powered-logo" />
+                <Image src="/orvia/chat-01.v1.svg" alt="ORVIA" width={60} height={15} className="orvia-powered-logo" />
             </footer>
         </div>
     );

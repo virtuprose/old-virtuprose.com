@@ -11,6 +11,8 @@ import {
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
+import darkLogo from "../../public/assets/branding/dark-logo.png";
+
 // ============================================
 // DATA & CONFIG
 // ============================================
@@ -82,12 +84,12 @@ export function Navbar() {
                     <Link href="/" className="relative z-10 flex items-center transition-transform hover:scale-[1.02] active:scale-[0.98]">
                         <div className="h-7 md:h-8 w-auto flex items-center">
                             <img
-                                src="/assets/branding/light logo.svg"
+                                src="/assets/branding/light-logo.v1.svg"
                                 alt="Virtuprose"
                                 className="h-full w-auto object-contain dark:hidden"
                             />
                             <img
-                                src="/assets/branding/dark-logo.png"
+                                src={darkLogo.src}
                                 alt="Virtuprose"
                                 className="h-full w-auto object-contain hidden dark:block"
                             />
@@ -286,15 +288,15 @@ function MobileMenuToggle() {
                         <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)]/30">
                             <Link href="/" onClick={() => setIsOpen(false)} className="h-7">
                                 <img
-                                    src="/assets/branding/light logo.svg"
+                                src="/assets/branding/light-logo.v1.svg"
                                     alt="Virtuprose"
                                     className="h-full w-auto object-contain dark:hidden"
                                 />
-                                <img
-                                    src="/assets/branding/dark-logo.png"
-                                    alt="Virtuprose"
-                                    className="h-full w-auto object-contain hidden dark:block"
-                                />
+                                    <img
+                                        src={darkLogo.src}
+                                        alt="Virtuprose"
+                                        className="h-full w-auto object-contain hidden dark:block"
+                                    />
                             </Link>
                             <button
                                 onClick={() => setIsOpen(false)}

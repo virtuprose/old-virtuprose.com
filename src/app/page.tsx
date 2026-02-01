@@ -10,6 +10,9 @@ import { SelectedWorkSection } from "@/components/selected-work-section";
 import { ProcessSection } from "@/components/process-section";
 import { Star } from "lucide-react";
 
+// Static marketing page; content changes only on deploy.
+export const dynamic = "force-static";
+
 // ============================================
 // MAIN PAGE
 // ============================================

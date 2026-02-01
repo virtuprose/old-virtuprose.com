@@ -48,7 +48,7 @@ export function OrviaChatUI() {
                         {/* Orvia Logo */}
                         <div className="orvia-btn-icon-wrapper">
                             <Image
-                                src="/orvia/chat-02.svg"
+                                src="/orvia/chat-02.v1.svg"
                                 alt="Orvia"
                                 width={28}
                                 height={28}

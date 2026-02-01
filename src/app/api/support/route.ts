@@ -1,16 +1,27 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+// Always execute on request; support submissions must never be cached.
+export const dynamic = "force-dynamic";
+
+const noStoreHeader = "no-store";
+
+function jsonNoStore<T>(data: T, init: ResponseInit = {}) {
+  const headers = new Headers(init.headers);
+  headers.set("Cache-Control", noStoreHeader);
+  return NextResponse.json(data, { ...init, headers });
+}
+
 export async function POST(request: Request) {
   try {
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      return NextResponse.json({ error: "Email configuration missing." }, { status: 500 });
+      return jsonNoStore({ error: "Email configuration missing." }, { status: 500 });
     }
 
     const body = await request.json();
     const { name, email, subject, message } = body ?? {};
     if (!name || !email || !message) {
-      return NextResponse.json({ error: "Name, email, and message are required." }, { status: 400 });
+      return jsonNoStore({ error: "Name, email, and message are required." }, { status: 400 });
     }
 
     const transporter = nodemailer.createTransport({
@@ -51,9 +62,12 @@ If your request is urgent, reply to this email and include URGENT in the subject
 — VirtuProse Support`,
     });
 
-    return NextResponse.json({ success: true });
+    return jsonNoStore({ success: true });
   } catch (error) {
     console.error("[support-form]", error);
-    return NextResponse.json({ error: "Unable to send your request. Please email support@virturprose.com." }, { status: 500 });
+    return jsonNoStore(
+      { error: "Unable to send your request. Please email support@virturprose.com." },
+      { status: 500 },
+    );
   }
 }

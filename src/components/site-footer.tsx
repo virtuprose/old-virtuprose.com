@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Twitter, Linkedin, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import darkLogo from "../../public/assets/branding/dark-logo.png";
+
 const FOOTER_LINKS = [
     {
         title: "Product",
@@ -106,12 +108,12 @@ export function SiteFooter() {
                         <Link href="/" className="flex items-center gap-2 group">
                             <div className="h-7 md:h-8 w-auto flex items-center">
                                 <img
-                                    src="/assets/branding/light logo.svg"
+                                    src="/assets/branding/light-logo.v1.svg"
                                     alt="Virtuprose"
                                     className="h-full w-auto object-contain dark:hidden"
                                 />
                                 <img
-                                    src="/assets/branding/dark-logo.png"
+                                    src={darkLogo.src}
                                     alt="Virtuprose"
                                     className="h-full w-auto object-contain hidden dark:block"
                                 />
