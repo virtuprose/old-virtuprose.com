@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import {
     Menu, X, ChevronDown, ArrowRight, Home, Info,
-    Briefcase, BookOpen, Mail, Sparkles, LayoutGrid, Zap
+    Briefcase, BookOpen, Mail, Sparkles, LayoutGrid, Zap, Plus, Minus
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
@@ -233,15 +233,43 @@ function DesktopMegaMenu({ link }: { link: any }) {
 
 function MobileMenuToggle() {
     const [isOpen, setIsOpen] = useState(false);
+    const [expandedSections, setExpandedSections] = useState<string[]>([]);
+    const pathname = usePathname();
+
+    const toggleSection = (label: string) => {
+        setExpandedSections(prev =>
+            prev.includes(label)
+                ? prev.filter(l => l !== label)
+                : [...prev, label]
+        );
+    };
+
+    // Prevent body scroll when menu is open
+    React.useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+            document.body.style.position = "fixed";
+            document.body.style.width = "100%";
+        } else {
+            document.body.style.overflow = "";
+            document.body.style.position = "";
+            document.body.style.width = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+            document.body.style.position = "";
+            document.body.style.width = "";
+        };
+    }, [isOpen]);
 
     return (
         <div className="lg:hidden">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 -mr-2 text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-secondary)] rounded-full"
+                className="relative z-[10000] p-2 -mr-2 text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-secondary)] rounded-full"
                 aria-label="Toggle menu"
             >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                <Menu className="w-6 h-6" />
             </button>
 
             <AnimatePresence>
@@ -250,81 +278,132 @@ function MobileMenuToggle() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 top-0 z-[110] lg:hidden"
+                        transition={{ duration: 0.25 }}
+                        className="fixed inset-0 z-[9999] min-h-screen w-full bg-[var(--bg)] flex flex-col"
+                        style={{ height: "100dvh" }}
                     >
-                        {/* Backdrop */}
-                        <div
-                            className="absolute inset-0 bg-black/40 backdrop-blur-md"
-                            onClick={() => setIsOpen(false)}
-                        />
+                        {/* Header with Logo and Close */}
+                        <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)]/30">
+                            <Link href="/" onClick={() => setIsOpen(false)} className="h-7">
+                                <img
+                                    src="/assets/branding/light logo.svg"
+                                    alt="Virtuprose"
+                                    className="h-full w-auto object-contain dark:hidden"
+                                />
+                                <img
+                                    src="/assets/branding/dark-logo.png"
+                                    alt="Virtuprose"
+                                    className="h-full w-auto object-contain hidden dark:block"
+                                />
+                            </Link>
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="p-2 -mr-2 text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-full transition-colors"
+                                aria-label="Close menu"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
 
-                        {/* Menu Panel */}
-                        <motion.div
-                            initial={{ x: "100%" }}
-                            animate={{ x: 0 }}
-                            exit={{ x: "100%" }}
-                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                            className="absolute top-0 right-0 bottom-0 w-full max-w-sm bg-[var(--bg)] shadow-2xl flex flex-col pt-20"
-                        >
-                            <div className="absolute top-6 right-6">
-                                <button
-                                    onClick={() => setIsOpen(false)}
-                                    className="p-2 text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-full transition-colors"
-                                >
-                                    <X className="w-6 h-6" />
-                                </button>
-                            </div>
-
-                            <div className="px-8 flex-1 overflow-y-auto pb-10">
+                        {/* Navigation Links */}
+                        <div className="flex-1 overflow-y-auto px-6 py-8">
+                            <nav className="flex flex-col gap-2">
                                 {NAV_LINKS.map((link, index) => {
                                     const Icon = link.icon;
+                                    const isActive = pathname === link.href || (link.type === "mega" && pathname.startsWith(link.href));
+
                                     return (
                                         <motion.div
                                             key={link.label}
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            className="py-4 border-b border-[var(--border)]/30 last:border-0"
+                                            transition={{ delay: index * 0.05, duration: 0.3 }}
                                         >
-                                            {link.type === 'mega' ? (
-                                                <div className="space-y-4">
-                                                    <div className="flex items-center gap-3 text-lg font-semibold text-black dark:text-white">
-                                                        <Icon size={20} />
-                                                        {link.label}
-                                                    </div>
-                                                    <div className="pl-8 space-y-4">
-                                                        {link.items.map((item: any) => (
-                                                            <Link
-                                                                key={item.title}
-                                                                href={item.href}
-                                                                className="block text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                                                                onClick={() => setIsOpen(false)}
+                                            {link.type === "mega" ? (
+                                                <div className="mb-2">
+                                                    <button
+                                                        onClick={() => toggleSection(link.label)}
+                                                        className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl text-lg font-semibold text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] active:bg-[var(--bg-secondary)] transition-all duration-200"
+                                                    >
+                                                        <span className="flex items-center gap-3">
+                                                            <Icon className="w-5 h-5" />
+                                                            {link.label}
+                                                        </span>
+                                                        {expandedSections.includes(link.label) ? (
+                                                            <Minus className="w-5 h-5 text-[var(--text-secondary)]" />
+                                                        ) : (
+                                                            <Plus className="w-5 h-5 text-[var(--text-secondary)]" />
+                                                        )}
+                                                    </button>
+                                                    <AnimatePresence>
+                                                        {expandedSections.includes(link.label) && (
+                                                            <motion.div
+                                                                initial={{ height: 0, opacity: 0 }}
+                                                                animate={{ height: "auto", opacity: 1 }}
+                                                                exit={{ height: 0, opacity: 0 }}
+                                                                transition={{ duration: 0.2 }}
+                                                                className="overflow-hidden"
                                                             >
-                                                                {item.title}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
+                                                                <div className="mt-1 ml-4 pl-4 border-l-2 border-[var(--border)]/50 flex flex-col gap-1">
+                                                                    {link.items.map((item: any) => (
+                                                                        <Link
+                                                                            key={item.title}
+                                                                            href={item.href}
+                                                                            onClick={() => setIsOpen(false)}
+                                                                            className={cn(
+                                                                                "flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-medium transition-all duration-200",
+                                                                                pathname === item.href
+                                                                                    ? "bg-[var(--text-primary)] text-[var(--bg)]"
+                                                                                    : "text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] active:bg-[var(--bg-secondary)]"
+                                                                            )}
+                                                                        >
+                                                                            <item.icon className="w-5 h-5" />
+                                                                            {item.title}
+                                                                        </Link>
+                                                                    ))}
+                                                                </div>
+                                                            </motion.div>
+                                                        )}
+                                                    </AnimatePresence>
                                                 </div>
                                             ) : (
                                                 <Link
                                                     href={link.href}
-                                                    className="flex items-center gap-3 text-lg font-semibold text-black dark:text-white hover:text-[var(--accent)] transition-colors"
                                                     onClick={() => setIsOpen(false)}
+                                                    className={cn(
+                                                        "flex items-center gap-3 px-4 py-3.5 rounded-2xl text-lg font-semibold transition-all duration-200",
+                                                        isActive
+                                                            ? "bg-[var(--text-primary)] text-[var(--bg)]"
+                                                            : "text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] active:bg-[var(--bg-secondary)]"
+                                                    )}
                                                 >
-                                                    <Icon size={20} />
+                                                    <Icon className="w-5 h-5" />
                                                     {link.label}
                                                 </Link>
                                             )}
                                         </motion.div>
                                     );
                                 })}
+                            </nav>
+                        </div>
 
-                                <div className="mt-8 pt-8 border-t border-[var(--border)]flex items-center justify-between">
-                                    <span className="text-sm font-medium text-[var(--text-secondary)]">Appearance</span>
+                        {/* Footer with Theme Toggle and CTA */}
+                        <div className="px-6 py-6 border-t border-[var(--border)]/30">
+                            <div className="flex items-center justify-between gap-4">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-sm text-[var(--text-secondary)]">Theme</span>
                                     <ThemeToggle />
                                 </div>
+                                <Link
+                                    href="/pricing"
+                                    onClick={() => setIsOpen(false)}
+                                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--text-primary)] text-[var(--bg)] font-semibold text-base shadow-lg hover:opacity-90 active:scale-95 transition-all"
+                                >
+                                    Pricing
+                                    <ArrowRight className="w-4 h-4" />
+                                </Link>
                             </div>
-                        </motion.div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

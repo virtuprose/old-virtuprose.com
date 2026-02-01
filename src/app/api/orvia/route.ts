@@ -10,6 +10,9 @@ import {
   sanitizeMessageHistory,
   sanitizeOutput,
   createSecureSystemPrompt,
+  isValidEmail,
+  checkLeadNotificationLimit,
+  cleanupLeadNotificationLimit,
 } from "@/lib/orvia-security";
 
 const client = new OpenAI({
@@ -80,8 +83,12 @@ ${transcript}
 }
 
 export async function POST(request: Request) {
+  const requestId = crypto.randomUUID().slice(0, 8);
+  const startTime = Date.now();
+
   try {
     if (!process.env.OPENAI_API_KEY) {
+      console.error(JSON.stringify({ level: "error", requestId, message: "Missing OPENAI_API_KEY" }));
       return NextResponse.json(
         { error: "Missing OPENAI_API_KEY env variable." },
         { status: 500 },
@@ -90,18 +97,19 @@ export async function POST(request: Request) {
 
     // Cleanup old rate limit records periodically
     cleanupRateLimit();
+    cleanupLeadNotificationLimit();
 
     // Rate limiting
     const clientIP = getClientIP(request);
     const rateLimit = checkRateLimit(clientIP);
-    
+
     if (!rateLimit.allowed) {
       return NextResponse.json(
-        { 
+        {
           error: "Too many requests. Please slow down and try again in a moment.",
           retryAfter: Math.ceil((rateLimit.resetAt - Date.now()) / 1000),
         },
-        { 
+        {
           status: 429,
           headers: {
             "Retry-After": Math.ceil((rateLimit.resetAt - Date.now()) / 1000).toString(),
@@ -164,16 +172,16 @@ export async function POST(request: Request) {
       (outputTextArray.filter(Boolean).join("\n")) ||
       (Array.isArray(response.output)
         ? (response.output as Array<{ content?: Array<{ text?: string } | Record<string, unknown>> | null }>)
-            .flatMap((block) =>
-              Array.isArray(block?.content)
-                ? block.content
-                    .map((chunk) =>
-                      chunk && typeof chunk === "object" && "text" in chunk ? (chunk as { text?: string }).text ?? "" : "",
-                    )
-                    .filter(Boolean)
-                : [],
-            )
-            .join("\n")
+          .flatMap((block) =>
+            Array.isArray(block?.content)
+              ? block.content
+                .map((chunk) =>
+                  chunk && typeof chunk === "object" && "text" in chunk ? (chunk as { text?: string }).text ?? "" : "",
+                )
+                .filter(Boolean)
+              : [],
+          )
+          .join("\n")
         : "") ||
       "I'm sorry, I didn't catch that. Could you please repeat?";
 
@@ -184,15 +192,54 @@ export async function POST(request: Request) {
     if (lastUserMessage) {
       const foundEmails = lastUserMessage.content.match(emailRegex) ?? undefined;
       const foundPhones = lastUserMessage.content.match(phoneRegex) ?? undefined;
+
+      // Only send notification if we have valid contact info AND haven't exceeded rate limit
       if (foundEmails?.length || foundPhones?.length) {
-        sendLeadNotification({
-          email: foundEmails?.[0],
-          phone: foundPhones?.[0],
-          latestMessage: lastUserMessage.content,
-          history: sanitizedMessages as ChatMessage[],
-        }).catch((error) => console.error("[orvia-lead-email]", error));
+        const validEmail = foundEmails?.[0] && isValidEmail(foundEmails[0]) ? foundEmails[0] : undefined;
+        const validPhone = foundPhones?.[0];
+
+        // Check lead notification rate limit
+        const leadLimit = checkLeadNotificationLimit(clientIP);
+
+        if ((validEmail || validPhone) && leadLimit.allowed) {
+          console.log(JSON.stringify({
+            level: "info",
+            requestId,
+            event: "lead_captured",
+            email: validEmail ? "[REDACTED]" : undefined,
+            hasPhone: !!validPhone,
+          }));
+
+          sendLeadNotification({
+            email: validEmail,
+            phone: validPhone,
+            latestMessage: lastUserMessage.content,
+            history: sanitizedMessages as ChatMessage[],
+          }).catch((error) => console.error(JSON.stringify({
+            level: "error",
+            requestId,
+            event: "lead_notification_failed",
+            error: error instanceof Error ? error.message : "Unknown error",
+          })));
+        } else if (!leadLimit.allowed) {
+          console.warn(JSON.stringify({
+            level: "warn",
+            requestId,
+            event: "lead_rate_limited",
+            ip: clientIP.slice(0, 8) + "...",
+          }));
+        }
       }
     }
+
+    // Log successful request
+    console.log(JSON.stringify({
+      level: "info",
+      requestId,
+      event: "chat_response",
+      durationMs: Date.now() - startTime,
+      ip: clientIP.slice(0, 8) + "...",
+    }));
 
     return NextResponse.json(
       { reply },
@@ -207,7 +254,7 @@ export async function POST(request: Request) {
   } catch (error) {
     // Don't expose internal error details to clients
     console.error("[orvia-chat-error]", error instanceof Error ? error.message : "Unknown error");
-    
+
     // Check if it's a validation error
     if (error instanceof Error && error.message.includes("Invalid")) {
       return NextResponse.json(
@@ -215,7 +262,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    
+
     return NextResponse.json(
       { error: "Unable to reach Orvia right now. Please try again in a moment." },
       { status: 500 },
