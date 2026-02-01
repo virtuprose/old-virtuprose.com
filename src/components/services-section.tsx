@@ -6,10 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import serviceWebsite from "../../public/assets/images/services/website.v2.jpg";
-import serviceSeoGeo from "../../public/assets/images/services/seo-geo.v2.jpg";
-import serviceMobileApps from "../../public/assets/images/services/mobile-apps.v2.jpg";
-import serviceAiAutomation from "../../public/assets/images/services/ai-automation.v2.jpg";
+import serviceWebsite from "../../public/assets/images/services/website.v2.png";
+import serviceSeoGeo from "../../public/assets/images/services/seo-geo.v2.png";
+import serviceMobileApps from "../../public/assets/images/services/mobile-apps.v2.png";
+import serviceAiAutomation from "../../public/assets/images/services/ai-automation.v2.png";
 
 const SERVICES = [
     {
