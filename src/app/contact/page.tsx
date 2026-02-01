@@ -6,6 +6,9 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
+// Static page; status UI is driven client-side by query params.
+export const dynamic = "force-static";
+
 const INQUIRY_TYPES = [
     { value: "", label: "Select inquiry type" },
     { value: "General", label: "General Inquiry" },
