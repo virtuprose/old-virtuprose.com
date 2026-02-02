@@ -419,7 +419,7 @@ export default function WebDesignPage() {
                 </div>
             </section>
 
-            {/* ===== TECHNOLOGY STACK ===== */}
+            {/* ===== TECHNOLOGY STACK (HIDDEN) =====
             <section className="py-24 md:py-32 px-6">
                 <div className="container mx-auto max-w-6xl">
                     <SectionHeader
@@ -453,6 +453,7 @@ export default function WebDesignPage() {
                     </motion.div>
                 </div>
             </section>
+            */}
 
             {/* ===== PROCESS ===== */}
             <section className="py-24 md:py-32 px-6 bg-[var(--bg-secondary)]">
