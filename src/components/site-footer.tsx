@@ -57,10 +57,10 @@ export function SiteFooter() {
 
     return (
         <footer className="relative bg-[var(--bg-secondary)] border-t border-[var(--border)] overflow-hidden">
-            <div className="container px-4 md:px-6 py-12 md:py-16 lg:py-20 mx-auto">
+            <div className="container px-4 md:px-6 pt-24 pb-12 md:py-16 lg:py-20 mx-auto">
 
                 {/* Top Section: CTA */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-20 md:mb-24">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 mb-20 md:mb-24 mt-8 md:mt-0">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -68,21 +68,34 @@ export function SiteFooter() {
                         transition={{ duration: 0.6 }}
                         className="max-w-2xl"
                     >
+                        <p className="text-sm uppercase tracking-widest text-[#27ecec] font-semibold mb-4">
+                            Let's Build Something Great
+                        </p>
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)] mb-6">
-                            Ready to automate your growth?
+                            Your competitors aren't waiting.<br className="hidden md:block" />
+                            <span className="text-[var(--text-secondary)]">Why are you?</span>
                         </h2>
                         <p className="text-lg text-[var(--text-secondary)] font-light max-w-lg mb-8">
-                            Let's build the systems that will scale your business to the next level.
-                            Schedule a consultation today.
+                            Every day without the right systems in place is revenue left on the table.
+                            Let's have a conversation about scaling your business, no pressure, just clarity.
                         </p>
 
-                        <Link
-                            href="#"
-                            className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-[var(--text-primary)] text-[var(--bg)] font-medium text-base transition-transform hover:scale-105 active:scale-95"
-                        >
-                            Start Project
-                            <ArrowUpRight className="ml-2 h-4 w-4" />
-                        </Link>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Link
+                                href="/contact"
+                                className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-[#27ecec] text-[#03161a] font-semibold text-base transition-all hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(39,236,236,0.3)]"
+                            >
+                                Get Your Free Strategy Call
+                                <ArrowUpRight className="ml-2 h-4 w-4" />
+                            </Link>
+                            <Link
+                                href="https://cal.com/virtuprose/30min"
+                                target="_blank"
+                                className="inline-flex items-center justify-center h-12 px-8 rounded-full border border-[var(--border)] text-[var(--text-primary)] font-medium text-base transition-all hover:bg-[var(--bg)] hover:border-[#27ecec]"
+                            >
+                                Book a Call Now
+                            </Link>
+                        </div>
                     </motion.div>
 
                     {/* Abstract Shape or Branding Element */}
@@ -93,8 +106,9 @@ export function SiteFooter() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="hidden lg:block relative"
                     >
-                        <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-3xl rotate-12" />
-                        <div className="absolute inset-0 w-32 h-32 rounded-2xl border border-[var(--border)] rotate-3" />
+                        <div className="w-40 h-40 rounded-2xl bg-gradient-to-br from-[#27ecec]/20 to-[#5AA5CC]/20 backdrop-blur-3xl rotate-12" />
+                        <div className="absolute inset-0 w-40 h-40 rounded-2xl border border-[#27ecec]/30 rotate-3" />
+                        <div className="absolute inset-4 w-32 h-32 rounded-xl bg-gradient-to-br from-[#27ecec]/10 to-transparent -rotate-6" />
                     </motion.div>
                 </div>
 

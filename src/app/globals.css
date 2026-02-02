@@ -12,10 +12,14 @@
   --bg-secondary: #f8fafc;
   --text-primary: #0f172a;
   --text-secondary: #64748b;
-  --accent: #0ea5e9;
+  --accent: #27ecec;
   --accent-hover: #0284c7;
   --border: #e2e8f0;
-  
+
+  /* Missing Variables required by components */
+  --primary: var(--accent);
+  --foreground: var(--text-primary);
+
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -28,6 +32,10 @@
   --accent: #22d3ee;
   --accent-hover: #06b6d4;
   --border: #27272a;
+
+  /* Missing Variables required by components */
+  --primary: var(--accent);
+  --foreground: var(--text-primary);
 }
 
 /* Base Styles */

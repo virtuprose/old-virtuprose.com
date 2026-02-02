@@ -46,8 +46,8 @@ export function ServicesSection() {
             <div className="container mx-auto px-6 max-w-6xl">
                 <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
 
-                    {/* Left: Image Preview */}
-                    <div className="w-full lg:w-[45%]">
+                    {/* Left: Image Preview - Hidden on mobile */}
+                    <div className="hidden lg:block w-full lg:w-[45%]">
                         <div className="relative aspect-square w-full max-w-[400px] rounded-3xl overflow-hidden bg-[var(--bg-secondary)] shadow-xl">
                             <AnimatePresence mode="wait">
                                 <motion.div

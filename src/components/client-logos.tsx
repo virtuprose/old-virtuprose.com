@@ -7,9 +7,9 @@ import clientLogo02 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-02-3
 import clientLogo03 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-03-3.webp";
 import clientLogo04 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-04.webp";
 import clientLogo05 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-05-3.webp";
-import clientLogo06 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-06-3.webp";
+
 import clientLogo07 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-07-3.webp";
-import clientLogo08 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-08.webp";
+
 import clientLogo09 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-09-3.webp";
 import clientLogo10 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-10-3.webp";
 import clientLogo11 from "../../public/assets/clients/CLIENT-LOGO-MAIN-FILE-11-3.webp";
@@ -24,9 +24,9 @@ const CLIENTS = [
     clientLogo03,
     clientLogo04,
     clientLogo05,
-    clientLogo06,
+
     clientLogo07,
-    clientLogo08,
+
     clientLogo09,
     clientLogo10,
     clientLogo11,
@@ -40,7 +40,7 @@ export function ClientLogos() {
     return (
         <section className="py-12 md:py-20 bg-[var(--bg)] overflow-hidden">
             <div className="container mx-auto px-4 md:px-6 mb-8 md:mb-12 text-center">
-                <p className="text-sm md:text-base text-[var(--text-secondary)] font-medium tracking-tight font-sans opacity-80">
+                <p className="text-base md:text-lg lg:text-xl text-[var(--text-secondary)] font-light tracking-tight font-sans opacity-80 max-w-[640px] mx-auto leading-relaxed">
                     Trusted by the best enterprise teams
                 </p>
             </div>

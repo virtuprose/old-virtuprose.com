@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-
+import Link from "next/link";
 import { RadiantPromptInput } from "@/components/ui/radiant-prompt-input";
 import RetroGrid from "@/components/ui/retro-grid";
 import { ClientLogos } from "@/components/client-logos";
 import { ServicesSection } from "@/components/services-section";
 import { SelectedWorkSection } from "@/components/selected-work-section";
 import { ProcessSection } from "@/components/process-section";
+import { GlobalReachSection } from "@/components/global-reach-section";
 import { Star } from "lucide-react";
 
 // Static marketing page; content changes only on deploy.
@@ -23,8 +24,9 @@ export default function HomePage() {
             <Hero />
             <ClientLogos />
             <ServicesSection />
+            <GlobalReachSection />
             {/* <SelectedWorkSection /> */}
-            <ProcessSection />
+            {/* <ProcessSection /> */}
         </div>
     );
 }
@@ -46,7 +48,7 @@ function Hero() {
         <section
             className="
         relative w-full
-        min-h-screen min-h-[100svh] min-h-[100dvh]
+        min-h-[80vh] md:min-h-screen md:min-h-[100svh] md:min-h-[100dvh]
         flex flex-col
         bg-[var(--bg)]
         overflow-hidden
@@ -60,7 +62,7 @@ function Hero() {
 
 
             {/* Main Content - Vertically Centered */}
-            <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 py-12 md:py-16">
+            <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 py-6 md:py-16">
                 <div className="w-full max-w-[1080px] mx-auto flex flex-col items-center gap-10 md:gap-12">
 
                     {/* Hero Text */}
@@ -74,9 +76,13 @@ function Hero() {
                         />
                         <p className="text-center text-xs text-[var(--text-secondary)]/70 mt-3 tracking-wide">
                             Ask about building, growth, or automation — or{" "}
-                            <button className="underline underline-offset-2 hover:text-[var(--text-primary)] transition-colors">
+                            <Link
+                                href="https://cal.com/virtuprose/30min"
+                                target="_blank"
+                                className="underline underline-offset-2 hover:text-[var(--text-primary)] transition-colors"
+                            >
                                 book a call in seconds
-                            </button>
+                            </Link>
                         </p>
                     </div>
 
@@ -157,7 +163,7 @@ function GoogleRatingBadge() {
                             <span>Rated 4.7 Star on Google</span>
                         </div>
                         <p className="text-xs md:text-sm text-[var(--text-secondary)]">
-                            Rated by 10 real clients
+                            Trusted by top enterprises
                         </p>
                     </div>
                 </div>
